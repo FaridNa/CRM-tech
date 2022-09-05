@@ -28,6 +28,7 @@ const TaskItem = ({task, i, func}) => {
             setShowTask(task)
         }} className={styles.wrapper}>
             <div className={styles.statusWrapper}>
+					<strong>{i+1}</strong>
                 {task[18] === 'Брак' ? <div><img style={{width: 20, height: 20}} src={Brak} alt=""/></div> : null}
                 {task[18] === 'Новая' ? <div  className={`${styles.circle} ${styles.blue}`}></div> : null}
                 {task[18] === 'В работе' ? <div  className={`${styles.circle} ${styles.orange}`}></div> : null}

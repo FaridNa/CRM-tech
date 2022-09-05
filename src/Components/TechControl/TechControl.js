@@ -43,7 +43,7 @@ const TechControl = () => {
             <DatePicker get={getNewReq}/>
             <Nav/>
             <TaskListWrapper  sel={sel}>
-                {test.map((el, i) => <TaskItem task={el} key={i} />)}
+                {test.map((el, i) => <TaskItem task={el} key={i} i={i} />)}
             </TaskListWrapper>
             {sel.length ? <p className={styles.changeTech} onClick={() => setChange(true)}>Передать</p> : null}
 
