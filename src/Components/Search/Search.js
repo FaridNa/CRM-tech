@@ -58,8 +58,8 @@ const Search = () => {
                 </header>
 
                 <SearchItemsWrapper  >
-                    {req.map(el => {
-                        return <TaskItem task={el} key={el[0]}/>
+                    {req.map((el, i) => {
+                        return <TaskItem task={el} key={el[0]} i={i}/>
 
                     })}
                 </SearchItemsWrapper>
