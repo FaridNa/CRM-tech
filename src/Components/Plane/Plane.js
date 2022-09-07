@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styles from './Plane.module.scss'
-import {$allReqStatus} from "../../state";
+import { $allReqStatus, getAllReq } from "../../state";
 import {useStore} from "effector-react";
 import moment from "moment";
 import Collapse from "./Collapse/Collapse";
@@ -10,9 +10,10 @@ import {$today, setToday} from "../../state/tasks";
 import {$selected, cleareSelected} from "../../state/longTouch";
 import Close from '../../img/close.png'
 import PopUp from "./PopUp/PopUp";
+import Nav from '../Nav/Nav';
 
 function getDays(date) {
-   return new Date(`${date}T00:00:00`).getTime()
+    return new Date(`${date}T00:00:00`).getTime()
 }
 
 const Plane = () => {
@@ -58,7 +59,10 @@ const Plane = () => {
         setTomorow(tomorowArr)
     }, [tasks]);
 
-
+    //При выборе вкладки "Планирование" обновляется массив tasks
+    useEffect(() => {
+        getAllReq();
+    },[Nav])
 
     return (
         <div className={styles.wrapper}>
@@ -84,9 +88,9 @@ const Plane = () => {
                 <Collapse defaultOpen={true} title={'Сегодня'}>
                     { search.length ? today.filter(el =>
                         el[3].toLowerCase().indexOf(search.toLowerCase())  !== -1
-                        || el[8].toLowerCase().indexOf(search.toLowerCase()) !== -1
-                        || el[13].toLowerCase().indexOf(search.toLowerCase()) !== -1
-                        || el[2].toLowerCase().indexOf(search.toLowerCase()) !== -1
+                            || el[8].toLowerCase().indexOf(search.toLowerCase()) !== -1
+                            || el[13].toLowerCase().indexOf(search.toLowerCase()) !== -1
+                            || el[2].toLowerCase().indexOf(search.toLowerCase()) !== -1
                         || el[4].toLowerCase().indexOf(search.toLowerCase()) !== -1).map(el => <CollapseItem item={el} key={el[0]}/>) : today.map(el => <CollapseItem item={el} key={el[0]}/>)}
                 </Collapse>
                 <Collapse defaultOpen={false} title={'Просрочено'}>
