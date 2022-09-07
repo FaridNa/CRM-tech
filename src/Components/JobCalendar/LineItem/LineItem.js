@@ -115,7 +115,7 @@ export const TimeLine = ({tasks, title, info, status, plane}) => {
                 <p className={styles.title}>{title2[0]}</p>
                 {status === 'Дежурный' ? <p style={{color: 'green', fontSize: 13, marginLeft: 10}}>Дежурный</p> : null}
                 {trip.length ? <p style={{color: 'blue', fontSize: 13, marginLeft: 10}}>Командировка</p> : null}
-                <TechAnalys tasks={tasks} tech={info[0]} plane={plane} planeTasks={planeT}/>
+                <TechAnalys tasks={tasks} tech={info[0]} plane={plane} planeTasks={planeT} fio={title}/>
             </div>
             <div style={{overflowX: 'auto', overflowY: 'hidden',height: 70, paddingTop: 3, paddingBottom: 8}}>
                 <div className={styles.timeLine} style={{width: widthCalc(filtredTasks, planeT), minWidth: 9*60*0.5}} >

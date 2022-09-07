@@ -4,12 +4,39 @@ import styles from './JobCalendar.module.scss'
 import {useStore} from "effector-react";
 import {$firstTime, $secondTime} from "../../state/techTIme";
 import moment from 'moment'
+import {$planeStatus} from "../../state/plane";
 
-const TechAnalys = ({tech = [0, '', 0, 0], tasks, plane, planeTasks}) => {
+const TechAnalys = ({tech = [0, '', 0, 0], tasks, plane, planeTasks, fio}) => {
     const firstTime = useStore($firstTime);
     const secondTime = useStore($secondTime);
     const [coef, setCoef] = useState(0);
     const [coefColor, setCoefColor] = useState('green')
+
+    const planeTask = useStore($planeStatus);
+
+    const getCoef = (tasks) => {
+        let seconds = 0;
+
+        tasks.forEach(el => {
+            if (el[8] !== "Повтор")
+            {
+                if (getSurname(el[42]) === fio) {
+                    
+                    const time = el[59] * 60 * 60;
+                    seconds+=time;
+                }
+            }
+        })
+        let coef = seconds*100/28800;
+        return coef.toFixed(0)
+    }
+
+    const getSurname = (fio) => {
+        return fio.split(' ')[0];
+    }
+
+
+
     useEffect(() => {
         let seconds = 0;
         if (plane) {
@@ -79,7 +106,8 @@ const TechAnalys = ({tech = [0, '', 0, 0], tasks, plane, planeTasks}) => {
 
             <div className={styles.mainInfo}  >
                 <p>Задачи: {tasks.length}</p>
-                <p>КПД: <span style={{ color: tasks.filter(el => el[18] === 'В работе').length ? 'orange' : coefColor }}>{coef}%</span></p>
+                <strong>КПД: <span style={{ color: tasks.filter(el => el[18] === 'В работе').length ? 'orange' : coefColor }}>{coef}%</span></strong>
+                <p>План КПД: <span style={{ color: 'blue' }}>{getCoef(planeTask.CURRENT)}%</span></p>
             </div>
 
     );
