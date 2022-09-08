@@ -33,6 +33,10 @@ import DopInfo from "./DopInfo/DopInfo";
 import {filterTaskCust} from "../../utils/filterTaskCust";
 import {getLastName} from "../../utils/getLastName";
 import {$usersStatus} from "../../state/getUsers";
+import {setHistory} from "../../actions/setHistory";
+import {updateHistory} from "../../store/task";
+import {$important, setImportant} from "../../store/importants";
+
 const PopUp = ({data, func}) => {
 
     useEffect(() => {
@@ -96,6 +100,8 @@ const TaskItemNew = ({item}) => {
 
     const [loading, setLoading] = useState(false)
     const [report, showReport] = useState(false);
+    const important = useStore($important);
+
     const user = useStore($user);
     const [history2, setHistory2] = useState([]);
     const [form, setForm] = useState({
@@ -124,6 +130,16 @@ const TaskItemNew = ({item}) => {
             setHistory2(JSON.parse(item[52]).flat(1))
         }
     }, [edit, nav])
+
+
+    useEffect(() => {
+        if (item[50] === '0000-00-00 00:00:00') {
+            setHistory(item[0], 'view', '', `${user.LAST_NAME} ${user.NAME} ${user.SECOND_NAME}`, (a) => updateHistory(a));
+            fetch(`https://volga24bot.com/kartoteka/api/tech/setView.php?id=${item[0]}`).then(res => res.json()).then(res => {
+                setImportant([...important, item])
+            })
+        }
+    }, [])
 
     const timeCounter = () => {
         const deadline = item[34] * 60;
