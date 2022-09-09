@@ -229,7 +229,7 @@ const TaskItemNew = ({item}) => {
 
     }
 
-    console.log(history2)
+    //console.log(history2)
 
     return (
         <div className={styles.taskItemWrapper}>
