@@ -143,7 +143,7 @@ const PopUp = ({item, time, close}) => {
     }
 
 
-    console.log(form)
+    //console.log(form)
 
 
     return (
