@@ -52,10 +52,10 @@ class WithMarkers extends Component {
     }
 
     handleClick = () => {
-        console.log('значение this:', this);
+        //console.log('значение this:', this);
     }
     render() {
-        console.log(this.props)
+        //console.log(this.props)
         if (!this.props.loaded) return <div>Loading...</div>;
 
         return (

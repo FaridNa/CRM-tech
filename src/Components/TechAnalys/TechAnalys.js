@@ -31,7 +31,7 @@ const TechAnalys = ({tech, tasks}) => {
             const users = el[7].split(',').filter(el => el !== 'Фатиги Ильяс Исмаил');
 
             const timeDeadline = (el[34] * 60 * 60) / users.length;
-            console.log(timeDeadline)
+            //console.log(timeDeadline)
             let h = +el[9].substr(0,2);
             let m = +el[9].substr(3,2);
             let s = +el[9].substr(6,2)

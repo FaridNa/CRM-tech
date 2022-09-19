@@ -35,7 +35,7 @@ const DopInfo = ({num}) => {
         block = 'Ларс';
     }
 
-    console.log(ev)
+    //console.log(ev)
     return (
         <div className={styles.dopInfo}>
 

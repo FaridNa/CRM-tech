@@ -107,7 +107,7 @@ export const TimeLine = ({tasks, title, info, status, plane}) => {
 
     }
 
-    console.log(info)
+    //console.log(info)
 
     return (
         <div className={`${styles.timeLineWrapper} ${status === 'Дежурный' ? styles.dezh : null} ${trip.length ? styles.trip : null}`}>

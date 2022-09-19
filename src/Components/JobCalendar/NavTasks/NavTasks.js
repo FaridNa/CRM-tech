@@ -37,7 +37,7 @@ const NavTasks = () => {
     const graph = useStore($graphData);
     const allReq = useStore($allReqStatus);
     const firstTime = useStore($firstTime);
-    console.log(dep)
+    //console.log(dep)
     return (
         <div style={{marginTop: 30}}>
             <div className={styles.mainNavWrapper}>
