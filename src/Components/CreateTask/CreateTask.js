@@ -105,7 +105,7 @@ const CreateTask = ({func}) => {
     const [focusName, setFocusName] = useState(false);
     const [focusAddress, setFocusAddress] = useState(false);
     const [focusUtils, setFocusUtils] = useState(false);
-    const options2 = dep.filter(el => el.WORK_POSITION !== 'Водитель').map(el => ({value: `${el.LAST_NAME} ${el.NAME} ${el.SECOND_NAME}`, label: `${el.LAST_NAME} ${el.NAME[0]}.${el.SECOND_NAME[0]}`}))
+    const options2 = dep.filter(el => el.WORK_POSITION !== 'Водитель' & !(el.WORK_POSITION.includes('Начальник'))).map(el => ({value: `${el.WORK_POSITION} ${el.NAME} ${el.SECOND_NAME}`, label: `${el.LAST_NAME} ${el.NAME[0]}.${el.SECOND_NAME[0]}`}))
 
     return (
         <>
@@ -262,7 +262,7 @@ const CreateTask = ({func}) => {
 
                     {/*//////////////*/}
                     <label>
-                        Ответственный
+                        Исполнитель
                         <Select options={options2} onChange={(e) => setForm(prevState => ({...prevState, customer: e.value}))} placeholder={'Общая'}/>
                     </label>
                     <label>
