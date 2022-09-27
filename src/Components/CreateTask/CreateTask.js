@@ -11,6 +11,9 @@ import Create from '../../img/check.png'
 import {$loading} from "../../state/loading";
 import Loader from "../Loader/Loader";
 import Info from '../../img/info.png'
+import {$allReqStatus} from "../../state";
+import {$planeStatus, $selectedUser} from "../../state/plane";
+import {$graphData} from "../../state/GraphTask";
 import {$customerStatus, getCustomer, setCustomer} from "../../state/getCustomerByPhone";
 
 
@@ -76,6 +79,10 @@ const CreateTask = ({func}) => {
     const customer = useStore($customerStatus);
     const dep = useStore($depStatus);
 
+    const allReq = useStore($allReqStatus);
+    const plane = useStore($planeStatus);
+    const graph = useStore($graphData);
+
     const [form, setForm] = useState({
         type: 'Заявка',
         objNum: '',
@@ -113,7 +120,7 @@ const CreateTask = ({func}) => {
                 <header>
                     <img src={Back} alt="" onClick={func}/>
                     <img src={Create} alt="" onClick={() => {
-                        createTask(form, func, firstTime, secondTime, user)
+                        createTask(form, func, firstTime, secondTime, user, plane.CURRENT, graph)
                     }} />
                 </header>
                 <div className={styles.infoCreate}>

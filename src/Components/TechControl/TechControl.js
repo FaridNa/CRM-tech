@@ -18,6 +18,11 @@ import Close from '../../img/close.png'
 import ChangeTechWrapper from "./ChangeTech";
 import {setShowTask} from "../../state/showTask";
 
+
+import {$graphData, getData} from "../../state/GraphTask";
+import {$techsStatus, $techStatus, getStatus, getTechs} from "../../state/Techs";
+import {$planeStatus, $selectedUser, getPlane, setSelectedUser} from "../../state/plane";
+
 const TechControl = () => {
 
     const test = useStore($newReqStatus);
@@ -29,6 +34,13 @@ const TechControl = () => {
     const [change, setChange] = useState(false)
     useEffect(() => {
         getNewReq({'a': `${firstTime.getFullYear()}-${firstTime.getMonth() < 9 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + firstTime.getDate() : firstTime.getDate()} 00:00:00`, 'b': `${secondTime.getFullYear()}-${secondTime.getMonth() < 9 ? '0' + (secondTime.getMonth()+1) : secondTime.getMonth()+1 }-${secondTime.getDate() <= 9 ? '0' + secondTime.getDate() : secondTime.getDate()} 00:00:01`});
+
+
+        getData(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 9 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`);        getData(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 9 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`);
+        getStatus(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 9 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`);        getData(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 9 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`);
+        getPlane(firstTime)
+        getTechs(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 9 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`)
+
         setScrollY(0)
     }, [])
 
