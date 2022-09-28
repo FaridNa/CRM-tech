@@ -9,7 +9,7 @@ import {$counters} from "../../state";
 import {setCreateTask} from "../../state/createTaskState";
 
 
-const Nav = () => {
+const Nav = ({setRefresh}) => {
     const nav = useStore($nav);
     const count = useStore($counters);
 
@@ -18,7 +18,10 @@ const Nav = () => {
         <div>
 
             <div className={styles.createTask}>
-                <button onClick={() => setCreateTask(true)}>+</button>
+                <button onClick={() => {
+                  setRefresh(prev => !prev);
+                  setCreateTask(true);
+                  }}>+</button>
             </div>
             <div className={styles.navWrapper}>
                     <ul>

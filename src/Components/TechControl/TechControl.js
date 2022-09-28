@@ -25,6 +25,8 @@ import {$planeStatus, $selectedUser, getPlane, setSelectedUser} from "../../stat
 
 const TechControl = () => {
 
+    const [refresh, setRefresh] = useState(false);
+
     const test = useStore($newReqStatus);
 
     const firstTime = useStore($firstTime);
@@ -42,7 +44,7 @@ const TechControl = () => {
         getTechs(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 9 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`)
 
         setScrollY(0)
-    }, [])
+    }, [refresh])
 
 
     return (
@@ -53,7 +55,7 @@ const TechControl = () => {
                 setChange(false)
             }}/></div> : null}
             <DatePicker get={getNewReq}/>
-            <Nav/>
+            <Nav setRefresh={setRefresh}/>
             <TaskListWrapper  sel={sel}>
                 {test.map((el, i) => <TaskItem task={el} key={i} i={i} />)}
             </TaskListWrapper>
