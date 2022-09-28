@@ -20,6 +20,9 @@ const isFreeTime = (tasks, newTask) => {
 export const createTask = (form, func, firstTime, secondTime, user, plane, graph) => {
 
   setLoading(true);
+  if (form.date === '') {
+    form.date = new Date().toLocaleDateString('en-CA') + 'T' + new Date().toLocaleTimeString();
+  }
   if (form.customer) {
     // plane - новые и просроченные
     // graph - в работе и выполненные
@@ -35,14 +38,12 @@ export const createTask = (form, func, firstTime, secondTime, user, plane, graph
       ...(graph.filter(el => el[55] === form.customer))
     ])];
 
-    console.log(tasks);
-
     const is = isFreeTime(tasks, form);
 
     if (is === false) {
-        alert('На это время у выбранного техника уже запланирована работа. Выберите другую дату и время!!');
-        setLoading(false);
-        return;
+      alert('На это время у выбранного техника уже запланирована работа. Выберите другую дату и время!!');
+      setLoading(false);
+      return;
     }
   }
 
