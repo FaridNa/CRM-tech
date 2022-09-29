@@ -21,7 +21,21 @@ const Search = () => {
     const checkBox = useStore($checkBox)
     const deps = useStore($usersStatus);
 
+    const [tasks, setTasks] = useState([]);
+    
+    const fetchDataHistory = async () => {
+      let a = null;
+      let b = null;
+      const url = `getTasks.php/?startDate=${a}&endDate=${b}`;
+      const base = 'https://volga24bot.com/kartoteka/api/tech';
 
+      const mass = await fetch(`${base}/${url}`).then(res => res.json());
+      setTasks(mass);
+    }
+
+    useEffect(() => {
+      fetchDataHistory();
+    }, [])
 
     useEffect(() => {
         setScrollY(0)
@@ -59,7 +73,7 @@ const Search = () => {
 
                 <SearchItemsWrapper  >
                     {req.map((el, i) => {
-                        return <TaskItem task={el} key={el[0]} i={i}/>
+                        return <TaskItem task={el} key={el[0]} i={i} history={tasks}/>
 
                     })}
                 </SearchItemsWrapper>

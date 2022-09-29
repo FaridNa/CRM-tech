@@ -260,7 +260,7 @@ const TaskItemNew = ({item}) => {
                     </li>}
                 </ul>
             </nav>
-            {nav === 'historyObj' ? <HistoryBlock block={item[1]} setInfo={() => setNav('info')}/> : null}
+            {nav === 'historyObj' ? <HistoryBlock block={item[1]} address={item[4]} setInfo={() => setNav('info')}/> : null}
 
             {nav === 'info' ? <div className={styles.taskItemBody}>
 

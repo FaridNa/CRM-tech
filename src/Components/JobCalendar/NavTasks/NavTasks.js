@@ -38,6 +38,24 @@ const NavTasks = () => {
     const allReq = useStore($allReqStatus);
     const firstTime = useStore($firstTime);
     //console.log(dep)
+
+    const [tasks, setTasks] = useState([]);
+    
+    const fetchDataHistory = async () => {
+      let a = null;
+      let b = null;
+      const url = `getTasks.php/?startDate=${a}&endDate=${b}`;
+      const base = 'https://volga24bot.com/kartoteka/api/tech';
+
+      const mass = await fetch(`${base}/${url}`).then(res => res.json());
+      setTasks(mass);
+    }
+
+    useEffect(() => {
+      fetchDataHistory();
+    }, [])
+
+
     return (
         <div style={{marginTop: 30}}>
             <div className={styles.mainNavWrapper}>
@@ -70,13 +88,13 @@ const NavTasks = () => {
                 {nav === 'all' && [
                     ...graph.filter(el => filterTasks(el, dep, selected)),
                     ...plane.CURRENT.filter(el => filterTasks(el, dep, selected))
-                ].map((el, i) => <TaskItem task={el} key={el[0]} i={i} />)}
-                {nav === 'plane' && plane.CURRENT.filter(el => filterTasks(el, dep, selected))?.map((el, i)=> <TaskItem task={el} key={el[0]} i={i}/>) }
-                {nav === 'injob' && graph.filter(el => el[18] === 'В работе').filter(el => filterTasks(el, dep, selected))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i}/>) }
-                {nav === 'comp' && graph.filter(el => el[18] !== 'В работе').filter(el => filterTasks(el, dep, selected))?.map((el, i)=> <TaskItem task={el} key={el[0]} i={i}/>) }
-                {nav === 'change' && plane.CHANGES.filter(el => filterTasks(el, dep, selected))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i}/>) }
-                {nav === 'deff' && plane.CURRENT.filter(el => moment(`${el[56]} ${el[57]}`).valueOf() < new Date().getTime()).filter(el => filterTasks(el, dep, selected))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i}/>) }
-                {nav === 'nc' && allReq.filter(el => (el[17].indexOf(moment(firstTime).format('YYYY-MM-DD')) !== -1 || el[17].indexOf(moment(firstTime).subtract(1, 'day').format('YYYY-MM-DD')) !== -1) && el[18] === 'Новая')?.map((el, i) => <TaskItem task={el} key={el[0]} i={i}/>) }
+                ].map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks}/>)}
+                {nav === 'plane' && plane.CURRENT.filter(el => filterTasks(el, dep, selected))?.map((el, i)=> <TaskItem task={el} key={el[0]} i={i} history={tasks}/>) }
+                {nav === 'injob' && graph.filter(el => el[18] === 'В работе').filter(el => filterTasks(el, dep, selected))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks}/>) }
+                {nav === 'comp' && graph.filter(el => el[18] !== 'В работе').filter(el => filterTasks(el, dep, selected))?.map((el, i)=> <TaskItem task={el} key={el[0]} i={i} history={tasks}/>) }
+                {nav === 'change' && plane.CHANGES.filter(el => filterTasks(el, dep, selected))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks}/>) }
+                {nav === 'deff' && plane.CURRENT.filter(el => moment(`${el[56]} ${el[57]}`).valueOf() < new Date().getTime()).filter(el => filterTasks(el, dep, selected))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks}/>) }
+                {nav === 'nc' && allReq.filter(el => (el[17].indexOf(moment(firstTime).format('YYYY-MM-DD')) !== -1 || el[17].indexOf(moment(firstTime).subtract(1, 'day').format('YYYY-MM-DD')) !== -1) && el[18] === 'Новая')?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks}/>) }
             </ul>
         </div>
     );

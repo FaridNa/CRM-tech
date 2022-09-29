@@ -87,14 +87,16 @@ export const $reqStatus = combine(
 
 
 export const setFilterReq = createEvent('')
-export const $filterReq = createStore(null).on(setFilterReq, (_, payload) => payload)
+export const setFilterReq2 = createEvent('')
+export const $filterReq = createStore('0').on(setFilterReq, (_, payload) => payload)
+export const $filterReq2 = createStore('-1').on(setFilterReq, (_, payload) => payload)
 
 export const $filtredReq = combine(
-    $req, $filterReq, (data, filter) => {
-        if (filter && filter !== '0') {
-            return data.filter(el => el[1] === filter)
+    $req, $filterReq, $filterReq2, (data, filter, filter2) => {
+        if (filter !== '0') {
+            return data.filter(el => el[1] === filter || el[4] === filter2)
         } else {
-            return []
+            return data.filter(el => el[4] === filter2)
         }
 
     });

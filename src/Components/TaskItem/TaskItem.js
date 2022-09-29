@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import styles from './TaskItem.module.scss';
 import {useStore} from "effector-react";
 import Brak from '../../img/closered.png'
@@ -10,7 +10,8 @@ import {setShowTask} from "../../state/showTask";
 import moment from "moment";
 import {getHistoryType} from "../../utils/history_type";
 
-const TaskItem = ({task, i, func}) => {
+
+const TaskItem = ({task, i, func, history}) => {
     const deps = useStore($usersStatus);
     let json_history;
     try {
@@ -21,6 +22,17 @@ const TaskItem = ({task, i, func}) => {
         // 👇️ SyntaxError: Unexpected end of JSON input
 
     }
+
+    const [hLength, sethLength] = useState(0);
+    
+
+    useEffect(() => {
+      let l = task[1] !== '0'
+      ? history.filter(el => el[1] === task[1] || el[4] === task[4]).length
+      : history.filter(el => el[4] === task[4]).length;
+      sethLength(l);
+    }, [task, history])
+
 
     return (
         <li key={task[0]} onClick={() => {
@@ -38,7 +50,10 @@ const TaskItem = ({task, i, func}) => {
                 <div style={{display: 'flex', justifyContent: 'space-between'}}><p style={{fontWeight: 500}}>{task[8]} </p><p style={{fontWeight: 500}}>{task[47]}</p></div>
                 <p style={{fontWeight: 400, fontSize: 14}}>{task[2]}</p>
                 <p style={{fontWeight: 400, fontSize: 14}}>{task[4]}</p>
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 <p style={{color: 'red'}}>{task[13]}</p>
+                <p style={{color: 'blue'}}>Всего поездок: {hLength}</p>
+                </div>
                 {task[38] ? <p>Постановщик:<span style={{fontWeight: 500}}> {task[38]}</span ></p> : <p>Постановщик:<span style={{fontWeight: 500}}> Битрикс</span ></p>}
                 {<p><span style={{fontWeight: 500}}>Ответственный:</span> {deps.find(el2 => +el2.DEP === filterTaskCust(task[4]))?.CHIEF.LAST_NAME}</p>}
                 {<p><span style={{fontWeight: 500}}>Исполнитель:</span> {task[7].length ? getLastName(task[7]) : task[55].length ? getLastName(task[55]) : 'Не назначен'} </p>}

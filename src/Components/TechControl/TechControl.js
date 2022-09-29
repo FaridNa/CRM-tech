@@ -46,6 +46,22 @@ const TechControl = () => {
         setScrollY(0)
     }, [refresh])
 
+    const [tasks, setTasks] = useState([]);
+    
+    const fetchDataHistory = async () => {
+      let a = null;
+      let b = null;
+      const url = `getTasks.php/?startDate=${a}&endDate=${b}`;
+      const base = 'https://volga24bot.com/kartoteka/api/tech';
+
+      const mass = await fetch(`${base}/${url}`).then(res => res.json());
+      setTasks(mass);
+    }
+
+    useEffect(() => {
+      fetchDataHistory();
+    }, [])
+
 
     return (
         <div style={{position: 'relative'}}>
@@ -57,7 +73,7 @@ const TechControl = () => {
             <DatePicker get={getNewReq}/>
             <Nav setRefresh={setRefresh}/>
             <TaskListWrapper  sel={sel}>
-                {test.map((el, i) => <TaskItem task={el} key={i} i={i} />)}
+                {test.map((el, i) => <TaskItem task={el} key={i} i={i} history={tasks} />)}
             </TaskListWrapper>
             {sel.length ? <p className={styles.changeTech} onClick={() => setChange(true)}>Передать</p> : null}
 

@@ -1,16 +1,17 @@
 import React, {useEffect} from 'react';
 import styles from './History.module.scss'
 import {useStore} from "effector-react";
-import {$filtredReq, setFilterReq} from "../../state/Search";
+import {$filtredReq, setFilterReq, setFilterReq2} from "../../state/Search";
 import HistoryItem from "./HistoryItem";
 
 
-const History = ({block, setInfo}) => {
+const History = ({block, address, setInfo}) => {
     const tasks = useStore($filtredReq)
 
     useEffect(() => {
         setFilterReq(block)
-    }, [block])
+        setFilterReq2(address);
+    }, [block, address])
 
     return (
         <div className={styles.history_wrapper}>
