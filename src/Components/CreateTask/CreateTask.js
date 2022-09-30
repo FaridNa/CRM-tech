@@ -15,6 +15,7 @@ import {$allReqStatus} from "../../state";
 import {$planeStatus, $selectedUser} from "../../state/plane";
 import {$graphData} from "../../state/GraphTask";
 import {$customerStatus, getCustomer, setCustomer} from "../../state/getCustomerByPhone";
+import {$items} from '../../store/objectWithAndromeda'
 
 
 
@@ -114,6 +115,9 @@ const CreateTask = ({func}) => {
     const [focusUtils, setFocusUtils] = useState(false);
     const options2 = dep.filter(el => el.WORK_POSITION !== 'Водитель' & !(el.WORK_POSITION.includes('Начальник'))).map(el => ({value: `${el.LAST_NAME} ${el.NAME} ${el.SECOND_NAME}`, label: `${el.LAST_NAME} ${el.NAME[0]}.${el.SECOND_NAME[0]}`}))
 
+    const items = useStore($items);
+
+
     return (
         <>
             <div className={styles.createTaskWrapper} >
@@ -157,7 +161,7 @@ const CreateTask = ({func}) => {
                                         setFocusUtils(false)
                                     }} className={styles.inputText} value={form.objNum} onChange={(e) => setForm(prevState => ({...prevState, objNum: e.target.value}))}/>
                                 </label>
-                                {focusNum ? <SearchItems value={form.objNum} type={"num"} func={(a,b,c) => setForm(prevState => ({...prevState, objNum: a, name: b, address: c}))} focus={() => setFocusNum(false)}/> : null}
+                                {focusNum ? <SearchItems value={form.objNum} items={items} type={"id"} func={(a,b,c) => setForm(prevState => ({...prevState, objNum: a, name: b, address: c}))} focus={() => setFocusNum(false)}/> : null}
                             </div>
                             < div style={{position: 'relative'}}>
                                 <label>
@@ -169,7 +173,7 @@ const CreateTask = ({func}) => {
                                         setFocusName(false)
                                     }} className={styles.inputText} value={form.address} onChange={(e) => setForm(prevState => ({...prevState, address: e.target.value}))}/>
                                 </label>
-                                {focusAddress ? <SearchItems value={form.address} type={"address"} func={(a,b,c) => setForm(prevState => ({...prevState, objNum: a, name: b, address: c}))} focus={() => setFocusAddress(false)}/> : null}
+                                {focusAddress ? <SearchItems value={form.address} items={items} type={"Address"} func={(a,b,c) => setForm(prevState => ({...prevState, objNum: a, name: b, address: c}))} focus={() => setFocusAddress(false)}/> : null}
                             </div>
                             <div style={{position: 'relative'}}>
                                 <label>
@@ -181,7 +185,7 @@ const CreateTask = ({func}) => {
                                         setFocusUtils(false)
                                     }} className={styles.inputText} value={form.name} onChange={(e) => setForm(prevState => ({...prevState, name: e.target.value}))}/>
                                 </label>
-                                {focusName ? <SearchItems value={form.name} type={"name"} func={(a,b,c) => setForm(prevState => ({...prevState, objNum: a, name: b, address: c}))} focus={() => setFocusName(false)}/> : null}
+                                {focusName ? <SearchItems value={form.name} items={items} type={"Name"} func={(a,b,c) => setForm(prevState => ({...prevState, objNum: a, name: b, address: c}))} focus={() => setFocusName(false)}/> : null}
                             </div>
                             {form.type !== 'Нет контрольного события' ? <label>
                                 Тел. клиента
