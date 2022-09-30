@@ -45,15 +45,13 @@ const TaskItem = ({task, i, func, history}) => {
                 {task[18] === 'Новая' ? <div  className={`${styles.circle} ${styles.blue}`}></div> : null}
                 {task[18] === 'В работе' ? <div  className={`${styles.circle} ${styles.orange}`}></div> : null}
                 {task[18] !== 'В работе' && task[18] !== 'Новая' && task[18] !== 'Брак'  ? <div  className={`${styles.circle} ${styles.green}`}></div> : null}
+                <strong style={{color: 'teal'}}>{hLength}</strong>
             </div>
             <div style={{width: "80%"}}>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}><p style={{fontWeight: 500}}>{task[8]} </p><p style={{fontWeight: 500}}>{task[47]}</p></div>
                 <p style={{fontWeight: 400, fontSize: 14}}>{task[2]}</p>
                 <p style={{fontWeight: 400, fontSize: 14}}>{task[4]}</p>
-                <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 <p style={{color: 'red'}}>{task[13]}</p>
-                <p style={{color: 'blue'}}>Всего: {hLength}</p>
-                </div>
                 {task[38] ? <p>Постановщик:<span style={{fontWeight: 500}}> {task[38]}</span ></p> : <p>Постановщик:<span style={{fontWeight: 500}}> Битрикс</span ></p>}
                 {<p><span style={{fontWeight: 500}}>Ответственный:</span> {deps.find(el2 => +el2.DEP === filterTaskCust(task[4]))?.CHIEF.LAST_NAME}</p>}
                 {<p><span style={{fontWeight: 500}}>Исполнитель:</span> {task[7].length ? getLastName(task[7]) : task[55].length ? getLastName(task[55]) : 'Не назначен'} </p>}
