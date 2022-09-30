@@ -482,9 +482,9 @@ const TaskItemNew = ({item}) => {
             {nav === 'chat' ? <ItemChat item={item}/> : null}
             {report ? <ReportWrapper req={item} func={() => showReport(false)}/> : null}
 
-            {nav !== 'chat' && (user.ID === item[37] || user.ID === '23' || user.ID === '109' || user.ID === '317' || user.ID === '277' || user.ID === '1' || user.ID === '211') ? <footer className={styles.footerNav}>
+            {nav !== 'chat' && (user.ID === item[37] || user.ID === '23' || (user.ID === '27' && item[8] === 'Демонтаж' && item[18] === 'Новая') || user.ID === '109' || user.ID === '317' || user.ID === '1' || user.ID === '211') ? <footer className={styles.footerNav}>
                 <ul>
-                    {user.ID === item[37] || user.ID === '23' || user.ID === '109' || user.ID === '211' ? <li className={nav === 'info' ? styles.active : null}  style={{background: 'white'}} onClick={() => {
+                    <li className={nav === 'info' ? styles.active : null}  style={{background: 'white'}} onClick={() => {
                         const answer = window.confirm('Удалить задачу?')
 
                         if (answer) {
@@ -501,7 +501,7 @@ const TaskItemNew = ({item}) => {
                         }
                     }}>
                         <img src={Trash} alt=""/>
-                    </li> : <li></li>}
+                    </li>
                     {item[18] !== 'Брак' ? <li onClick={() => {
                         const answer = window.prompt('Для смены статуса на "Брак" оставьте комментарий!')
                         setLoading(true)
