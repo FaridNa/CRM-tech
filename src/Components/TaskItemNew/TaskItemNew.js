@@ -275,7 +275,7 @@ const TaskItemNew = ({item}) => {
                     item[8] = form.type
                     item[34] = form.time
                     setEdit(false)
-                }}/> : (user.ID === item[37] || user.ID === '109' || user.ID === '257' || user.ID === '1' || user.ID === '317') ? <img src={Edit} alt="" className={styles.edit} onClick={() => setEdit(true)}/> : null }
+                }}/> : (user.ID === item[37] || user.ID === '23' || user.ID === '109' || user.ID === '257' || user.ID === '1' || user.ID === '317') ? <img src={Edit} alt="" className={styles.edit} onClick={() => setEdit(true)}/> : null }
                 <div className={styles.dflex}>
                     <div className={styles.taskItemInput}>
                         <p className={styles.label}  >Статус</p>
@@ -474,7 +474,7 @@ const TaskItemNew = ({item}) => {
                         }
 
                     })}
-                </ul>  { user.ID === item[37] || user.ID === '109' || user.ID === '317' || user.ID === '1' ? <label  className={styles.filesLabel}>
+                </ul>  { user.ID === item[37] || user.ID === '23' || user.ID === '109' || user.ID === '317' || user.ID === '1' ? <label  className={styles.filesLabel}>
                 <input type="file" multiple onChange={(e) => sendFiles(e.target.files)}/>
                 {'Загрузить файлы'}
             </label> : null}
@@ -482,9 +482,9 @@ const TaskItemNew = ({item}) => {
             {nav === 'chat' ? <ItemChat item={item}/> : null}
             {report ? <ReportWrapper req={item} func={() => showReport(false)}/> : null}
 
-            {nav !== 'chat' && (user.ID === item[37] || user.ID === '109' || user.ID === '317' || user.ID === '277' || user.ID === '1' || user.ID === '211') ? <footer className={styles.footerNav}>
+            {nav !== 'chat' && (user.ID === item[37] || user.ID === '23' || user.ID === '109' || user.ID === '317' || user.ID === '277' || user.ID === '1' || user.ID === '211') ? <footer className={styles.footerNav}>
                 <ul>
-                    {user.ID === item[37] || user.ID === '109' || user.ID === '211' ? <li className={nav === 'info' ? styles.active : null}  style={{background: 'white'}} onClick={() => {
+                    {user.ID === item[37] || user.ID === '23' || user.ID === '109' || user.ID === '211' ? <li className={nav === 'info' ? styles.active : null}  style={{background: 'white'}} onClick={() => {
                         const answer = window.confirm('Удалить задачу?')
 
                         if (answer) {
