@@ -52,7 +52,7 @@ const TaskItem = ({task, i, func, history}) => {
                 <p style={{fontWeight: 400, fontSize: 14}}>{task[4]}</p>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 <p style={{color: 'red'}}>{task[13]}</p>
-                <p style={{color: 'blue'}}>Всего поездок: {hLength}</p>
+                <p style={{color: 'blue'}}>Всего: {hLength}</p>
                 </div>
                 {task[38] ? <p>Постановщик:<span style={{fontWeight: 500}}> {task[38]}</span ></p> : <p>Постановщик:<span style={{fontWeight: 500}}> Битрикс</span ></p>}
                 {<p><span style={{fontWeight: 500}}>Ответственный:</span> {deps.find(el2 => +el2.DEP === filterTaskCust(task[4]))?.CHIEF.LAST_NAME}</p>}
