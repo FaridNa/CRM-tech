@@ -309,7 +309,7 @@ const CreateTask = ({func}) => {
                             }
                         }} type="checkbox" checked={form.vo.indexOf(el) !== -1}/>{el}</label>)}</div> : null}
                     </label> : null }
-                    {form.type !== 'Нет контрольного события' ? <label>
+                    <label>
                         Дата выполнения
                         <input type="datetime-local" onFocus={() => {
                             setFocusNum(false)
@@ -317,7 +317,7 @@ const CreateTask = ({func}) => {
                             setFocusName(false)
                             setFocusUtils(false)
                         }} className={styles.inputText} value={form.date} onChange={(e) => setForm(prevState => ({...prevState, date: e.target.value}))}/>
-                    </label> : null}
+                    </label>
                     <div className={styles.flex_box}>
                         <label className={styles.checkbox}>
 
