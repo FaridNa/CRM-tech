@@ -1,5 +1,6 @@
 import { getAllReq, getMainReq, getNewReq } from "../state";
 import { setLoading } from "../state/loading";
+import {setShowTask} from "../state/showTask";
 
 const isFreeTime = (tasks, newTask) => {
   const newTaskDate = new Date(newTask.date).getTime();
@@ -17,7 +18,17 @@ const isFreeTime = (tasks, newTask) => {
   return true;
 }
 
-export const createTask = (form, func, firstTime, secondTime, user, plane, graph) => {
+const fetchDataHistory = async () => {
+  let a = null;
+  let b = null;
+  const url = `getTasks.php/?startDate=${a}&endDate=${b}`;
+  const base = 'https://volga24bot.com/kartoteka/api/tech';
+
+  const mass = await fetch(`${base}/${url}`).then(res => res.json());
+  return mass;
+}
+
+export const createTask = async (form, func, firstTime, secondTime, user, plane, graph) => {
 
   setLoading(true);
   if (form.date === '') {
@@ -46,6 +57,20 @@ export const createTask = (form, func, firstTime, secondTime, user, plane, graph
       return;
     }
   }
+
+  const tasks = (await fetchDataHistory()).filter(el => (el[1] === form.objNum || el[4] === form.address) && el[4] !== '');
+  const tasksNew = tasks.filter(el => el[18] === 'Новая');
+  if (tasksNew.length > 0) {
+    const answer = window.confirm(`На этот объект уже существует заявка! Номер заявки ${tasksNew[0][47]}. Открыть эту заявку? Там вы можете написать комментарий.`);
+    if (answer){
+      func();
+      setShowTask(tasks[0]);
+    }
+    setLoading(false);
+    return;
+  }
+
+
 
   let formData = new FormData();
   for (let key in form) {

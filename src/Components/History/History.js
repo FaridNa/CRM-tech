@@ -9,7 +9,7 @@ const History = ({block, address, setInfo}) => {
     const tasks = useStore($filtredReq)
 
     useEffect(() => {
-        setFilterReq(block)
+        setFilterReq(block);
         setFilterReq2(address);
     }, [block, address])
 

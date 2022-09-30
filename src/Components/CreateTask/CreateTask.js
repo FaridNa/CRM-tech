@@ -119,8 +119,8 @@ const CreateTask = ({func}) => {
             <div className={styles.createTaskWrapper} >
                 <header>
                     <img src={Back} alt="" onClick={func}/>
-                    <img src={Create} alt="" onClick={() => {
-                        createTask(form, func, firstTime, secondTime, user, plane.CURRENT, graph)
+                    <img src={Create} alt="" onClick={ async () => {
+                        await createTask(form, func, firstTime, secondTime, user, plane.CURRENT, graph)
                     }} />
                 </header>
                 <div className={styles.infoCreate}>
