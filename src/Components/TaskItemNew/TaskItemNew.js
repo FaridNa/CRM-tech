@@ -98,6 +98,8 @@ const options = [
 const TaskItemNew = ({item}) => {
     const deps = useStore($usersStatus);
 
+    const admins = [item[37], '1', '11', '33', '29', '23', '53', '317', '109', '147'];
+
     const [loading, setLoading] = useState(false)
     const [report, showReport] = useState(false);
     const important = useStore($important);
@@ -275,7 +277,7 @@ const TaskItemNew = ({item}) => {
                     item[8] = form.type
                     item[34] = form.time
                     setEdit(false)
-                }}/> : (user.ID === item[37] || user.ID === '23' || user.ID === '109' || user.ID === '257' || user.ID === '1' || user.ID === '317') ? <img src={Edit} alt="" className={styles.edit} onClick={() => setEdit(true)}/> : null }
+                }}/> : (admins.includes(user.ID)) ? <img src={Edit} alt="" className={styles.edit} onClick={() => setEdit(true)}/> : null }
                 <div className={styles.dflex}>
                     <div className={styles.taskItemInput}>
                         <p className={styles.label}  >Статус</p>
@@ -474,7 +476,7 @@ const TaskItemNew = ({item}) => {
                         }
 
                     })}
-                </ul>  { user.ID === item[37] || user.ID === '23' || user.ID === '109' || user.ID === '317' || user.ID === '1' ? <label  className={styles.filesLabel}>
+                </ul>  { (admins.includes(user.ID)) ? <label  className={styles.filesLabel}>
                 <input type="file" multiple onChange={(e) => sendFiles(e.target.files)}/>
                 {'Загрузить файлы'}
             </label> : null}
@@ -482,7 +484,7 @@ const TaskItemNew = ({item}) => {
             {nav === 'chat' ? <ItemChat item={item}/> : null}
             {report ? <ReportWrapper req={item} func={() => showReport(false)}/> : null}
 
-            {nav !== 'chat' && (user.ID === item[37] || user.ID === '23' || (user.ID === '27' && (item[8] === 'Демонтаж' || item[8] === 'Монтаж' || item[8] === 'СО') && item[18] === 'Новая') || user.ID === '109' || user.ID === '317' || user.ID === '1' || user.ID === '211') ? <footer className={styles.footerNav}>
+            {nav !== 'chat' && (admins.includes(user.ID)) ? <footer className={styles.footerNav}>
                 <ul>
                     <li className={nav === 'info' ? styles.active : null}  style={{background: 'white'}} onClick={() => {
                         const answer = window.confirm('Удалить задачу?')
