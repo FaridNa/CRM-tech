@@ -84,6 +84,20 @@ const CreateTask = ({func}) => {
     const plane = useStore($planeStatus);
     const graph = useStore($graphData);
 
+    const noformatDate = new Date();
+
+    const optionsDate = {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+
+    const intlDate = Intl.DateTimeFormat('zh-CN', optionsDate);
+    const formatedDate = intlDate.format(noformatDate).split(', ');
+    formatedDate[0] = formatedDate[0].replaceAll('/', '-');
+
     const [form, setForm] = useState({
         type: 'Заявка',
         objNum: '',
@@ -95,7 +109,7 @@ const CreateTask = ({func}) => {
         voText: '',
         clientPhone: '',
         clientFio: '',
-        date: '',
+        date: formatedDate,
         changeTech: false,
         files: '',
         label: ''
@@ -320,7 +334,7 @@ const CreateTask = ({func}) => {
                             setFocusAddress(false)
                             setFocusName(false)
                             setFocusUtils(false)
-                        }} className={styles.inputText} value={form.date} onChange={(e) => setForm(prevState => ({...prevState, date: e.target.value}))}/>
+                        }} className={styles.inputText} value={form.date} onChange={(e) => {setForm(prevState => ({...prevState, date: e.target.value})); console.log(123);}}/>
                     </label>
                     <div className={styles.flex_box}>
                         <label className={styles.checkbox}>
