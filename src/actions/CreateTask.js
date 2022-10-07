@@ -8,8 +8,13 @@ const isFreeTime = (tasks, newTask) => {
 
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
-    const taskDate = new Date(task[56] + ' ' + task[57]).getTime();
-    const next = taskDate + 1 * 60 * 60 * 1000;
+    
+    let taskDate = new Date(task[56] + ' ' + task[57]).getTime();
+    let next = taskDate + 1 * 60 * 60 * 1000;
+    if (task[18] === 'Выполнена'){
+      taskDate = new Date(task[5]).getTime();
+      next = new Date(task[6]).getTime();
+    }
 
     if (newTaskDate < next && newNext > taskDate) {
       return false;

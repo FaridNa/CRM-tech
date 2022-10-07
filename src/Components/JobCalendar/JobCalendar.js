@@ -36,11 +36,12 @@ const JobCalendar = () => {
             getMyTask(user.ID)
         }
         getData(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`);
-        getData(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`);
+
         getStatus(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`);
-        getData(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`);
-        getPlane(firstTime)
-        getTechs(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`)
+
+        getPlane(firstTime);
+
+        getTechs(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`);
 
     }, [user, firstTime, dep])
 
