@@ -37,16 +37,14 @@ const Plane = () => {
 
         const tomorow = moment(new Date(+new Date() + 86400000)).format('YYYY-MM-DD');
 
-        tasks.filter(el => !el[59].length).forEach(el => {
-            if (getDays(today) === getDays(el[17].substr(0, 10)) && (el[8] === 'СО' || el[8] === 'Монтаж' || el[3] === 'Повтор' || el[3] === 'Нет контрольного события')) {
+        tasks.forEach(el => {
+            if (getDays(today) === getDays(el[17].substr(0, 10))) {
                 todayArr1.push(el)
-            } else if (getDays(today) === getDays(el[17].substr(0, 10)) && (el[8] !== 'СО' || el[8] !== 'Монтаж' || el[3] !== 'Повтор' || el[3] !== 'Нет контрольного события')) {
+            } else if (getDays(today) === getDays(el[17].substr(0, 10))) {
                 todayArr2.push(el)
-            }
-            else if (getDays(tomorow) === getDays(el[17].substr(0, 10))) {
+            } else if (getDays(tomorow) === getDays(el[17].substr(0, 10))) {
                 tomorowArr.push(el)
-            }
-            else if (getDays(today) > getDays(el[17].substr(0, 10))) {
+            } else if (getDays(today) > getDays(el[17].substr(0, 10))) {
                 pastArr.push(el)
             } else if (getDays(today) < getDays(el[17].substr(0, 10))) {
                 futureArr.push(el)
@@ -54,9 +52,9 @@ const Plane = () => {
         })
 
         setToday([...todayArr1, ...todayArr2])
-        setFuture(futureArr)
-        setPast(pastArr)
         setTomorow(tomorowArr)
+        setPast(pastArr)
+        setFuture(futureArr)
     }, [tasks]);
 
     //При выборе вкладки "Планирование" обновляется массив tasks
