@@ -22,6 +22,9 @@ export const TimeLineItem = ({timeStart, timeFinish, type, diffTime, task, i, ty
     const deadline = task[34] * 60 / users.length;
     let timeJob;
 
+    const fdate = new Date(task[17]).getTime();
+    const qwe = Math.ceil(Math.abs(firstTime - fdate) / (1000 * 3600 * 24));
+
     useEffect(() => {
         if (type === 'В работе') {
             let newDate = moment().tz('Europe/Astrakhan')
@@ -125,6 +128,7 @@ export const TimeLineItem = ({timeStart, timeFinish, type, diffTime, task, i, ty
         <div>
             <div className={`${styles.item}` }  style={{width: width, left: left, backgroundColor: typeLine === 'plane' ? task[56] !== moment(firstTime).format('YYYY-MM-DD') || moment(`${task[56]} ${task[57]}`).valueOf() < new Date().getTime() ? 'rgba(255,0,0,0.4)' : 'rgba(0,57,234, .5)' : color}} onClick={() => setShowTask(task)}>
                 <p className={styles.number}>{i !== -1 ? tasksLength ? tasksLength+i+1 : i+1 : ' '}</p>
+                <p className={styles.past}>{qwe}</p>
                 {i === 0 ? <span className={styles.bottomLabel}>{newTimeStart ? newTimeStart : timeStart}</span> : null}
                 {i === lastI && width2 === null && left2 === null  ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
             </div>

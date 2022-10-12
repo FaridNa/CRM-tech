@@ -24,6 +24,10 @@ const StatusLine = ({status, tech}) => {
     )
 };
 
+function getDateOnMS(date) {
+  return new Date(`${date}T00:00:00`).getTime()
+}
+
 export const TimeLine = ({tasks, title, info, status, plane}) => {
 
     const title2 = title.split(' ');
@@ -50,7 +54,12 @@ export const TimeLine = ({tasks, title, info, status, plane}) => {
             .then(tasks => {
 
                 if (tasks) {
+                  //if (getDateOnMS(moment(firstTime).format('YYYY-MM-DD')) > getDateOnMS(moment(new Date()).format('YYYY-MM-DD'))) {
+                  //  setPlane(tasks.filter(el => moment(`${el[56]} ${el[57]}`).valueOf() > getDateOnMS(moment(firstTime).format('YYYY-MM-DD'))))
+                  //}
+                  //else {
                     setPlane(tasks)
+                  //}
                 }
             })
             .catch(function(res){ console.log(res) })
@@ -61,7 +70,7 @@ export const TimeLine = ({tasks, title, info, status, plane}) => {
 
                 if (tasks) {
                     setTrip(tasks)
-                }
+                  }
             })
             .catch(function(res){ console.log(res) })
 
