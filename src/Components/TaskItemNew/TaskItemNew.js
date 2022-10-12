@@ -114,7 +114,8 @@ const TaskItemNew = ({item}) => {
         type: item[8],
         date: item[17],
         time: item[34],
-        brak: item[43]
+        brak: item[43],
+        executor: item[55]
     })
 
     const comments = useStore($commentsStatus);
@@ -276,6 +277,7 @@ const TaskItemNew = ({item}) => {
                     item[43] = form.brak
                     item[8] = form.type
                     item[34] = form.time
+                    item[55] = form.executor
                     setEdit(false)
                 }}/> : (admins.includes(user.ID)) ? <img src={Edit} alt="" className={styles.edit} onClick={() => setEdit(true)}/> : null }
                 <div className={styles.dflex}>
