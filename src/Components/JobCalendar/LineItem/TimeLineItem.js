@@ -24,7 +24,8 @@ export const TimeLineItem = ({timeStart, timeFinish, type, diffTime, task, i, ty
 
 
     const daysOverdue = useMemo(() => {
-      return Math.ceil(Math.abs(firstTime - new Date(task[17]).getTime()) / (1000 * 3600 * 24)) - 1;
+      const taskDate = Date.parse(task[17].replace(' ', 'T'));
+      return Math.ceil(Math.abs(firstTime.getTime() - taskDate) / (1000 * 3600 * 24)) - 1;
     }, [task, firstTime])
 
     useEffect(() => {
