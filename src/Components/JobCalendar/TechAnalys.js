@@ -107,13 +107,13 @@ const TechAnalys = ({tech = [0, '', 0, 0], tasks, plane, planeTasks, fio}) => {
 
         setPlaneCoef(
             getCoef(
-                planeTask.CURRENT.filter(el => Date.parse(el[17]) >= Yesterday)
+                planeTask.CURRENT.filter(el => Date.parse(el[17].replace(' ', 'T')) >= Yesterday)
             )
         )
 
         setProsroschCoef(
             getCoef(
-                planeTask.CURRENT.filter(el => Date.parse(el[17]) < Yesterday)
+                planeTask.CURRENT.filter(el => Date.parse(el[17].replace(' ', 'T')) < Yesterday)
             )
         )
 
