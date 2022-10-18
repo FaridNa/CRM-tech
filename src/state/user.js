@@ -25,7 +25,8 @@ export const $depStatus = combine(
         if (isLoading) {
             return []
         } else {
-
+            const last = data.pop();
+            data.unshift(last);
             return data
         }
 
