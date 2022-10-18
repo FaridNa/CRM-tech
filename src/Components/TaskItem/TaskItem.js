@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useMemo} from 'react';
 import styles from './TaskItem.module.scss';
 import {useStore} from "effector-react";
 import Brak from '../../img/closered.png'
@@ -9,10 +9,13 @@ import {setScrollY} from "../../state/scrollY";
 import {setShowTask} from "../../state/showTask";
 import moment from "moment";
 import {getHistoryType} from "../../utils/history_type";
+import {$firstTime} from "../../state/graphTime";
+import { useCallback } from 'react';
 
 
 const TaskItem = ({task, i, func, history}) => {
     const deps = useStore($usersStatus);
+    const firstTime = useStore($firstTime);
     let json_history;
     try {
         let hson = task[52] ? JSON.parse(task[52]) : []
@@ -33,6 +36,17 @@ const TaskItem = ({task, i, func, history}) => {
       sethLength(l);
     }, [task, history])
 
+    const daysOverdue = useMemo(() => {
+      const taskDate = Date.parse(task[17].replace(' ', 'T'));
+      return Math.ceil(Math.abs(firstTime.getTime() - taskDate) / (1000 * 3600 * 24)) - 1;
+    }, [task, firstTime])
+
+    const isPast = useCallback((date) => {
+      const taskDate = Date.parse(date.replace(' ', 'T'));
+      firstTime.setHours(0, 0, 0);
+      return firstTime.getTime() > taskDate;
+    }, [firstTime])
+
 
     return (
         <li key={task[0]} onClick={() => {
@@ -42,10 +56,15 @@ const TaskItem = ({task, i, func, history}) => {
             <div className={styles.statusWrapper}>
 					<strong>{i+1}</strong>
                 {task[18] === 'Брак' ? <div><img style={{width: 20, height: 20}} src={Brak} alt=""/></div> : null}
-                {task[18] === 'Новая' ? <div  className={`${styles.circle} ${styles.blue}`}></div> : null}
+                {task[18] === 'Новая' ?
+                isPast(task[17])
+                ? <div  className={`${styles.circle} ${styles.transparentRed}`}></div>
+                : <div  className={`${styles.circle} ${styles.blue}`}></div>
+                : null}
                 {task[18] === 'В работе' ? <div  className={`${styles.circle} ${styles.orange}`}></div> : null}
                 {task[18] !== 'В работе' && task[18] !== 'Новая' && task[18] !== 'Брак'  ? <div  className={`${styles.circle} ${styles.green}`}></div> : null}
                 <strong style={{color: 'teal'}}>{hLength}</strong>
+                <p style={{marginTop: '26px'}}>{daysOverdue}</p>
             </div>
             <div style={{width: "80%"}}>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}><p style={{fontWeight: 500}}>{task[8]} </p><p style={{fontWeight: 500}}>{task[47]}</p></div>
