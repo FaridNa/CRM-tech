@@ -43,7 +43,6 @@ const TaskItem = ({task, i, func, history}) => {
 
     const isPast = useCallback((date) => {
       const taskDate = Date.parse(date.replace(' ', 'T'));
-      firstTime.setHours(0, 0, 0);
       return firstTime.getTime() > taskDate;
     }, [firstTime])
 

@@ -36,6 +36,7 @@ import {$usersStatus} from "../../state/getUsers";
 import {setHistory} from "../../actions/setHistory";
 import {updateHistory} from "../../store/task";
 import {$important, setImportant} from "../../store/importants";
+import { useMemo } from 'react';
 
 const PopUp = ({data, func}) => {
 
@@ -232,6 +233,11 @@ const TaskItemNew = ({item}) => {
 
     }
 
+    const daysOverdue = useMemo(() => {
+      const taskDate = Date.parse(item[17].replace(' ', 'T'));
+      return Math.ceil(Math.abs(Date.now() - taskDate) / (1000 * 3600 * 24)) - 1;
+    }, [item])
+
     //console.log(history2)
 
     return (
@@ -283,7 +289,9 @@ const TaskItemNew = ({item}) => {
                 <div className={styles.dflex}>
                     <div className={styles.taskItemInput}>
                         <p className={styles.label}  >Статус</p>
-                        <p style={item[18] === 'Брак' ? {color: "red"} : null} className={`${styles.status} ${item[18] === 'Новая' ? styles.redStatus : null} ${item[18] === 'В работе' ? styles.orangeStatus : null} ${item[18] !== 'Новая' && item[18] !== 'В работе' ? styles.blueStatus : null}`} >{item[18]}</p>
+                        <p style={item[18] === 'Брак' ? {color: "red"} : null} className={`${styles.status} ${item[18] === 'Новая' ? styles.redStatus : null} ${item[18] === 'В работе' ? styles.orangeStatus : null} ${item[18] !== 'Новая' && item[18] !== 'В работе' ? styles.blueStatus : null}`} >
+                          {item[18]}
+                        <span>{daysOverdue}</span></p>
                     </div>
                     <div className={styles.taskItemInput}>
                         <p className={styles.label}  >Номер</p>
@@ -333,7 +341,7 @@ const TaskItemNew = ({item}) => {
                 </div>
                 <div className={styles.taskItemInput}>
                     <p className={styles.label}>Время на работу</p>
-                    {edit ? <input type="text" value={form.time} onChange={e => setForm(prevState => ({...prevState, time: e.target.value}))}/>:<p>{item[34].indexOf('0.666') !== -1 ? '40 минут' : `${item[34]} ч.ч`}</p> }
+                    {edit ? <input type="number" value={form.time} onChange={e => setForm(prevState => ({...prevState, time: e.target.value}))}/>:<p>{item[34].indexOf('0.666') !== -1 ? '40 минут' : `${item[34]} ч.ч`}</p> }
                 </div>
                 {timeCounter()}
                 {item[58] ? <div className={styles.taskItemInput}>
