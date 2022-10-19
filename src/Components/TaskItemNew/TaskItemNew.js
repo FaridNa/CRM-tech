@@ -235,7 +235,7 @@ const TaskItemNew = ({item}) => {
 
     const daysOverdue = useMemo(() => {
       const taskDate = Date.parse(item[17].replace(' ', 'T'));
-      return Math.ceil(Math.abs(Date.now() - taskDate) / (1000 * 3600 * 24)) - 1;
+      return Math.ceil(Math.abs(new Date().setHours(0, 0, 0, 0) - taskDate) / (1000 * 3600 * 24)) - 1;
     }, [item])
 
     //console.log(history2)
