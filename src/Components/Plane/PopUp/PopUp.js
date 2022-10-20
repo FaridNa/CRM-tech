@@ -117,6 +117,14 @@ const PopUp = ({item, time, close}) => {
                 data.append('time', time)
                 data.append('deadline', deadline <= 9 ? deadline : 9)
                 data.append('type', type)
+                if (item[48] === '1') {
+                  if (item[42]) {
+                    if (techs.includes(item[42]) === false) {
+                      alert(`Заявка была запланирована на ${item[42]}, поэтому этот техник также должен быть выбран.`);
+                      return;
+                    }
+                  }
+                }
                 data.append('techs', techs.join(','))
                 data.append('id', id)
                 data.append('creatorId', user.ID)

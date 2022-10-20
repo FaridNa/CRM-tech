@@ -334,7 +334,7 @@ const CreateTask = ({func}) => {
                             setFocusAddress(false)
                             setFocusName(false)
                             setFocusUtils(false)
-                        }} className={styles.inputText} value={form.date} onChange={(e) => {setForm(prevState => ({...prevState, date: e.target.value})); console.log(123);}}/>
+                        }} className={styles.inputText} value={form.date} onChange={(e) => {setForm(prevState => ({...prevState, date: e.target.value})); }}/>
                     </label>
                     <div className={styles.flex_box}>
                         <label className={styles.checkbox}>
