@@ -63,7 +63,7 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
     }
   }
 
-  const tasks = (await fetchDataHistory()).filter(el => (el[1] === form.objNum || el[4] === form.address) && el[4] !== '');
+  const tasks = (await fetchDataHistory()).filter(el => (el[1] === form.objNum || el[2] === form.name) && el[4] !== '');
   const tasksNew = tasks.filter(el => el[18] === 'Новая');
   if (tasksNew.length > 0) {
     const answer = window.confirm(`На этот объект уже существует заявка! Номер заявки ${tasksNew[0][47]}. Открыть эту заявку? Там вы можете написать комментарий.`);
