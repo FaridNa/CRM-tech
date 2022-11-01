@@ -19,6 +19,15 @@ function declOfNum(n, text_forms) {
   return text_forms[2];
 }
 
+const imMessageAdd = (chatId, message, isSystem = true) => {
+
+  window.bx24?.callMethod('im.message.add', {
+    'DIALOG_ID': chatId,
+    'MESSAGE': message,
+    'SYSTEM': isSystem ? 'Y' : "N",
+  });
+
+}
 
 
 const TechItem = ({ item, func, func2, task, checked, techs, all, tasksToday, setCoef, datepicker }) => {
@@ -120,7 +129,6 @@ const PopUp = ({ item, time, close }) => {
 
 
       if (user.ID === '91') {
-        // const transfers = JSON.parse(item[52]).filter(t => t.type === "plane_change");
         close();
         return;
       }
@@ -137,6 +145,14 @@ const PopUp = ({ item, time, close }) => {
       data.append('id', id)
       data.append('creatorId', user.ID)
       data.append('ids', all ? today.filter(el => el[8] === item[8] && el[3] === item[3]).map(el => el[0]) : '')
+
+      if (item[52]) {
+        const transfers = JSON.parse(item[52]).filter(t => t.type === "plane_change");
+        if (transfers?.length >= 1) {
+          const message = `Заявка на ${item[1]} ${item[2]} ${item[4]} была перенесена уже ${transfers.length + 1} раз`;
+          imMessageAdd('chat11871', message);
+        }
+      }
 
       fetch('https://volga24bot.com/kartoteka/api/tech/planing/setPlane.php', {
         method: "POST",
