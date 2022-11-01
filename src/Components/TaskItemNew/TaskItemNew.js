@@ -99,7 +99,7 @@ const options = [
 const TaskItemNew = ({item}) => {
     const deps = useStore($usersStatus);
 
-    const admins = [item[37], '1', '11', '33', '29', '23', '53', '317', '109', '147'];
+    const admins = [item[37], '1', '11', '33', '29', '23', '53', '317', '109', '147', '3503'];
 
     const [loading, setLoading] = useState(false)
     const [report, showReport] = useState(false);
