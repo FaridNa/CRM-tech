@@ -120,6 +120,7 @@ const PopUp = ({ item, time, close }) => {
 
 
       if (user.ID === '91') {
+        // const transfers = JSON.parse(item[52]).filter(t => t.type === "plane_change");
         close();
         return;
       }
