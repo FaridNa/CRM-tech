@@ -24,7 +24,7 @@ const imMessageAdd = (chatId, message, isSystem = true) => {
   window.bx24?.callMethod('im.message.add', {
     'DIALOG_ID': chatId,
     'MESSAGE': message,
-    'SYSTEM': isSystem ? 'Y' : "N",
+    // 'SYSTEM': isSystem ? 'Y' : "N",
   });
 
 }
@@ -116,6 +116,7 @@ const PopUp = ({ item, time, close }) => {
     all: false
   })
 
+
   const handleSubmit = (date, time, type, techs, all, id, coefs) => {
     if (techs.length) {
 
@@ -146,7 +147,10 @@ const PopUp = ({ item, time, close }) => {
       data.append('creatorId', user.ID)
       data.append('ids', all ? today.filter(el => el[8] === item[8] && el[3] === item[3]).map(el => el[0]) : '')
 
-      if (item[52]) {
+      if (item[55] !== techs.join(', ')) {
+        const message = `Заявка на ${item[1]} ${item[2]} ${item[4]} была перенаправлена c ${item[55]} на ${techs.join(', ')}`;
+        imMessageAdd('chat11871', message);
+      } else if (item[52]) {
         const transfers = JSON.parse(item[52]).filter(t => t.type === "plane_change");
         if (transfers?.length >= 1) {
           const message = `Заявка на ${item[1]} ${item[2]} ${item[4]} была перенесена уже ${transfers.length + 1} раз`;
