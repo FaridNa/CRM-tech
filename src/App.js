@@ -26,6 +26,15 @@ import Plane from "./Components/Plane/Plane";
 import {getUsers} from "./state/getUsers";
 import {setItems} from './store/objectWithAndromeda'
 
+const fetchItems = () => {
+  fetch(`https://volga24bot.com/kartoteka/api/boq/andromedaObjects/getAll.php`)
+                .then(response => response.json())
+                .then(commits => setItems(commits.map(el => {
+                  el.ObjectNumber = Number(el.ObjectNumber).toString(16)
+                  return el;
+                })));
+}
+
 function App() {
     const task = useStore($showTask);
     const [active, setActive] = useState(false);
@@ -37,15 +46,6 @@ function App() {
     const create = useStore($createTask);
     const nav = useStore($nav);
     const dep = useStore($depStatus);
-
-    const fetchItems = () => {
-      fetch(`https://volga24bot.com/andromeda/getObjects.php`)
-                    .then(response => response.json())
-                    .then(commits => setItems(commits.map(el => {
-                      el.ObjectNumber = Number(el.ObjectNumber).toString(16)
-                      return el;
-                    })));
-    }
 
     useEffect(() => {
         if (window.bx24) {
