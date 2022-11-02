@@ -24,7 +24,7 @@ const imMessageAdd = (chatId, message, isSystem = true) => {
   window.bx24?.callMethod('im.message.add', {
     'DIALOG_ID': chatId,
     'MESSAGE': message,
-    // 'SYSTEM': isSystem ? 'Y' : "N",
+    'SYSTEM': isSystem ? 'Y' : "N",
   });
 
 }
