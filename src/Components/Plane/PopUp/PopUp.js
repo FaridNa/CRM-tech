@@ -8,6 +8,7 @@ import { getAllReq, getNewReq } from "../../../state";
 import Close from '../../../img/close.png'
 import { $user } from "../../../state/user";
 import { setHistory } from "../../../actions/setHistory";
+import Transfers from './serviceTransfers';
 
 const times = ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00']
 function declOfNum(n, text_forms) {
@@ -115,6 +116,7 @@ const PopUp = ({ item, time, close }) => {
     techs: [],
     all: false
   })
+  const admins = ['1', '11', '33', '29', '23', '53', '317', '109', '147', '3503', '3707'];
 
 
   const handleSubmit = (date, time, type, techs, all, id, coefs) => {
@@ -129,7 +131,7 @@ const PopUp = ({ item, time, close }) => {
       data.append('type', type)
 
 
-      if (user.ID === '91') {
+      if (admins.includes(user.ID) === false) {
         close();
         return;
       }
@@ -148,12 +150,17 @@ const PopUp = ({ item, time, close }) => {
       data.append('ids', all ? today.filter(el => el[8] === item[8] && el[3] === item[3]).map(el => el[0]) : '')
 
       if (item[55] !== techs.join(', ')) {
-        const message = `Заявка на ${item[1]} ${item[2]} ${item[4]} была перенаправлена c ${item[55]} на ${techs.join(', ')}`;
+        const message = ` ${item[47]} ${item[2]} ${item[4]} перенаправлена ${item[55] && `c ${item[55].split(' ')[0]}`} на ${techs.map( t=> t.split(' ')[0]).join(', ')}`;
+
+        Transfers.create('transfers', message);
         imMessageAdd('chat11871', message);
       } else if (item[52]) {
-        const transfers = JSON.parse(item[52]).filter(t => t.type === "plane_change");
-        if (transfers?.length >= 1) {
-          const message = `Заявка на ${item[1]} ${item[2]} ${item[4]} была перенесена уже ${transfers.length + 1} раз`;
+        const move = JSON.parse(item[52]).filter(t => t.type === "plane_change");
+
+        if (move?.length >= 1) {
+          const message = ` ${item[47]} ${item[2]} ${item[4]} перенесена уже ${move.length + 1} раз`;
+
+          Transfers.create('move', message);
           imMessageAdd('chat11871', message);
         }
       }
