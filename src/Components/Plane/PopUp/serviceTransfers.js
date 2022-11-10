@@ -3,7 +3,9 @@ export default class Transfers {
 
 
   static async create(type, content) {
-    const url = `create.php?type=${type}&content=${content}&createAt=${new Date().toISOString().slice(0, 19).replace('T', ' ')}`;
+    const date = new Date();
+    date.setHours(date.getHours() + 4);
+    const url = `create.php?type=${type}&content=${content}&createAt=${date.toISOString().slice(0, 19).replace('T', ' ')}`;
     const response = await fetch(`${this.baseUrl}${url}`)
       .then(response => response.json());
 
