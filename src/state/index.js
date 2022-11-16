@@ -45,7 +45,7 @@ export const $newReqStatus = combine(
                 } else if (typeNav === 'req') {
                     return data.NEW.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор')
                 } else if (typeNav === 'mon') {
-                    return data.NEW.filter(el => el[8] === 'Монтаж')
+                    return data.NEW.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение')
                 } else if (typeNav === 'dem') {
                     return data.NEW.filter(el => el[8] === 'Демонтаж')
                 } else if (typeNav === 'connection') {
@@ -71,7 +71,7 @@ export const $newReqStatus = combine(
                 } else if (typeNav === 'req') {
                     return data.COMP.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор')
                 } else if (typeNav === 'mon') {
-                    return data.COMP.filter(el => el[8] === 'Монтаж')
+                    return data.COMP.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение')
                 } else if (typeNav === 'dem') {
                     return data.COMP.filter(el => el[8] === 'Демонтаж' )
                 } else if (typeNav === 'connection') {
@@ -97,7 +97,7 @@ export const $newReqStatus = combine(
                 } else if (typeNav === 'req') {
                     return data.INJOB.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор')
                 } else if (typeNav === 'mon') {
-                    return data.INJOB.filter(el => el[8] === 'Монтаж')
+                    return data.INJOB.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение')
                 } else if (typeNav === 'dem') {
                     return data.INJOB.filter(el => el[8] === 'Демонтаж' )
                 } else if (typeNav === 'connection') {
@@ -121,7 +121,7 @@ export const $newReqStatus = combine(
                 } else if (typeNav === 'req') {
                     return data.NC.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор')
                 } else if (typeNav === 'mon') {
-                    return data.NC.filter(el => el[8] === 'Монтаж')
+                    return data.NC.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение')
                 } else if (typeNav === 'dem') {
                     return data.NC.filter(el => el[8] === 'Демонтаж' )
                 } else if (typeNav === 'connection') {
@@ -147,7 +147,7 @@ export const $newReqStatus = combine(
                 } else if (typeNav === 'req') {
                     return data.DEFFECT.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор')
                 } else if (typeNav === 'mon') {
-                    return data.DEFFECT.filter(el => el[8] === 'Монтаж')
+                    return data.DEFFECT.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение')
                 } else if (typeNav === 'dem') {
                     return data.DEFFECT.filter(el => el[8] === 'Демонтаж' )
                 } else if (typeNav === 'connection') {
@@ -190,7 +190,7 @@ export const $counters = combine(
 
             const NEW = {
                 req: data.NEW.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
-                mon: data.NEW.filter(el => el[8] === 'Монтаж').length,
+                mon: data.NEW.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение').length,
                 dem: data.NEW.filter(el => el[8] === 'Демонтаж').length,
                 so: data.NEW.filter(el => el[8] === 'СО').length,
                 pre: data.NEW.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта').length,
@@ -205,7 +205,7 @@ export const $counters = combine(
 
             const DEFFECT = {
                 req: data.DEFFECT.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
-                mon: data.DEFFECT.filter(el => el[8] === 'Монтаж').length,
+                mon: data.DEFFECT.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение').length,
                 dem: data.DEFFECT.filter(el => el[8] === 'Демонтаж').length,
                 so: data.DEFFECT.filter(el => el[8] === 'СО').length,
                 pre: data.DEFFECT.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта').length,
@@ -219,7 +219,7 @@ export const $counters = combine(
             }
             const NC = {
                 req: data.NC.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
-                mon: data.NC.filter(el => el[8] === 'Монтаж').length,
+                mon: data.NC.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение').length,
                 dem: data.NC.filter(el => el[8] === 'Демонтаж').length,
                 so: data.NC.filter(el => el[8] === 'СО').length,
                 pre: data.NC.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта').length,
@@ -233,7 +233,7 @@ export const $counters = combine(
             }
             const COMP = {
                 req: data.COMP.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
-                mon: data.COMP.filter(el => el[8] === 'Монтаж').length,
+                mon: data.COMP.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение').length,
                 dem: data.COMP.filter(el => el[8] === 'Демонтаж').length,
                 so: data.COMP.filter(el => el[8] === 'СО').length,
                 pre: data.COMP.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта').length,
@@ -247,7 +247,7 @@ export const $counters = combine(
             }
             const INJOB = {
                 req: data.INJOB.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
-                mon: data.INJOB.filter(el => el[8] === 'Монтаж').length,
+                mon: data.INJOB.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение').length,
                 dem: data.INJOB.filter(el => el[8] === 'Демонтаж').length,
                 so: data.INJOB.filter(el => el[8] === 'СО').length,
                 pre: data.INJOB.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта').length,
@@ -310,7 +310,7 @@ export const $notCompCount = combine(
 
             return {
                 req: data.filter(el => el[8] === 'Заявка').length,
-                mon: data.filter(el => el[8] === 'Монтаж').length,
+                mon: data.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение').length,
                 dem: data.filter(el => el[8] === 'Демонтаж').length,
                 so: data.filter(el => el[8] === 'СО').length,
                 pre: data.filter(el => el[8] === 'Претензия').length,

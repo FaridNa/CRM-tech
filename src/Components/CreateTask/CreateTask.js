@@ -121,6 +121,7 @@ const CreateTask = ({func}) => {
 		  { value: 'ТО', label: 'Техническое Обслуживание' },
         { value: 'Демонтаж', label: 'Демонтаж' },
         { value: 'Монтаж', label: 'Монтаж' },
+        { value: 'Подключение', label: 'Подключение' },
         { value: 'Нет контрольного события', label: 'Нет контрольного события' }
     ]
     const [focusNum, setFocusNum] = useState(false);
