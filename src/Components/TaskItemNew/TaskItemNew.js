@@ -92,6 +92,7 @@ const options = [
     { value: 'Задача', label: 'Задача' },
     { value: 'Демонтаж', label: 'Демонтаж' },
     { value: 'Монтаж', label: 'Монтаж' },
+    { value: 'Подключение', label: 'Подключение' },
     { value: 'Нет контрольного события', label: 'Нет контрольного события' }
 ]
 
@@ -274,7 +275,7 @@ const TaskItemNew = ({item}) => {
             {nav === 'info' ? <div className={styles.taskItemBody}>
 
                 {edit ? <img src={Confirm} alt="" className={styles.edit} style={{borderColor: "#3F9257"}} onClick={() => {
-                    updateTask(form, item[0])
+                    updateTask(form, item)
                     item[2] = form.name
                     item[4] = form.address
                     item[13] = form.desc
