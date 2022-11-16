@@ -17,8 +17,8 @@ export const updateTask = (form, item) => {
     let formData = new FormData();
 
     if (form.time !== item[34]) {
-      const message = `${item[2]} ${item[4]} изменил время с ${item[34]} на ${form.time}`;
-      imMessageAdd('chat3499', message, false);
+      const message = `${item[2]} ${item[4]} изменил время с ${item[34]} час на ${form.time} час`;
+      imMessageAdd('chat11915', message, false);
     }
 
     for (let key in form) {
