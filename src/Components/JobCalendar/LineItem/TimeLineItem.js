@@ -129,12 +129,28 @@ export const TimeLineItem = ({timeStart, timeFinish, type, diffTime, task, i, ty
 
     return (
         <div>
-            <div className={`${styles.item}` }  style={{width: width, left: left, backgroundColor: typeLine === 'plane' ? task[56] !== moment(firstTime).format('YYYY-MM-DD') || moment(`${task[56]} ${task[57]}`).valueOf() < new Date().getTime() ? 'rgba(255,0,0,0.4)' : 'rgba(0,57,234, .5)' : color}} onClick={() => setShowTask(task)}>
+          {firstTime
+          ? firstTime < new Date()
+          ? <div className={`${styles.item}` }  style={{width: width, left: left, backgroundColor: typeLine === 'plane' ? task[56] !== moment(firstTime).format('YYYY-MM-DD') || moment(`${task[56]} ${task[57]}`).valueOf() < new Date().getTime() ? 'rgba(255,0,0,0.4)' : 'rgba(0,57,234, .5)' : color}} onClick={() => setShowTask(task)}>
+          <p className={styles.number}>{i !== -1 ? tasksLength ? tasksLength+i+1 : i+1 : ' '}</p>
+          <p className={styles.past}>{daysOverdue}</p>
+          {i === 0 ? <span className={styles.bottomLabel}>{newTimeStart ? newTimeStart : timeStart}</span> : null}
+          {i === lastI && width2 === null && left2 === null  ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
+      </div>
+          : task[56] !== moment(firstTime).format('YYYY-MM-DD') || moment(`${task[56]} ${task[57]}`).valueOf() < new Date().getTime() ? null :
+          <div className={`${styles.item}` }  style={{width: width, left: left, backgroundColor: typeLine === 'plane' ? task[56] !== moment(firstTime).format('YYYY-MM-DD') || moment(`${task[56]} ${task[57]}`).valueOf() < new Date().getTime() ? 'rgba(255,0,0,0.4)' : 'rgba(0,57,234, .5)' : color}} onClick={() => setShowTask(task)}>
+          <p className={styles.number}>{i !== -1 ? tasksLength ? tasksLength+i+1 : i+1 : ' '}</p>
+          <p className={styles.past}>{daysOverdue}</p>
+          {i === 0 ? <span className={styles.bottomLabel}>{newTimeStart ? newTimeStart : timeStart}</span> : null}
+          {i === lastI && width2 === null && left2 === null  ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
+      </div>
+        : null}
+            {/* <div className={`${styles.item}` }  style={{width: width, left: left, backgroundColor: typeLine === 'plane' ? task[56] !== moment(firstTime).format('YYYY-MM-DD') || moment(`${task[56]} ${task[57]}`).valueOf() < new Date().getTime() ? 'rgba(255,0,0,0.4)' : 'rgba(0,57,234, .5)' : color}} onClick={() => setShowTask(task)}>
                 <p className={styles.number}>{i !== -1 ? tasksLength ? tasksLength+i+1 : i+1 : ' '}</p>
                 <p className={styles.past}>{daysOverdue}</p>
                 {i === 0 ? <span className={styles.bottomLabel}>{newTimeStart ? newTimeStart : timeStart}</span> : null}
                 {i === lastI && width2 === null && left2 === null  ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
-            </div>
+            </div> */}
             {width2 !== null && left2 !== null ?
                 <div onClick={() => setShowTask(task)} className={`${styles.item} `}  style={{width: width2, left: left2, backgroundColor: "red",}} >
                     {width ? null : <p className={styles.number}>{i+1}</p>}
