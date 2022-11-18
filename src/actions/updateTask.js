@@ -1,7 +1,5 @@
 import {getAllReq, getMainReq} from "../state";
 import {setLoading} from "../state/loading";
-import {$user} from "../state/user";
-import {useStore} from "effector-react";
 
 const imMessageAdd = (chatId, message, isSystem = true) => {
 
@@ -14,8 +12,7 @@ const imMessageAdd = (chatId, message, isSystem = true) => {
 }
 
 
-export const UpdateTask = (form, item) => {
-  const user = useStore($user);
+export const updateTask = (form, item, user) => {
 
     setLoading(true)
     let formData = new FormData();
