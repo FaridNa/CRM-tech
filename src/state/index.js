@@ -64,6 +64,16 @@ export const $newReqStatus = combine(
                     return data.NEW.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта')
                 } else if (typeNav === 'corp') {
                     return data.NEW.filter(el => el[3] === 'Корпоративный')
+                } else if (typeNav === 'sp') {
+                  return data.NEW.filter(el => el[8] === 'Снятие/Постановка')
+                } else if (typeNav === 'sh') {
+                  return data.NEW.filter(el => el[8] === 'Шлейф')
+                } else if (typeNav === 'kts') {
+                  return data.NEW.filter(el => el[8] === 'КСТ')
+                } else if (typeNav === 'key') {
+                  return data.NEW.filter(el => el[8] === 'Ключ')
+                } else if (typeNav === 'ddv') {
+                  return data.NEW.filter(el => el[8] === '220B')
                 }
             } else if (nav2 === 'COMP') {
                 if (typeNav === 'so') {
@@ -90,6 +100,16 @@ export const $newReqStatus = combine(
                     return data.COMP.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта')
                 } else if (typeNav === 'corp') {
                     return data.COMP.filter(el => el[3] === 'Корпоративный')
+                }else if (typeNav === 'sp') {
+                  return data.COMP.filter(el => el[8] === 'Снятие/Постановка')
+                } else if (typeNav === 'sh') {
+                  return data.COMP.filter(el => el[8] === 'Шлейф')
+                } else if (typeNav === 'kts') {
+                  return data.COMP.filter(el => el[8] === 'КСТ')
+                } else if (typeNav === 'key') {
+                  return data.COMP.filter(el => el[8] === 'Ключ')
+                } else if (typeNav === 'ddv') {
+                  return data.COMP.filter(el => el[8] === '220B')
                 }
             } else if (nav2 === 'INJOB') {
                 if (typeNav === 'so') {
@@ -114,6 +134,16 @@ export const $newReqStatus = combine(
                     return data.INJOB.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта')
                 } else if (typeNav === 'corp') {
                     return data.INJOB.filter(el => el[3] === 'Корпоративный')
+                } else if (typeNav === 'sp') {
+                  return data.INJOB.filter(el => el[8] === 'Снятие/Постановка')
+                } else if (typeNav === 'sh') {
+                  return data.INJOB.filter(el => el[8] === 'Шлейф')
+                } else if (typeNav === 'kts') {
+                  return data.INJOB.filter(el => el[8] === 'КСТ')
+                } else if (typeNav === 'key') {
+                  return data.INJOB.filter(el => el[8] === 'Ключ')
+                } else if (typeNav === 'ddv') {
+                  return data.INJOB.filter(el => el[8] === '220B')
                 }
             } else if (nav2 === 'NEW') {
                 if (typeNav === 'so') {
@@ -140,6 +170,16 @@ export const $newReqStatus = combine(
                     return data.NC.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта')
                 } else if (typeNav === 'corp') {
                     return data.NC.filter(el => el[3] === 'Корпоративный')
+                } else if (typeNav === 'sp') {
+                  return data.NC.filter(el => el[8] === 'Снятие/Постановка')
+                } else if (typeNav === 'sh') {
+                  return data.NC.filter(el => el[8] === 'Шлейф')
+                } else if (typeNav === 'kts') {
+                  return data.NC.filter(el => el[8] === 'КСТ')
+                } else if (typeNav === 'key') {
+                  return data.NC.filter(el => el[8] === 'Ключ')
+                } else if (typeNav === 'ddv') {
+                  return data.NC.filter(el => el[8] === '220B')
                 }
             } else if (nav2 === 'DEFFECT') {
                 if (typeNav === 'so') {
@@ -166,6 +206,16 @@ export const $newReqStatus = combine(
                     return data.DEFFECT.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта')
                 } else if (typeNav === 'corp') {
                     return data.DEFFECT.filter(el => el[3] === 'Корпоративный')
+                }else if (typeNav === 'sp') {
+                  return data.DEFFECT.filter(el => el[8] === 'Снятие/Постановка')
+                } else if (typeNav === 'sh') {
+                  return data.DEFFECT.filter(el => el[8] === 'Шлейф')
+                } else if (typeNav === 'kts') {
+                  return data.DEFFECT.filter(el => el[8] === 'КСТ')
+                } else if (typeNav === 'key') {
+                  return data.DEFFECT.filter(el => el[8] === 'Ключ')
+                } else if (typeNav === 'ddv') {
+                  return data.DEFFECT.filter(el => el[8] === '220B')
                 }
             }
         }
@@ -201,6 +251,11 @@ export const $counters = combine(
                 deffect: data.DEFFECT2.NEW.length,
                 preP: data.NEW.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта').length,
                 corp: data.NEW.filter(el => el[3] === 'Корпоративный').length,
+                sp: data.NEW.filter(el => el[8] === 'Cнятие/Постановка').length,
+                sh: data.NEW.filter(el => el[8] === 'Шлейф').length,
+                kts: data.NEW.filter(el => el[8] === 'КТС').length,
+                key: data.NEW.filter(el => el[8] === 'Ключ').length,
+                ddv: data.NEW.filter(el => el[8] === '220В').length,
             }
 
             const DEFFECT = {
@@ -216,6 +271,11 @@ export const $counters = combine(
                 deffect: data.DEFFECT2.ALL.length,
                 preP: data.DEFFECT.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта').length,
                 corp: data.DEFFECT.filter(el => el[3] === 'Корпоративный').length,
+                sp: data.DEFFECT.filter(el => el[8] === 'Cнятие/Постановка').length,
+                sh: data.DEFFECT.filter(el => el[8] === 'Шлейф').length,
+                kts: data.DEFFECT.filter(el => el[8] === 'КТС').length,
+                key: data.DEFFECT.filter(el => el[8] === 'Ключ').length,
+                ddv: data.DEFFECT.filter(el => el[8] === '220В').length,
             }
             const NC = {
                 req: data.NC.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
@@ -230,6 +290,11 @@ export const $counters = combine(
                 deffect: data.DEFFECT2.ALL.length,
                 preP: data.NC.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта').length,
                 corp: data.NC.filter(el => el[3] === 'Корпоративный').length,
+                sp: data.NC.filter(el => el[8] === 'Cнятие/Постановка').length,
+                sh: data.NC.filter(el => el[8] === 'Шлейф').length,
+                kts: data.NC.filter(el => el[8] === 'КТС').length,
+                key: data.NC.filter(el => el[8] === 'Ключ').length,
+                ddv: data.NC.filter(el => el[8] === '220В').length,
             }
             const COMP = {
                 req: data.COMP.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
@@ -244,6 +309,11 @@ export const $counters = combine(
                 deffect: data.DEFFECT2.COMP.length,
                 preP: data.COMP.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта').length,
                 corp: data.COMP.filter(el => el[3] === 'Корпоративный').length,
+                sp: data.COMP.filter(el => el[8] === 'Cнятие/Постановка').length,
+                sh: data.COMP.filter(el => el[8] === 'Шлейф').length,
+                kts: data.COMP.filter(el => el[8] === 'КТС').length,
+                key: data.COMP.filter(el => el[8] === 'Ключ').length,
+                ddv: data.COMP.filter(el => el[8] === '220В').length,
             }
             const INJOB = {
                 req: data.INJOB.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
@@ -258,6 +328,11 @@ export const $counters = combine(
                 deffect: 0,
                 preP: data.INJOB.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта').length,
                 corp: data.INJOB.filter(el => el[3] === 'Корпоративный').length,
+                sp: data.INJOB.filter(el => el[8] === 'Cнятие/Постановка').length,
+                sh: data.INJOB.filter(el => el[8] === 'Шлейф').length,
+                kts: data.INJOB.filter(el => el[8] === 'КТС').length,
+                key: data.INJOB.filter(el => el[8] === 'Ключ').length,
+                ddv: data.INJOB.filter(el => el[8] === '220В').length,
             }
             return {INJOB: INJOB, COMP: COMP, NC: NC, DEFFECT: DEFFECT, NEW:NEW}
         }

@@ -122,7 +122,13 @@ const CreateTask = ({func}) => {
         { value: 'Демонтаж', label: 'Демонтаж' },
         { value: 'Монтаж', label: 'Монтаж' },
         { value: 'Подключение', label: 'Подключение' },
-        { value: 'Нет контрольного события', label: 'Нет контрольного события' }
+        { value: 'Нет контрольного события', label: 'Нет контрольного события' },
+
+        { value: 'Снятие/Постановка', label: 'Снятие/Постановка' },
+        { value: 'Шлейф', label: 'Шлейф' },
+        { value: 'КТС', label: 'КТС' },
+        { value: 'Ключ', label: 'Ключ' },
+        { value: '220В', label: '220В' }
     ]
     const [focusNum, setFocusNum] = useState(false);
     const [focusName, setFocusName] = useState(false);
@@ -164,7 +170,8 @@ const CreateTask = ({func}) => {
                         </select>
 
                     </label>
-                    {form.type === 'Заявка' || form.type === 'ТО' || form.type === 'Демонтаж' || form.type === 'Претензия' || form.type === 'Нет контрольного события' ?
+                    {form.type === 'Заявка' || form.type === 'ТО' || form.type === 'Демонтаж' || form.type === 'Претензия' || form.type === 'Нет контрольного события'
+                    || form.type === 'Снятие/Подключение' || form.type === 'Шлейф' || form.type === 'КТС' || form.type === 'Ключ' || form.type === '220В' ?
                         <>
                             <div style={{position: 'relative'}} >
                                 <label>
