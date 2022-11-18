@@ -1,5 +1,7 @@
 import {getAllReq, getMainReq} from "../state";
 import {setLoading} from "../state/loading";
+import {$user} from "../state/user";
+import {useStore} from "effector-react";
 
 const imMessageAdd = (chatId, message, isSystem = true) => {
 
@@ -12,13 +14,15 @@ const imMessageAdd = (chatId, message, isSystem = true) => {
 }
 
 
-export const updateTask = (form, item) => {
+export const UpdateTask = (form, item) => {
+  const user = useStore($user);
+
     setLoading(true)
     let formData = new FormData();
 
     if (form.time !== item[34]) {
-      const message = `${item[2]} ${item[4]} изменил время с ${item[34]} час на ${form.time} час`;
-      imMessageAdd('chat11915', message, false);
+      const message = `${user.LAST_NAME} ${user.NAME}\n${item[2]} ${item[4]} изменил время с ${item[34]} час на ${form.time} час`;
+      imMessageAdd('chat11915', message);
     }
 
     for (let key in form) {

@@ -17,7 +17,7 @@ import Trash from '../../img/trashRed.png'
 import Chat from '../../img/bubble-chat.png'
 import Deffect from '../../img/back-arrow.png'
 import Check from '../../img/check.png'
-import {updateTask} from "../../actions/updateTask";
+import {UpdateTask} from "../../actions/updateTask";
 import ItemChat from "./ItemChat";
 import {$commentsStatus, getComment} from "../../state/comments";
 import Loader from "../Loader/Loader";
@@ -195,7 +195,7 @@ const MyTaskItem = ({item}) => {
                 {nav === 'info' ? <div className={styles.taskItemBody}>
 
                     {edit ? <img src={Confirm} alt="" className={styles.edit} style={{borderColor: "#3F9257"}} onClick={() => {
-                        updateTask(form, item[0])
+                        UpdateTask(form, item[0])
                         item[2] = form.name
                         item[4] = form.address
                         item[13] = form.desc
