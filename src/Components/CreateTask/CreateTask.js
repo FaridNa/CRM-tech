@@ -171,7 +171,7 @@ const CreateTask = ({func}) => {
 
                     </label>
                     {form.type === 'Заявка' || form.type === 'ТО' || form.type === 'Демонтаж' || form.type === 'Претензия' || form.type === 'Нет контрольного события'
-                    || form.type === 'Снятие/Подключение' || form.type === 'Шлейф' || form.type === 'КТС' || form.type === 'Ключ' || form.type === '220В' ?
+                    || form.type === 'Снятие/Постановка' || form.type === 'Шлейф' || form.type === 'КТС' || form.type === 'Ключ' || form.type === '220В' ?
                         <>
                             <div style={{position: 'relative'}} >
                                 <label>
