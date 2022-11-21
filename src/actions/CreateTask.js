@@ -63,7 +63,7 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
     }
   }
 
-  if (form.type !== 'Монтаж' || form.type !== 'Подключение' || form.type !== 'Снятие объемов') {
+  if (form.type !== 'Монтаж' || form.type !== 'Подключение' || form.type !== 'Снятие объемов' || form.type !== 'Претензия') {
     const tasks = (await fetchDataHistory()).filter(el => (el[1] === form.objNum || el[2] === form.name) && el[4] !== '');
     const tasksNew = tasks.filter(el => el[18] === 'Новая').filter(el => el[8] !== 'ТО');
     if (tasksNew.length > 0) {
