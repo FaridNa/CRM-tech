@@ -53,6 +53,10 @@ const DopInfo = ({num}) => {
                     <p className={styles.title}>Шлейфы: </p>
                     {data['Zones'].map((e, i) => <><p key={i}><span>{e['ZoneNumber']}. </span>{e['ZoneDesc']}</p></>)}
                 </div> : null}
+                {data?.sim?.length ? <div>
+                    <p className={styles.title}>Доп информация: </p>
+                    {data.sim.map((e, i) => <><p key={i}><span>{e['ExtFieldName'].replace('Сим-карта', '')}. </span>{e['ExtFieldValue']}</p></>)}
+                </div> : null}
                 {ev ? <div>
                     <p className={styles.title}>События: </p>
                     <ul className={styles.events_counter}>
