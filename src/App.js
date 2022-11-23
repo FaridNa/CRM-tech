@@ -25,6 +25,7 @@ import {$nav} from "./state/main_nav";
 import Plane from "./Components/Plane/Plane";
 import {getUsers} from "./state/getUsers";
 import {setItems} from './store/objectWithAndromeda'
+import { Stats } from './Components/Stats/Stats';
 
 const fetchItems = () => {
   fetch(`https://volga24bot.com/kartoteka/api/boq/andromedaObjects/getAll.php`)
@@ -90,6 +91,7 @@ function App() {
                         {nav === 'graph' ? <JobCalendar/> : null}
                         {nav === 'raport' ? <Raport/> : null}
                         {nav === 'plane' ? <Plane /> : null}
+                        {nav === 'stats' ? <Stats/> : null}
                     </div>
 
                     </>}
