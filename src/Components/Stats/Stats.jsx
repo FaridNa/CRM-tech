@@ -3,6 +3,7 @@ import styles from './Stats.module.scss';
 
 const pages = {
   start: '/',
+  kpdByTech: 'КПД техников',
   objectsWithoutSim: 'Объекты без сим карт',
 
 }
@@ -37,12 +38,25 @@ const PageButton = ({ children, ...props }) => {
 
 const Stats = () => {
   const [page, setPage] = useState(pages.start);
+
+  const [startDate, setStartDate] = useState([]);
+  const [endDate, setEndDate] = useState([]);
+  const [kpds, setKpds] = useState([]);
+
   const [objects, setObjects] = useState([]);
   const [res, setRes] = useState([]);
 
+
+  const GetKpdByTech = () => {
+    fetch(`https://volga24bot.com/kartoteka/api/tech/daily/getKpdByTech.php?startDate=${startDate}&endDate=${endDate}`)
+      .then(res => res.json())
+      .then(data => setKpds(data.items))
+      .catch(e => console.log(e))
+  }
+
   useEffect(() => {
-    if (page === pages.objectsWithoutSim) getObjectsWithExtFields(setObjects);
-  }, [page])
+    getObjectsWithExtFields(setObjects);
+  }, [])
 
   useEffect(() => {
     const withSim = Array.from(new Set(objects?.filter(el => el.ExtFieldName?.includes('Сим')).map(el => el.ObjectID)));
@@ -53,7 +67,34 @@ const Stats = () => {
 
   return (
     <div>
+      <PageButton onClick={() => setPage(pages.kpdByTech)}>{pages.kpdByTech}</PageButton>
       <PageButton onClick={() => setPage(pages.objectsWithoutSim)}>{pages.objectsWithoutSim}</PageButton>
+
+      {page === pages.kpdByTech
+        ?
+        <>
+          <div className={styles.chooseDate}>
+            <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+            <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+            <button onClick={GetKpdByTech}>Принять</button>
+          </div>
+          <div>
+            <table border="1" cellpadding="3">
+              <tr>
+                <th>Техники</th>
+                {Array.from(new Set(kpds?.map(el => el.createAt))).map(el => <th>{el}</th>)}
+              </tr>
+              {Array.from(new Set(kpds?.map(el => el.tech))).map(el =>
+                <>
+                  <tr>
+                    <th>{el.split(' ')[0]}</th>
+                    {kpds?.filter(kpd => kpd.tech === el).map(kpd => <th>{kpd.kpd}</th>)}
+                  </tr>
+                </>)}
+            </table>
+          </div>
+        </>
+        : null}
 
       {page === pages.objectsWithoutSim
         ? <div className={styles.objects}>
