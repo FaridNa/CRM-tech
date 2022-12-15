@@ -26,7 +26,7 @@ const Nav = ({setRefresh}) => {
             <div className={styles.navWrapper}>
                     <ul>
                         {/*<p style={{textAlign: "center", fontWeight: 500}}>Всего: {count.req+count.mon+count.dem+count.so+count.to+count.pre} - <span style={{color:"red"}}>{notComp.req+notComp.mon+notComp.dem+notComp.so+notComp.to+notComp.pre}</span></p>*/}
-                        <li style={{background: "white", border: "none"}}>{count.NEW.so + count.NEW.mon + count.NEW.dem  + count.NEW.sp + count.NEW.key} - <span style={{color:"green"}}>{count.COMP.so + count.COMP.mon + count.COMP.dem + count.COMP.sp + count.COMP.key }</span> - <span style={{color:"red"}}>{count.NC.so + count.NC.mon + count.NC.dem + count.NC.sp + count.NC.key}</span></li>
+                        <li style={{background: "white", border: "none"}}>{count.NEW.so + count.NEW.mon + count.NEW.dem  + count.NEW.sp + count.NEW.key + count.NEW.sh + count.NEW.kts + count.NEW.ddv} - <span style={{color:"green"}}>{count.COMP.so + count.COMP.mon + count.COMP.dem + count.COMP.sp + count.COMP.key + count.COMP.sh + count.COMP.kts + count.COMP.ddv }</span> - <span style={{color:"red"}}>{count.NC.so + count.NC.mon + count.NC.dem + count.NC.sp + count.NC.key + count.NC.sh + count.NC.kts + count.NC.ddv}</span></li>
                         <li className={nav === 'so' ? styles.active : null} onClick={() => {
                             setNav('so')
                         }}><p>{count.NEW.so} - <span style={{color:"green"}}>{count.COMP.so}</span> - <span style={{color:"red"}}>{count.NC.so}</span></p><p>(СО) </p></li>
@@ -51,7 +51,7 @@ const Nav = ({setRefresh}) => {
 
                 <ul>
                     {/*<p style={{textAlign: "center", fontWeight: 500}}>Всего: {count.req+count.mon+count.dem+count.so+count.to+count.pre} - <span style={{color:"red"}}>{notComp.req+notComp.mon+notComp.dem+notComp.so+notComp.to+notComp.pre}</span></p>*/}
-                    <li style={{background: "white", border: "none"}}>{count.NEW.connection + count.NEW.repeats + count.NEW.sh + count.NEW.ddv } - <span style={{color:"green"}}>{count.COMP.connection + count.COMP.repeats + count.COMP.sh + count.COMP.ddv }</span> - <span style={{color:"red"}}>{count.NC.connection + count.NC.repeats  + count.NC.sh + count.NC.ddv}</span></li>
+                    <li style={{background: "white", border: "none"}}>{count.NEW.connection + count.NEW.repeats} - <span style={{color:"green"}}>{count.COMP.connection + count.COMP.repeats}</span> - <span style={{color:"red"}}>{count.NC.connection + count.NC.repeats}</span></li>
                     <li className={nav === 'connection' ? styles.active : null} onClick={() => {
                         setNav('connection')
                     }}><p>{count.NEW.connection} - <span style={{color:"green"}}>{count.COMP.connection}</span> - <span style={{color:"red"}}>{count.NC.connection}</span></p><p>Нет (КС)</p></li>
@@ -72,7 +72,7 @@ const Nav = ({setRefresh}) => {
                     }}><p>{count.NEW.ddv} - <span style={{color:"green"}}>{count.COMP.ddv}</span> - <span style={{color:"red"}}>{count.NC.ddv}</span></p><p>220B</p></li> */}
                 </ul>
                     <ul>
-                        <li style={{background: "white", border: "none"}}>{count.NEW.req + count.NEW.pre + count.NEW.toM + count.NEW.toQ + count.NEW.kts} - <span style={{color:"green"}}>{count.COMP.req + count.COMP.pre + count.COMP.toM + count.COMP.toQ + count.COMP.kts}</span> - <span style={{color:"red"}}>{count.NC.req + count.NC.pre + count.NC.toM + count.NC.toQ + count.NC.kts}</span></li>
+                        <li style={{background: "white", border: "none"}}>{count.NEW.req + count.NEW.pre + count.NEW.toM + count.NEW.toQ} - <span style={{color:"green"}}>{count.COMP.req + count.COMP.pre + count.COMP.toM + count.COMP.toQ}</span> - <span style={{color:"red"}}>{count.NC.req + count.NC.pre + count.NC.toM + count.NC.toQ}</span></li>
                         <li className={nav === 'req' ? styles.active : null} onClick={() => {
                             setNav('req')
 
@@ -80,20 +80,41 @@ const Nav = ({setRefresh}) => {
                         <li className={nav === 'pre' ? styles.active : null} onClick={() => {
                             setNav('pre')
 
-                        }}><p>{count.NEW.pre} - <span style={{color:"green"}}>{count.COMP.pre}</span> -<span style={{color:"red"}}>{count.NC.pre}</span></p><p>(ПР)етензии </p></li>
+                        }}><p>{count.NEW.pre} - <span style={{color:"green"}}>{count.COMP.pre}</span> - <span style={{color:"red"}}>{count.NC.pre}</span></p><p>(ПР)етензии </p></li>
                         <li className={nav === 'toM' ? styles.active : null} onClick={() => {
                             setNav('toM')
 
-                        }}><p>{count.NEW.toM} - <span style={{color:"green"}}>{count.COMP.toM}</span> -<span style={{color:"red"}}>{count.NC.toM}</span></p><p>ТО (М)</p></li>
+                        }}><p>{count.NEW.toM} - <span style={{color:"green"}}>{count.COMP.toM}</span> - <span style={{color:"red"}}>{count.NC.toM}</span></p><p>ТО (М)</p></li>
                         <li className={nav === 'toQ' ? styles.active : null} onClick={() => {
                             setNav('toQ')
 
-                        }}><p>{count.NEW.toQ} - <span style={{color:"green"}}>{count.COMP.toQ}</span> -<span style={{color:"red"}}>{count.NC.toQ}</span></p><p>ТО (К)</p></li>
+                        }}><p>{count.NEW.toQ} - <span style={{color:"green"}}>{count.COMP.toQ}</span> - <span style={{color:"red"}}>{count.NC.toQ}</span></p><p>ТО (К)</p></li>
                         {/* <li className={nav === 'kts' ? styles.active : null} onClick={() => {
                             setNav('kts')
 
                         }}><p>{count.NEW.kts} - <span style={{color:"green"}}>{count.COMP.kts}</span> -<span style={{color:"red"}}>{count.NC.kts}</span></p><p>КТС</p></li> */}
                     </ul>
+                </div>
+                <div className={styles.bbb}>
+                  {nav === 'req' || nav === 'sp' || nav === 'sh' || nav === 'kts' || nav === 'key' || nav === 'ddv'
+                  ? <ul>
+                    <li className={nav === 'sp' ? styles.active : null} onClick={() => {
+                        setNav('sp')
+                    }}><p>{count.NEW.sp} - <span style={{color:"green"}}>{count.COMP.sp}</span> - <span style={{color:"red"}}>{count.NC.sp}</span></p><p>С/П</p></li>
+                    <li className={nav === 'sh' ? styles.active : null} onClick={() => {
+                        setNav('sh')
+                    }}><p>{count.NEW.sh} - <span style={{color:"green"}}>{count.COMP.sh}</span> - <span style={{color:"red"}}>{count.NC.sh}</span></p><p>Шлейф</p></li>
+                    <li className={nav === 'kts' ? styles.active : null} onClick={() => {
+                        setNav('kts')
+                    }}><p>{count.NEW.kts} - <span style={{color:"green"}}>{count.COMP.kts}</span> - <span style={{color:"red"}}>{count.NC.kts}</span></p><p>КТС</p></li>
+                    <li className={nav === 'key' ? styles.active : null} onClick={() => {
+                        setNav('key')
+                    }}><p>{count.NEW.key} - <span style={{color:"green"}}>{count.COMP.key}</span> - <span style={{color:"red"}}>{count.NC.key}</span></p><p>Ключ</p></li>
+                    <li className={nav === 'ddv' ? styles.active : null} onClick={() => {
+                        setNav('ddv')
+                    }}><p>{count.NEW.ddv} - <span style={{color:"green"}}>{count.COMP.ddv}</span> - <span style={{color:"red"}}>{count.NC.ddv}</span></p><p>220B</p></li>
+                    </ul>
+                  : null }
                 </div>
 
             <TypeNav/></div>

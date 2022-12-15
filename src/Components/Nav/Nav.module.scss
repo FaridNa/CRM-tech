@@ -21,6 +21,29 @@
     }
   }
 }
+.bbb {
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    li {
+      width: 100px;
+      text-align: center;
+      border: 1px solid black;
+      margin: 10px 5px;
+      background: #e0e0e0;
+      padding: 0;
+      font-size: 14px;
+      p:last-child{
+        font-size: 14px;
+        font-weight: 400;
+      }
+    }
+  }
+}
 
 
 .active {
