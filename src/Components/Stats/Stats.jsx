@@ -8,6 +8,10 @@ const pages = {
 
 }
 
+const Average = (arr) => {
+  return (arr.reduce((a, b) => a + +b.kpd, 0) / arr.length).toFixed(1);
+}
+
 const getObjectsWithExtFields = (setObjects) => {
   fetch(`https://volga24bot.com/kartoteka/api/boq/andromedaObjects/getAllWithExtFields.php`)
     .then(res => res.json())
@@ -107,6 +111,9 @@ const Stats = () => {
                 <th>Техники</th>
                 <th>Претензии</th>
                 <th>Не выполненые</th>
+                <th>Среднее</th>
+                <th>Мин</th>
+                <th>Макс</th>
                 {Array.from(new Set(kpds?.map(el => el.createAt))).map(el => <th>{el}</th>)}
               </tr>
               {Array.from(new Set(kpds?.map(el => el.tech))).map(el =>
@@ -123,6 +130,21 @@ const Stats = () => {
                   </th>
                   <th>
                     {notComleted.filter(p => p.plane_techs.includes(el)).length}
+                  </th>
+                  <th>
+                    {Average(kpds.filter(item => item.tech === el)
+                    .filter(item => (new Date(item.createAt).getDay() !== 6
+                    && new Date(item.createAt).getDay() !== 0) || item.kpd !== '0'))}
+                  </th>
+                  <th>
+                    {Math.min(...kpds.filter(item => item.tech === el)
+                    .filter(item => (new Date(item.createAt).getDay() !== 6
+                    && new Date(item.createAt).getDay() !== 0) || item.kpd !== '0').map(item => +item.kpd))}
+                  </th>
+                  <th>
+                    {Math.max(...kpds.filter(item => item.tech === el)
+                    .filter(item => (new Date(item.createAt).getDay() !== 6
+                    && new Date(item.createAt).getDay() !== 0) || item.kpd !== '0').map(item => +item.kpd))}
                   </th>
                   {kpds?.filter(kpd => kpd.tech === el).map(kpd => <th><span style={kpd.kpd >= 70 ? { "color": "green" } : kpd.kpd <= 20 ? { "color": "red" } : null}>{kpd.kpd}</span></th>)}
                 </tr>
