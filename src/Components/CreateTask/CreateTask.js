@@ -123,12 +123,14 @@ const CreateTask = ({func}) => {
         { value: 'Монтаж', label: 'Монтаж' },
         { value: 'Подключение', label: 'Подключение' },
         { value: 'Нет контрольного события', label: 'Нет контрольного события' },
-
+    ]
+    const zayavka_options = [
         { value: 'Снятие/Постановка', label: 'Снятие/Постановка' },
         { value: 'Шлейф', label: 'Шлейф' },
         { value: 'КТС', label: 'КТС' },
         { value: 'Ключ', label: 'Ключ' },
-        { value: '220В', label: '220В' }
+        { value: '220В', label: '220В' },
+        { value: 'Заявка', label: 'Прочее'}
     ]
     const [focusNum, setFocusNum] = useState(false);
     const [focusName, setFocusName] = useState(false);
@@ -137,7 +139,6 @@ const CreateTask = ({func}) => {
     const options2 = dep.filter(el => el.WORK_POSITION !== 'Водитель' & !(el.WORK_POSITION.includes('Начальник'))).map(el => ({value: `${el.LAST_NAME} ${el.NAME} ${el.SECOND_NAME}`, label: `${el.LAST_NAME} ${el.NAME[0]}.${el.SECOND_NAME[0]}`}))
 
     const items = useStore($items);
-
 
     return (
         <>
@@ -153,9 +154,9 @@ const CreateTask = ({func}) => {
                     <p>Введя номер телефона клиента, будет произведен поиск всех его объектов, далее можно выбрать один из них, для автозаполения</p>
                 </div>
                 <div className={styles.createTaskForm}>
-
+                {form.type}
                     <label>
-                        Вид заявки
+                        <b>Вид заявки</b>
                         <select className={styles.select} onFocus={() => {
                             setFocusNum(false)
                             setFocusAddress(false)
@@ -168,11 +169,28 @@ const CreateTask = ({func}) => {
                         }}>
                             {options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
                         </select>
-
                     </label>
                     {form.type === 'Заявка' || form.type === 'ТО' || form.type === 'Демонтаж' || form.type === 'Претензия' || form.type === 'Нет контрольного события'
                     || form.type === 'Снятие/Постановка' || form.type === 'Шлейф' || form.type === 'КТС' || form.type === 'Ключ' || form.type === '220В' ?
                         <>
+                            
+                            {form.type === 'Заявка' || form.type === 'Снятие/Постановка' || form.type === 'Шлейф'
+                                || form.type === 'КТС' || form.type === 'Ключ' || form.type === '220В' ? <label>
+                                <b>Проблема</b>
+                                <select className={styles.select} onFocus={() => {
+                                    setFocusNum(false)
+                                    setFocusAddress(false)
+                                    setFocusName(false)
+                                    setFocusUtils(false)
+                                }} onChange={(e) => {
+                                    let newComment = "";
+                                    setForm(prevState => ({ ...prevState, type: e.target.value, comment: newComment }))
+                                }}>
+                                    {zayavka_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
+                                </select>
+
+                            </label>
+                                : null}
                             <div style={{position: 'relative'}} >
                                 <label>
                                     № объекта
@@ -295,8 +313,8 @@ const CreateTask = ({func}) => {
 
                     {/*//////////////*/}
                     <label>
-                        Исполнитель
-                        <Select options={options2} onChange={(e) => setForm(prevState => ({...prevState, customer: e.value}))} placeholder={'Общая'}/>
+                        Исполнитель                   
+                        <Select options={options2.concat([{ value: '', label: 'Общая (Нет исполнителя)' }])} onChange={(e) => setForm(prevState => ({...prevState, customer: e.value}))} placeholder={'Общая'}/>
                     </label>
                     <label>
                         {form.type !== 'Нет контрольного события' ? 'Комментарий' : 'Дата появления проблемы'}
@@ -305,7 +323,7 @@ const CreateTask = ({func}) => {
                             setFocusAddress(false)
                             setFocusName(false)
                             setFocusUtils(false)
-                        }} className={styles.inputText} value={form.comment} onChange={(e) => setForm(prevState => ({...prevState, comment: e.target.value}))}/>
+                        }} className={styles.inputLongText} value={form.comment} onChange={(e) => setForm(prevState => ({...prevState, comment: e.target.value}))}/>
                     </label>
                     {form.type !== 'Нет контрольного события' ? <label>
                         Услуги
