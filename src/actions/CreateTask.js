@@ -36,6 +36,14 @@ const fetchDataHistory = async () => {
 export const createTask = async (form, func, firstTime, secondTime, user, plane, graph) => {
 
   setLoading(true);
+
+  if (form.type === '') {
+    alert('Необходимо выбрать проблему заявки!!');
+    setLoading(false);
+    return;
+  }
+
+
   if (form.date === '') {
     form.date = new Date().toLocaleDateString('en-CA') + 'T' + new Date().toLocaleTimeString();
   }

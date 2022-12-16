@@ -98,19 +98,19 @@ const Nav = ({setRefresh}) => {
                 <div className={styles.bbb}>
                   {nav === 'req' || nav === 'sp' || nav === 'sh' || nav === 'kts' || nav === 'key' || nav === 'ddv'
                   ? <ul>
-                    <li className={nav === 'sp' ? styles.active : null} onClick={() => {
+                    <li className={nav === 'sp' ? styles.redActive : styles.red} onClick={() => {
                         setNav('sp')
                     }}><p>{count.NEW.sp} - <span style={{color:"green"}}>{count.COMP.sp}</span> - <span style={{color:"red"}}>{count.NC.sp}</span></p><p>С/П</p></li>
-                    <li className={nav === 'sh' ? styles.active : null} onClick={() => {
+                    <li className={nav === 'sh' ? styles.redActive : styles.red} onClick={() => {
                         setNav('sh')
                     }}><p>{count.NEW.sh} - <span style={{color:"green"}}>{count.COMP.sh}</span> - <span style={{color:"red"}}>{count.NC.sh}</span></p><p>Шлейф</p></li>
-                    <li className={nav === 'kts' ? styles.active : null} onClick={() => {
+                    <li className={nav === 'kts' ? styles.redActive : styles.red} onClick={() => {
                         setNav('kts')
                     }}><p>{count.NEW.kts} - <span style={{color:"green"}}>{count.COMP.kts}</span> - <span style={{color:"red"}}>{count.NC.kts}</span></p><p>КТС</p></li>
-                    <li className={nav === 'key' ? styles.active : null} onClick={() => {
+                    <li className={nav === 'key' ? styles.yellowActive : styles.yellow} onClick={() => {
                         setNav('key')
                     }}><p>{count.NEW.key} - <span style={{color:"green"}}>{count.COMP.key}</span> - <span style={{color:"red"}}>{count.NC.key}</span></p><p>Ключ</p></li>
-                    <li className={nav === 'ddv' ? styles.active : null} onClick={() => {
+                    <li className={nav === 'ddv' ? styles.yellowActive : styles.yellow} onClick={() => {
                         setNav('ddv')
                     }}><p>{count.NEW.ddv} - <span style={{color:"green"}}>{count.COMP.ddv}</span> - <span style={{color:"red"}}>{count.NC.ddv}</span></p><p>220B</p></li>
                     </ul>

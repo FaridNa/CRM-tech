@@ -99,7 +99,7 @@ const CreateTask = ({func}) => {
     formatedDate[0] = formatedDate[0].replaceAll('/', '-');
 
     const [form, setForm] = useState({
-        type: 'Заявка',
+        type: '',
         objNum: '',
         name: '',
         address: '',
@@ -115,7 +115,7 @@ const CreateTask = ({func}) => {
         label: ''
     });
     const options = [
-        { value: 'Заявка', label: 'Заявка'},
+        { value: '', label: 'Заявка'},
         { value: 'Претензия', label: 'Претензия'},
         { value: 'СО', label: 'Снятие Объемов' },
 		  { value: 'ТО', label: 'Техническое Обслуживание' },
@@ -125,12 +125,12 @@ const CreateTask = ({func}) => {
         { value: 'Нет контрольного события', label: 'Нет контрольного события' },
     ]
     const zayavka_options = [
-        { value: 'Снятие/Постановка', label: 'Снятие/Постановка' },
-        { value: 'Шлейф', label: 'Шлейф' },
-        { value: 'КТС', label: 'КТС' },
-        { value: 'Ключ', label: 'Ключ' },
-        { value: '220', label: '220' },
-        { value: 'Заявка', label: 'Прочее'}
+      { value: 'Снятие/Постановка', label: 'Снятие/Постановка' },
+      { value: 'Шлейф', label: 'Шлейф' },
+      { value: 'КТС', label: 'КТС' },
+      { value: 'Ключ', label: 'Ключ' },
+      { value: '220', label: '220' },
+      { value: 'Заявка', label: 'Прочее'}
     ]
     const [focusNum, setFocusNum] = useState(false);
     const [focusName, setFocusName] = useState(false);
@@ -170,11 +170,11 @@ const CreateTask = ({func}) => {
                             {options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
                         </select>
                     </label>
-                    {form.type === 'Заявка' || form.type === 'ТО' || form.type === 'Демонтаж' || form.type === 'Претензия' || form.type === 'Нет контрольного события'
+                    {form.type === 'Заявка' || form.type === '' || form.type === 'ТО' || form.type === 'Демонтаж' || form.type === 'Претензия' || form.type === 'Нет контрольного события'
                     || form.type === 'Снятие/Постановка' || form.type === 'Шлейф' || form.type === 'КТС' || form.type === 'Ключ' || form.type === '220' ?
                         <>
                             
-                            {form.type === 'Заявка' || form.type === 'Снятие/Постановка' || form.type === 'Шлейф'
+                            {form.type === 'Заявка' || form.type === '' || form.type === 'Снятие/Постановка' || form.type === 'Шлейф'
                                 || form.type === 'КТС' || form.type === 'Ключ' || form.type === '220' ? <label>
                                 <b>Проблема</b>
                                 <select className={styles.select} onFocus={() => {
@@ -187,6 +187,7 @@ const CreateTask = ({func}) => {
                                     setForm(prevState => ({ ...prevState, type: e.target.value, comment: newComment }))
                                 }}>
                                     {zayavka_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
+                                    <option value="" selected disabled hidden>Выбери проблему</option>
                                 </select>
 
                             </label>
