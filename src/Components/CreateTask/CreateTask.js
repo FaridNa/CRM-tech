@@ -129,7 +129,7 @@ const CreateTask = ({func}) => {
         { value: 'Шлейф', label: 'Шлейф' },
         { value: 'КТС', label: 'КТС' },
         { value: 'Ключ', label: 'Ключ' },
-        { value: '220В', label: '220В' },
+        { value: '220', label: '220' },
         { value: 'Заявка', label: 'Прочее'}
     ]
     const [focusNum, setFocusNum] = useState(false);
@@ -171,11 +171,11 @@ const CreateTask = ({func}) => {
                         </select>
                     </label>
                     {form.type === 'Заявка' || form.type === 'ТО' || form.type === 'Демонтаж' || form.type === 'Претензия' || form.type === 'Нет контрольного события'
-                    || form.type === 'Снятие/Постановка' || form.type === 'Шлейф' || form.type === 'КТС' || form.type === 'Ключ' || form.type === '220В' ?
+                    || form.type === 'Снятие/Постановка' || form.type === 'Шлейф' || form.type === 'КТС' || form.type === 'Ключ' || form.type === '220' ?
                         <>
                             
                             {form.type === 'Заявка' || form.type === 'Снятие/Постановка' || form.type === 'Шлейф'
-                                || form.type === 'КТС' || form.type === 'Ключ' || form.type === '220В' ? <label>
+                                || form.type === 'КТС' || form.type === 'Ключ' || form.type === '220' ? <label>
                                 <b>Проблема</b>
                                 <select className={styles.select} onFocus={() => {
                                     setFocusNum(false)

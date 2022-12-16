@@ -69,11 +69,11 @@ export const $newReqStatus = combine(
                 } else if (typeNav === 'sh') {
                   return data.NEW.filter(el => el[8] === 'Шлейф')
                 } else if (typeNav === 'kts') {
-                  return data.NEW.filter(el => el[8] === 'КСТ')
+                  return data.NEW.filter(el => el[8] === 'КТС')
                 } else if (typeNav === 'key') {
                   return data.NEW.filter(el => el[8] === 'Ключ')
                 } else if (typeNav === 'ddv') {
-                  return data.NEW.filter(el => el[8] === '220B')
+                  return data.NEW.filter(el => el[8] === '220')
                 }
             } else if (nav2 === 'COMP') {
                 if (typeNav === 'so') {
@@ -105,11 +105,11 @@ export const $newReqStatus = combine(
                 } else if (typeNav === 'sh') {
                   return data.COMP.filter(el => el[8] === 'Шлейф')
                 } else if (typeNav === 'kts') {
-                  return data.COMP.filter(el => el[8] === 'КСТ')
+                  return data.COMP.filter(el => el[8] === 'КТС')
                 } else if (typeNav === 'key') {
                   return data.COMP.filter(el => el[8] === 'Ключ')
                 } else if (typeNav === 'ddv') {
-                  return data.COMP.filter(el => el[8] === '220B')
+                  return data.COMP.filter(el => el[8] === '220')
                 }
             } else if (nav2 === 'INJOB') {
                 if (typeNav === 'so') {
@@ -139,11 +139,11 @@ export const $newReqStatus = combine(
                 } else if (typeNav === 'sh') {
                   return data.INJOB.filter(el => el[8] === 'Шлейф')
                 } else if (typeNav === 'kts') {
-                  return data.INJOB.filter(el => el[8] === 'КСТ')
+                  return data.INJOB.filter(el => el[8] === 'КТС')
                 } else if (typeNav === 'key') {
                   return data.INJOB.filter(el => el[8] === 'Ключ')
                 } else if (typeNav === 'ddv') {
-                  return data.INJOB.filter(el => el[8] === '220B')
+                  return data.INJOB.filter(el => el[8] === '220')
                 }
             } else if (nav2 === 'NEW') {
                 if (typeNav === 'so') {
@@ -175,11 +175,11 @@ export const $newReqStatus = combine(
                 } else if (typeNav === 'sh') {
                   return data.NC.filter(el => el[8] === 'Шлейф')
                 } else if (typeNav === 'kts') {
-                  return data.NC.filter(el => el[8] === 'КСТ')
+                  return data.NC.filter(el => el[8] === 'КТС')
                 } else if (typeNav === 'key') {
                   return data.NC.filter(el => el[8] === 'Ключ')
                 } else if (typeNav === 'ddv') {
-                  return data.NC.filter(el => el[8] === '220B')
+                  return data.NC.filter(el => el[8] === '220')
                 }
             } else if (nav2 === 'DEFFECT') {
                 if (typeNav === 'so') {
@@ -211,11 +211,11 @@ export const $newReqStatus = combine(
                 } else if (typeNav === 'sh') {
                   return data.DEFFECT.filter(el => el[8] === 'Шлейф')
                 } else if (typeNav === 'kts') {
-                  return data.DEFFECT.filter(el => el[8] === 'КСТ')
+                  return data.DEFFECT.filter(el => el[8] === 'КТС')
                 } else if (typeNav === 'key') {
                   return data.DEFFECT.filter(el => el[8] === 'Ключ')
                 } else if (typeNav === 'ddv') {
-                  return data.DEFFECT.filter(el => el[8] === '220B')
+                  return data.DEFFECT.filter(el => el[8] === '220')
                 }
             }
         }
@@ -255,7 +255,7 @@ export const $counters = combine(
                 sh: data.NEW.filter(el => el[8] === 'Шлейф').length,
                 kts: data.NEW.filter(el => el[8] === 'КТС').length,
                 key: data.NEW.filter(el => el[8] === 'Ключ').length,
-                ddv: data.NEW.filter(el => el[8] === '220В').length,
+                ddv: data.NEW.filter(el => el[8] === '220').length,
             }
 
             const DEFFECT = {
@@ -275,7 +275,7 @@ export const $counters = combine(
                 sh: data.DEFFECT.filter(el => el[8] === 'Шлейф').length,
                 kts: data.DEFFECT.filter(el => el[8] === 'КТС').length,
                 key: data.DEFFECT.filter(el => el[8] === 'Ключ').length,
-                ddv: data.DEFFECT.filter(el => el[8] === '220В').length,
+                ddv: data.DEFFECT.filter(el => el[8] === '220').length,
             }
             const NC = {
                 req: data.NC.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
@@ -294,7 +294,7 @@ export const $counters = combine(
                 sh: data.NC.filter(el => el[8] === 'Шлейф').length,
                 kts: data.NC.filter(el => el[8] === 'КТС').length,
                 key: data.NC.filter(el => el[8] === 'Ключ').length,
-                ddv: data.NC.filter(el => el[8] === '220В').length,
+                ddv: data.NC.filter(el => el[8] === '220').length,
             }
             const COMP = {
                 req: data.COMP.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
@@ -313,7 +313,7 @@ export const $counters = combine(
                 sh: data.COMP.filter(el => el[8] === 'Шлейф').length,
                 kts: data.COMP.filter(el => el[8] === 'КТС').length,
                 key: data.COMP.filter(el => el[8] === 'Ключ').length,
-                ddv: data.COMP.filter(el => el[8] === '220В').length,
+                ddv: data.COMP.filter(el => el[8] === '220').length,
             }
             const INJOB = {
                 req: data.INJOB.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
@@ -332,7 +332,7 @@ export const $counters = combine(
                 sh: data.INJOB.filter(el => el[8] === 'Шлейф').length,
                 kts: data.INJOB.filter(el => el[8] === 'КТС').length,
                 key: data.INJOB.filter(el => el[8] === 'Ключ').length,
-                ddv: data.INJOB.filter(el => el[8] === '220В').length,
+                ddv: data.INJOB.filter(el => el[8] === '220').length,
             }
             return {INJOB: INJOB, COMP: COMP, NC: NC, DEFFECT: DEFFECT, NEW:NEW}
         }

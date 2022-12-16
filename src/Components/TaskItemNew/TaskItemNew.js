@@ -99,7 +99,7 @@ const options = [
     { value: 'Шлейф', label: 'Шлейф' },
     { value: 'КТС', label: 'КТС' },
     { value: 'Ключ', label: 'Ключ' },
-    { value: '220В', label: '220В' }
+    { value: '220', label: '220' }
 ]
 
 
