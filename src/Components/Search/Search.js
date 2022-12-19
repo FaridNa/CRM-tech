@@ -21,6 +21,10 @@ const Search = () => {
     const checkBox = useStore($checkBox)
     const deps = useStore($usersStatus);
 
+    const [isNew, setIsNew] = useState(true);
+    const [isWorking, setIsWorking] = useState(true);
+    const [isCompleted, setIsCompleted] = useState(false);
+
     const [tasks, setTasks] = useState([]);
     
     const fetchDataHistory = async () => {
@@ -57,22 +61,28 @@ const Search = () => {
 
                         <div className={styles.legendWrapper}>
                             <div className={`${styles.circle2} ${styles.blue}`}></div>
-                            <p>Новая</p>
+                            <p><input type="checkbox" checked={isNew} onChange={(e) => setIsNew(e.target.checked)} /> Новая <span>({req.filter(item => item[18] === 'Новая').length})</span></p>
                         </div>
                         <div className={styles.legendWrapper}>
                             <div className={`${styles.circle2} ${styles.orange}`}></div>
-                            <p>В работе</p>
+                            <p><input type="checkbox" checked={isWorking} onChange={(e) => setIsWorking(e.target.checked)} /> В работе <span>({req.filter(item => item[18] === 'В работе').length})</span></p>
                         </div>
                         <div className={styles.legendWrapper}>
                             <div className={`${styles.circle2} ${styles.green}`}></div>
-                            <p>Выполнено</p>
+                            <p><input type="checkbox" checked={isCompleted} onChange={(e) => setIsCompleted(e.target.checked)} /> Выполнено <span>({req.filter(item => item[18] === 'Выполнена' || item[18] === 'Не выполнено' || item[18] === 'Выполнено частично' || item[18] === 'Выезд не требуется' || item[18] === 'Не выезжали').length})</span></p>
                         </div>
 
                     </div>
                 </header>
 
                 <SearchItemsWrapper  >
-                    {req.map((el, i) => {
+                    {req
+                    .filter(item => item[18] !== 'Брак')
+                    .filter(item => !isCompleted ? item[18] !== 'Выполнена' && item[18] !== 'Не выполнено' && item[18] !== 'Выполнено частично' && item[18] !== 'Выезд не требуется' && item[18] !== 'Не выезжали' : item)
+                    .filter(item => !isNew ? item[18] !== 'Новая' : item)
+                    .filter(item => !isWorking ? item[18] !== 'В работе' : item)
+                    .splice(0, 40)
+                    .map((el, i) => {
                         return <TaskItem task={el} key={el[0]} i={i} history={tasks}/>
 
                     })}

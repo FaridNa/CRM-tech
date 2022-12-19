@@ -76,7 +76,7 @@ export const $reqStatus = combine(
                        return !error
                    }
 
-                       return newData.filter(el => searchData(el[47].toLowerCase(), el[1], el[2].toLowerCase(), el[4].toLowerCase(), el[13].toLowerCase(), el[8].toLowerCase(), el[18].toLowerCase(), el[40].toLowerCase())).splice(0, splice)
+                       return newData.filter(el => searchData(el[47].toLowerCase(), el[1], el[2].toLowerCase(), el[4].toLowerCase(), el[13].toLowerCase(), el[8].toLowerCase(), el[18].toLowerCase(), el[40].toLowerCase()))//.splice(0, splice)
 
                }
 
