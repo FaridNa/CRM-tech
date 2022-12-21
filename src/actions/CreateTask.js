@@ -43,10 +43,10 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
     return;
   }
 
-
   if (form.date === '') {
     form.date = new Date().toLocaleDateString('en-CA') + 'T' + new Date().toLocaleTimeString();
   }
+
   if (form.customer) {
     // plane - новые и просроченные
     // graph - в работе и выполненные
@@ -68,6 +68,18 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
       alert('На это время у выбранного техника уже запланирована работа. Выберите другую дату и время!!');
       setLoading(false);
       return;
+    }
+  }
+
+  if (!form.customer) {
+    if (form.objNum) {
+      const base = 'https://volga24bot.com/kartoteka/api/tech';
+      const url = `lastTech/lastTech.php/?objNum=${form.objNum}`;
+
+      const response = await fetch(`${base}/${url}`).then(res => res.json());
+      if (response.results !== false) {
+        form.customer = response.object.customer;
+      }
     }
   }
 
