@@ -78,6 +78,7 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
 
       const response = await fetch(`${base}/${url}`).then(res => res.json());
       if (response.results !== false) {
+        if (response.object !== null)
         form.customer = response.object.customer;
       }
     }
