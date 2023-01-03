@@ -10,7 +10,9 @@ export const getHistoryType = (el) => {
     } else if (el.type === 'changeTech') {
         return `Смена исполнителя`
     } else if (el.type === 'view') {
-        return `Прочитана`
+      if (el.user === 'undefined undefined undefined')
+        return `Прочитана`;
+      return `Прочитана ${el.user}`
     } else if (el.type === 'plane_change') {
         return el.value
     }

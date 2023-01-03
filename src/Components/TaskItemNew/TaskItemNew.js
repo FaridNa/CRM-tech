@@ -102,11 +102,13 @@ const options = [
     { value: '220', label: '220' }
 ]
 
+const fioTech = ['Артемов', 'Ларионов', 'Кирюшкин', 'Володин', 'Сергеев', 'Фатиги']
+
 
 const TaskItemNew = ({item}) => {
     const deps = useStore($usersStatus);
 
-    const admins = [item[37], '1', '11', '33', '29', '23', '53', '317', '109', '147', '3503'];
+    const admins = [item[37], '1', '11', '33', '29', '23', '53', '317', '211', '109', '147', '3503'];
 
     const [loading, setLoading] = useState(false)
     const [report, showReport] = useState(false);
@@ -145,10 +147,12 @@ const TaskItemNew = ({item}) => {
 
     useEffect(() => {
         if (item[50] === '0000-00-00 00:00:00') {
+          if (fioTech.includes(user.LAST_NAME)) {
             setHistory(item[0], 'view', '', `${user.LAST_NAME} ${user.NAME} ${user.SECOND_NAME}`, (a) => updateHistory(a));
             fetch(`https://volga24bot.com/kartoteka/api/tech/setView.php?id=${item[0]}`).then(res => res.json()).then(res => {
                 setImportant([...important, item])
             })
+          }
         }
     }, [])
 
