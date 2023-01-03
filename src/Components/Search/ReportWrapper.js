@@ -19,15 +19,15 @@ const Img = ({src}) => {
             <header >
                 <img src={Close} alt="" onClick={() => setClose(true)}/>
             </header>
-            <TransformWrapper>
-                <TransformComponent>
+            {/* <TransformWrapper> */}
+                {/* <TransformComponent> */}
                     <img
                         alt="that wanaka tree"
 
                         src={src}
                     />
-                </TransformComponent>
-            </TransformWrapper>
+                {/* </TransformComponent> */}
+            {/* </TransformWrapper> */}
         </div>
 
 
