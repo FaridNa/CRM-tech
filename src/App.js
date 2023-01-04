@@ -26,6 +26,7 @@ import Plane from "./Components/Plane/Plane";
 import {getUsers} from "./state/getUsers";
 import {setItems} from './store/objectWithAndromeda'
 import { Stats } from './Components/Stats/Stats';
+import { Equipment } from './Equipment/Equipment';
 
 const fetchItems = () => {
   fetch(`https://volga24bot.com/kartoteka/api/boq/andromedaObjects/getAll.php`)
@@ -92,6 +93,7 @@ function App() {
                         {nav === 'raport' ? <Raport/> : null}
                         {nav === 'plane' ? <Plane /> : null}
                         {nav === 'stats' ? <Stats/> : null}
+                        {nav === 'equipment' ? <Equipment/>: null}
                     </div>
 
                     </>}
