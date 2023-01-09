@@ -11,6 +11,8 @@ const pages = {
   equipmentCreate: 'Добавить Инвентарь'
 }
 
+
+
 const Equipment = () => {
   const user = useStore($user);
   const dep = useStore($depStatus);
@@ -21,6 +23,34 @@ const Equipment = () => {
 
   const [allEquipment, setAllEquipment] = useState([]);
   const [uniqueEquipment, setUniqueEquipment] = useState([]);
+
+  const [form, setForm] = useState({
+    id: '',
+    name: '',
+    type1: '',
+    type2: '',
+    type3: '',
+    status: '',
+    techName: '',
+    brak: '',
+    history: ''
+  });
+
+  const type1_options = [
+    { value: 'Охранные Блоки', label: 'Охранные Блоки' },
+    { value: 'Расходники для охранных блоков', label: 'Расходники для охранных блоков' },
+    { value: 'Кабели', label: 'Кабели' },
+    { value: 'Ключи', label: 'Ключи' },
+    { value: 'Видеокамеры', label: 'Видеокамеры' },
+    { value: 'Прочее', label: 'Прочее' }
+  ]
+
+  const block_options = [
+    { value: 'Cnord', label: 'Cnord' },
+    { value: 'Неман', label: 'Неман' },
+    { value: 'Струна', label: 'Струна' },
+    { value: 'Ларс', label: 'Ларс' }
+  ]
 
   const PageButton = ({ children, ...props }) => {
     return (
@@ -37,7 +67,7 @@ const Equipment = () => {
 
   useEffect(() => {
     GetAllEquipment();
-    setUniqueEquipment(allEquipment.map(e => e.equipmentName).filter((v, i, a) => a.indexOf(v) === i));
+    setUniqueEquipment(allEquipment.map(e => e.name).filter((v, i, a) => a.indexOf(v) === i));
   }, [page])
 
   return (
@@ -58,7 +88,7 @@ const Equipment = () => {
             {uniqueEquipment.map(el =>
               <tr key={el}>
                 <td>{el}</td>
-                <td>{allEquipment.map(e => e = e.equipmentName).filter(c => c == el).length}</td>
+                <td>{allEquipment.map(e => e = e.name).filter(c => c == el).length}</td>
               </tr>
             )}
           </table>
@@ -67,24 +97,40 @@ const Equipment = () => {
 
       {page === pages.equipmentCreate
         ? <div>
-          <b>Выберите тип оборудования:</b>
-          <p></p>
-
-          <select className={styles.select} onChange={(e) => { }}>
-            {uniqueEquipment.map(el => <option value={el} key={el}>{el}</option>)}
-            <option value="" selected disabled hidden >Выберите Оборудование</option>
+          
+          <b>Тип оборудования:</b>
+          <select className={styles.select} onChange={(e) => {
+            setForm(prevState => ({ ...prevState, type1: e.target.value }))
+          }}>
+            {type1_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
+            <option value="" selected disabled hidden>Выберите Тип Оборудования</option>
           </select>
 
-          <p></p>
+          {form.type1 === "Охранные Блоки" ? <label>
+            <b>Тип блока:</b>
+            <select className={styles.select} onChange={(e) => {
+              setForm(prevState => ({ ...prevState, type2: e.target.value }))
+            }}>
+              {block_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
+              <option value="" selected disabled hidden>Выберите Тип Блока</option>
+            </select>
+          </label>
+            : null}
 
-          <select className={styles.select} onChange={(e) => { }}>
+          <b>Наименование Оборудования:</b>
+          <input className={styles.formInput} type="text" onChange={(e) => {
+              setForm(prevState => ({ ...prevState, type2: e.target.value }))}}></input>
+
+          <b>Техник:</b>
+          <select className={styles.select} onChange={(e) => {
+            setForm(prevState => ({ ...prevState, techName: e.target.value }))
+          }}>
             {dep.map(e => e.LAST_NAME + " " + e.NAME + " " + e.SECOND_NAME).filter(el => !el.includes("Начальник")).map(el => <option value={el} key={el}>{el}</option>)}
-            <option value="" selected disabled hidden >Выберите Техника</option>
+            <option value="" selected disabled hidden>Выберите Техника</option>
           </select>
 
           <p></p>
-
-          <button>Добавить оборудование</button>
+          <button className={styles.submitButton} for="submitForm">Добавить оборудование</button>
         </div>
         : null}
 
