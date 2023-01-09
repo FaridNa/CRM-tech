@@ -52,7 +52,7 @@ const CollapseItem = ({item}) => {
                     <p>{item[2]}</p>
                     <p className={styles.gray}>{item[4]}</p>
 
-                    <p className={styles.problem}>{item[13]}</p>
+                    {/* <p className={styles.problem}>{item[13]}</p> */}
                     {item[61] === 'Y' ? <b>Фиксированно {moment(item[51]).format('DD.MM HH:mm:ss')}</b> : null}
                     <div className={`${styles.flex} `} style={{marginTop: 5}}>
                         <p >Ч/Ч: <span className={styles.problem}>{item[34]}</span></p>
