@@ -116,7 +116,7 @@ const PopUp = ({ item, time, close }) => {
     techs: [],
     all: false
   })
-  const admins = ['1', '11', '33', '29', '23', '53', '317', '109', '147', '3503', '3707'];
+  const admins = ['1', '11', '33', '29', '23', '53', '317', '109', '147', '3503', '3707', '83'];
 
 
   const handleSubmit = (date, time, type, techs, all, id, coefs) => {
