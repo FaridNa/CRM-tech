@@ -51,8 +51,14 @@ const BurgerMenu = ({ active, setActive }) => {
                             user.DEFAULT_DEP && user.DEFAULT_DEP.length ? setUser({...user, UF_DEPARTMENT: [+e.target.value]}) : setUser({...user, DEFAULT_DEP: user.UF_DEPARTMENT, UF_DEPARTMENT: [+e.target.value]})
                             setActive(false)
                         }}>
-                            <option value="5" >Город</option>
+                            <option value="all">Все</option>
+                            <option value="5">Астрахань</option>
+                            <option value="25">Ахтубинск</option>
                             <option value="51">Элиста</option>
+                            <option value="41">Володарский</option>
+                            <option value="43">Знаменск</option>
+                            <option value="37">Лиман</option>
+                            <option value="45">Чёрный Яр</option>
                         </select>}
                     </li>
 

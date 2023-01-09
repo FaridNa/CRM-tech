@@ -1,23 +1,29 @@
-export const filterDep = (address, dep) => {
 
-    if (dep === 51) {
-        if (address.toLowerCase().indexOf('элист') !== -1
-            || address.toLowerCase().indexOf('яшкул') !== -1
-            || address.toLowerCase().indexOf('троицк') !== -1
-            || address.toLowerCase().indexOf('дербет') !== -1
-            || address.toLowerCase().indexOf('царын') !== -1
-            || address.toLowerCase().indexOf('аршан') !== -1
-            || address.toLowerCase().indexOf('кетчене') !== -1
-            || address.toLowerCase().indexOf('городовико') !== -1
-            || address.toLowerCase().indexOf('светлогр') !== -1
-            || address.toLowerCase().indexOf('садовое') !== -1
-            || address.toLowerCase().indexOf('приютное') !== -1
-            || address.toLowerCase().indexOf('аман') !== -1
-            || address.toLowerCase().indexOf('лагань') !== -1
-        ) {
-            return true
-        }
-    } else {
-        return true
-    }
+const Astrakhan = ['астрахань', 'карагали', 'началово', 'икряное', 'камызяк', 'нартовский', 'новоначаловский',
+  'красный яр', 'старокучергановка', 'чаган', 'яксатово', 'осыпной бугор', 'солянка']
+
+const Elista = ['элиста', 'яшкуль', 'троицкое', 'дербеты', 'царын', 'аршан', 'кетченеры', 'городовиковск',
+  'светлоград', 'садовое', 'приютное', 'цаган аман', 'лагань']
+
+const Liman = ['лиман', 'заречное', 'михайловна', 'зензели', 'яндыки', 'промысловка', 'лесное', 'оля']
+const Volodarsky = ['володарский', 'володаровка']
+const Akhtubinsk = ['ахтубинск', 'баскунчак', 'успенка', 'батаевка', 'ново-николаевка', 'болхуны', 'сокрутовка',
+  'пироговка', 'золотуха', 'удачное', 'харабали', 'покровка', 'пологое займище', 'садовое']
+
+const Znamensk = ['знаменск', 'капустин яр']
+const BlackYar = []
+
+const CityByDep = { 5: Astrakhan, 25: Akhtubinsk, 37: Liman, 41: Volodarsky, 43: Znamensk, 45: BlackYar, 51: Elista }
+
+export const filterDep = (address, dep) => {
+  let isAdd = false;
+  const city = CityByDep[dep];
+  if (city === undefined) return true;
+
+  city.forEach(c => {
+    if (address.toLowerCase().indexOf(c) !== -1)
+      isAdd = true;
+  });
+
+  return isAdd;
 }
