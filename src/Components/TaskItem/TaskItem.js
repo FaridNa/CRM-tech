@@ -83,15 +83,15 @@ const TaskItem = ({task, i, func, history}) => {
                 {<p><span style={{fontWeight: 500}}>Исполнитель:</span> {task[7].length ? getLastName(task[7]) : task[55].length ? getLastName(task[55]) : 'Не назначен'} </p>}
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 <p>{json_history?.length ? <p style={{color: 'blue', fontWeight: 500}}> {getHistoryType(json_history[json_history.length - 1])} </p>: <p style={{color: 'red', fontWeight: 500}}>Не прочитана</p>}</p>
-                <p>{task[5] ? 'начало: ' + moment(task[5]).format('HH:mm') : null}</p>
+                <p>{task[5] ? 'начало: ' + moment(task[5]).format('DD.MM HH:mm') : null}</p>
                 </div>
                 {/*{task[18] === 'Новая' || task[18] === 'В работе' ? <p className={styles.date}><Moment format="DD.MM.YYYY  HH:mm">{task[17]}</Moment></p> : <p className={styles.date}><Moment format="DD.MM.YYYY hh:mm">{task[6]}</Moment></p>}*/}
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                   <div>
-                    <p className={styles.date}>Работа: <b>{task[34]} ч/ч</b></p>
-                    <p className={styles.date}>Время: <b>{task[58] === 'to' ? 'до' : null} {task[58] === 'from' ? 'после' : null} {task[57] === '07:00' || !task[57].length ? 'Нет' : moment(`${task[56]} ${task[57]}`).format('HH:mm')}</b></p>
+                    <p className={styles.date} style={{fontWeight: 800}}>Работа: {task[34]} ч/ч</p>
+                    {/* <p className={styles.date}>Время: <b>{task[58] === 'to' ? 'до' : null} {task[58] === 'from' ? 'после' : null} {task[57] === '07:00' || !task[57].length ? 'Нет' : moment(`${task[56]} ${task[57]}`).format('HH:mm')}</b></p> */}
                     </div>
-                    <p>{task[6] ? 'конец: ' +moment(task[6]).format('HH:mm') : null}</p>
+                    <p>{task[6] ? 'конец: ' +moment(task[6]).format('DD.MM HH:mm') : null}</p>
                 </div>
             </div>
         </li>
