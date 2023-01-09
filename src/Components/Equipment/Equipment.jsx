@@ -100,16 +100,17 @@ const Equipment = () => {
           
           <b>Тип оборудования:</b>
           <select className={styles.select} onChange={(e) => {
-            setForm(prevState => ({ ...prevState, type1: e.target.value }))
+            setForm(prevState => ({ ...prevState, type1: e.target.value, name: "" }))
+            console.log("Тип оборудования = "+form.type1)
           }}>
             {type1_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
             <option value="" selected disabled hidden>Выберите Тип Оборудования</option>
           </select>
 
-          {form.type1 === "Охранные Блоки" ? <label>
-            <b>Тип блока:</b>
+          {form.type1 === "Охранные Блоки" ? <label> <b>Тип блока:</b>
             <select className={styles.select} onChange={(e) => {
-              setForm(prevState => ({ ...prevState, type2: e.target.value }))
+              setForm(prevState => ({ ...prevState, type2: e.target.value, name: "Охранный Блок " + e.target.value + " №"}))
+              console.log("Тип блока = "+form.type2)
             }}>
               {block_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
               <option value="" selected disabled hidden>Выберите Тип Блока</option>
@@ -118,8 +119,8 @@ const Equipment = () => {
             : null}
 
           <b>Наименование Оборудования:</b>
-          <input className={styles.formInput} type="text" onChange={(e) => {
-              setForm(prevState => ({ ...prevState, type2: e.target.value }))}}></input>
+          <input className={styles.formInput} type="text" value={form.name} onChange={(e) => {
+              setForm(prevState => ({ ...prevState, name: e.target.value }))}}></input>
 
           <b>Техник:</b>
           <select className={styles.select} onChange={(e) => {
