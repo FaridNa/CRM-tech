@@ -37,6 +37,8 @@ import {setHistory} from "../../actions/setHistory";
 import {updateHistory} from "../../store/task";
 import {$important, setImportant} from "../../store/importants";
 import { useMemo } from 'react';
+import ExclamationMark from '../../img/ExclamationMark.png'
+import Suitcase from '../../img/Suitcase.png'
 
 const PopUp = ({data, func}) => {
 
@@ -523,6 +525,7 @@ const TaskItemNew = ({item}) => {
                                 })
                         }
                     }}>
+                        <p style={{color:"red", fontWeight:"bold", textDecoration:"overline red", textShadow: "0.5px 0.5px 0.5px black"}}>Удалить</p>
                         <img src={Trash} alt=""/>
                     </li>
                     {item[18] !== 'Брак' ? <li onClick={() => {
@@ -539,11 +542,13 @@ const TaskItemNew = ({item}) => {
                                 }
                             })
 
-                    }}>
-                        <img src={Deffect} alt=""/>
+                    }}> 
+                        <p style={{color:"chocolate", fontWeight:"bold", textDecoration:"overline chocolate", textShadow: "0.5px 0.5px 0.5px black"}}>В Брак</p>
+                        <img src={ExclamationMark} alt=""/>
                     </li> : null}
                    <li className={nav === 'history' ? styles.active : null} onClick={() => confirmTask()}>
-                        <img src={Check} alt=""/>
+                        <p style={{color:"Green", fontWeight:"bold", textDecoration:"overline Green", textShadow: "0.5px 0.5px 0.5px black"}}>В Работу</p>
+                        <img src={Suitcase} alt=""/>
                     </li>
 
                 </ul>
