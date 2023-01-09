@@ -46,6 +46,14 @@ const BurgerMenu = ({ active, setActive }) => {
                             setActive(false)
                         }} className={nav === 'stats' ? styles.activeItem : null}>Статистика</a>
                     </li>
+                    {user.UF_DEPARTMENT[0]===15 ?
+                    <li>
+                        <a onClick={() => {
+                            setNav('equipment')
+                            setActive(false)
+                        }} className={nav === 'equipment' ? styles.activeItem : null}>Склад</a>
+                    </li>
+                    :null}
                     <li>
                         {user.UF_DEPARTMENT[0] === 51 && user.DEFAULT_DEP === undefined ? null : <select className={styles.select_reg} name="type_select" onChange={(e) => {
                             user.DEFAULT_DEP && user.DEFAULT_DEP.length ? setUser({...user, UF_DEPARTMENT: [+e.target.value]}) : setUser({...user, DEFAULT_DEP: user.UF_DEPARTMENT, UF_DEPARTMENT: [+e.target.value]})
