@@ -12,8 +12,8 @@ export const getHistoryType = (el) => {
     } else if (el.type === 'view') {
       if (el.user === 'undefined undefined undefined')
         return `Прочитана`;
-      return `Прочитана ${el.user}`
+      return `Прочитана ${el.user.split(' ')[0]}`;
     } else if (el.type === 'plane_change') {
-        return el.value
+        return el.value;
     }
 }
