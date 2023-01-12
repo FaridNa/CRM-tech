@@ -32,6 +32,7 @@ import Back from "../../img/back.png";
 import DopInfo from "./DopInfo/DopInfo";
 import {filterTaskCust} from "../../utils/filterTaskCust";
 import {getLastName} from "../../utils/getLastName";
+import { getShortName } from '../../utils/getShortName';
 import {$usersStatus} from "../../state/getUsers";
 import {setHistory} from "../../actions/setHistory";
 import {updateHistory} from "../../store/task";
@@ -39,6 +40,7 @@ import {$important, setImportant} from "../../store/importants";
 import { useMemo } from 'react';
 import ExclamationMark from '../../img/ExclamationMark.png'
 import Suitcase from '../../img/Suitcase.png'
+import {$depStatus} from "../../state/user";
 
 const PopUp = ({data, func}) => {
 
@@ -91,30 +93,38 @@ const options = [
     { value: 'Заявка', label: 'Заявка' },
     { value: 'Претензия', label: 'Претензия' },
     { value: 'СО', label: 'Снятие Объемов' },
-    { value: 'Задача', label: 'Задача' },
+    { value: 'ТО', label: 'Техническое Обслуживание' },
     { value: 'Демонтаж', label: 'Демонтаж' },
     { value: 'Монтаж', label: 'Монтаж' },
     { value: 'Подключение', label: 'Подключение' },
     { value: 'Нет контрольного события', label: 'Нет контрольного события' },
-
+    
     { value: 'Снятие/Постановка', label: 'Снятие/Постановка' },
     { value: 'Шлейф', label: 'Шлейф' },
     { value: 'КТС', label: 'КТС' },
     { value: 'Ключ', label: 'Ключ' },
-    { value: '220', label: '220' }
+    { value: '220', label: '220' },
 ]
+
+
 
 const fioTech = ['Артемов', 'Ларионов', 'Кирюшкин', 'Володин', 'Сергеев', 'Фатиги']
 
 
 const TaskItemNew = ({item}) => {
     const deps = useStore($usersStatus);
+    const dep = useStore($depStatus);
+    const options2 = dep.filter(el => el.WORK_POSITION !== 'Водитель' & !(el.WORK_POSITION.includes('Начальник'))).map(el => ({
+        value: `${el.LAST_NAME} ${el.NAME} ${el.SECOND_NAME}`, 
+        label: `${el.LAST_NAME} ${el.NAME[0]}.${el.SECOND_NAME[0]}.`
+    }))
 
     const admins = [item[37], '1', '11', '33', '29', '23', '53', '317', '211', '109', '147', '3503'];
 
     const [loading, setLoading] = useState(false)
     const [report, showReport] = useState(false);
     const important = useStore($important);
+    
 
     const user = useStore($user);
     const [history2, setHistory2] = useState([]);
@@ -157,6 +167,12 @@ const TaskItemNew = ({item}) => {
           }
         }
     }, [])
+
+    useEffect(() => {
+        item[8]=form.type;
+        item[7]=form.executor;
+        item[55]=form.executor;
+    }, [form])
 
     const timeCounter = () => {
         const deadline = item[34] * 60;
@@ -313,7 +329,12 @@ const TaskItemNew = ({item}) => {
                 </div>
                 <div className={styles.taskItemInput}>
                     <p className={styles.label}>Вид задачи</p>
-                    {edit ?  <Select options={options}  onChange={(e) => setForm(prevState => ({...prevState, type: e.value}))} defaultValue={form.type}/>:<p className={`${styles.status} `} >{item[8]}</p> }
+                    {edit ?  
+                        <select onChange={(e) => setForm(prevState => ({...prevState, type: e.target.value}))} placeholder={'Введите заявку'}>
+                            {options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
+                            <option value={item[8].length?item[8]:""} selected disabled hidden>{item[8].length?item[8]:"Общая (Без Исполнителя)"}</option>
+                        </select>
+                        : <p className={`${styles.status} `} >{item[8]}</p>}
                 </div>
                 {item[18] === 'Брак' ? <div className={styles.taskItemInput}>
                     <p className={styles.label}>Причина брака</p>
@@ -325,7 +346,13 @@ const TaskItemNew = ({item}) => {
                     </div>
                 <div className={styles.taskItemInput}>
                     <p className={styles.label}>Исполнитель</p>
-                    {<p>{item[7].length ? getLastName(item[7]) : item[55].length ? getLastName(item[55]) : 'Не назначен'} </p>}
+                    {edit ?
+                    <select onChange={(e) => setForm(prevState => ({...prevState, executor: e.target.value}))} placeholder={'Общая'}>
+                        {options2.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
+                        <option value="">Общая (Без Исполнителя)</option>
+                        <option value={item[7].length?getShortName(item[7]):item[55]?getShortName(item[55]):""} selected disabled hidden>{item[7].length?getShortName(item[7]):item[55].length?getShortName(item[55]):"Общая (Без Исполнителя)"}</option>
+                    </select>:
+                    <p>{item[7].length ? getLastName(item[7]) : item[55].length ? getLastName(item[55]) : 'Не назначен'} </p>}
                 </div>
                 <div className={styles.taskItemInput}>
                     <p className={styles.label}>Название объекта</p>
