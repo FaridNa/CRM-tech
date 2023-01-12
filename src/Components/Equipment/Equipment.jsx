@@ -11,8 +11,6 @@ const pages = {
   equipmentCreate: 'Добавить Инвентарь'
 }
 
-
-
 const Equipment = () => {
   const user = useStore($user);
   const dep = useStore($depStatus);
@@ -131,7 +129,7 @@ const Equipment = () => {
           </select>
 
           <p></p>
-          <button className={styles.submitButton} for="submitForm">Добавить оборудование</button>
+          <button className={styles.submitButton} >Добавить оборудование</button>
         </div>
         : null}
 
