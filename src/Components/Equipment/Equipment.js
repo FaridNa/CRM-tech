@@ -4,11 +4,12 @@ import styles from './Equipment.module.scss';
 import { $user } from "../../state/user";
 import { $depStatus } from "../../state/user";
 import { useStore } from "effector-react";
+import { createEquipment } from "../../actions/CreateEquipment";
 
 const pages = {
   start: '/',
   equipmentView: 'Просмотр Инвентаря',
-  equipmentCreate: 'Добавить Инвентарь'
+  equipmentCreate: 'Выдать Инвентарь'
 }
 
 const Equipment = () => {
@@ -20,7 +21,6 @@ const Equipment = () => {
   const [page, setPage] = useState(pages.start);
 
   const [allEquipment, setAllEquipment] = useState([]);
-  const [uniqueEquipment, setUniqueEquipment] = useState([]);
 
   const [form, setForm] = useState({
     id: '',
@@ -56,16 +56,21 @@ const Equipment = () => {
     )
   }
 
-  const GetAllEquipment = () => {
-    fetch(`https://volga24bot.com/kartoteka/api/tech/daily/getAllEquipment.php`)
-      .then(res => res.json())
-      .then(data => setAllEquipment(data.items))
-      .catch(e => console.log(e))
+  const GetUniqueEquipment = (equipment) => {
+    console.log(allEquipment);
+    return equipment.map(e => e.type2).filter((v, i, a) => a.indexOf(v) === i)
   }
 
   useEffect(() => {
-    GetAllEquipment();
-    setUniqueEquipment(allEquipment.map(e => e.name).filter((v, i, a) => a.indexOf(v) === i));
+    const GetAllEquipment = async () => {
+      await fetch(`https://volga24bot.com/kartoteka/api/tech/daily/getAllEquipment.php`)
+        .then(res => res.json())
+        .then(data => setAllEquipment(data.items))
+        .catch(e => console.log(e))
+    }
+
+    GetAllEquipment().
+      catch(console.error);
   }, [page])
 
   return (
@@ -76,17 +81,36 @@ const Equipment = () => {
       {page === pages.equipmentView
         ? <div>
           {/* <button onClick={c => console.log(dep)}> Нажми Меня </button> */}
-          <h2></h2>
+          <b>Количество Выданного Инвентаря</b>
           <table>
             <tr>
-              <th scope="col">Имя</th>
+              <th scope="col">Тип</th>
+              <th scope="col">Вид</th>
               <th scope="col">Количество</th>
             </tr>
-
-            {uniqueEquipment.map(el =>
+            {GetUniqueEquipment(allEquipment).map(el =>
               <tr key={el}>
+                <td>{allEquipment.find(e => e.type2 === el).type1}</td>
                 <td>{el}</td>
-                <td>{allEquipment.map(e => e = e.name).filter(c => c == el).length}</td>
+                <td>{allEquipment.map(e => e = e.type2).filter(c => c == el).length}</td>
+              </tr>
+            )}
+          </table>
+
+          <b>Полный Список Выданного Инвентаря</b>
+          <table>
+            <tr>
+              <th scope="col">Тип</th>
+              <th scope="col">Вид</th>
+              <th scope="col">Полное Название</th>
+              <th scope="col">Закреплен за техником</th>
+            </tr>
+            {allEquipment.map(el =>
+              <tr key={el.name}>
+                <td>{el.type1}</td>
+                <td>{el.type2}</td>
+                <td>{el.name}</td>
+                <td>{el.techName}</td>
               </tr>
             )}
           </table>
@@ -95,11 +119,11 @@ const Equipment = () => {
 
       {page === pages.equipmentCreate
         ? <div>
-          
+
           <b>Тип оборудования:</b>
           <select className={styles.select} onChange={(e) => {
             setForm(prevState => ({ ...prevState, type1: e.target.value, name: "" }))
-            console.log("Тип оборудования = "+form.type1)
+            console.log("Тип оборудования = " + form.type1)
           }}>
             {type1_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
             <option value="" selected disabled hidden>Выберите Тип Оборудования</option>
@@ -107,8 +131,8 @@ const Equipment = () => {
 
           {form.type1 === "Охранные Блоки" ? <label> <b>Тип блока:</b>
             <select className={styles.select} onChange={(e) => {
-              setForm(prevState => ({ ...prevState, type2: e.target.value, name: "Охранный Блок " + e.target.value + " №"}))
-              console.log("Тип блока = "+form.type2)
+              setForm(prevState => ({ ...prevState, type2: e.target.value, name: "Охранный Блок " + e.target.value + " №" }))
+              console.log("Тип блока = " + form.type2)
             }}>
               {block_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
               <option value="" selected disabled hidden>Выберите Тип Блока</option>
@@ -118,7 +142,8 @@ const Equipment = () => {
 
           <b>Наименование Оборудования:</b>
           <input className={styles.formInput} type="text" value={form.name} onChange={(e) => {
-              setForm(prevState => ({ ...prevState, name: e.target.value }))}}></input>
+            setForm(prevState => ({ ...prevState, name: e.target.value }))
+          }}></input>
 
           <b>Техник:</b>
           <select className={styles.select} onChange={(e) => {
@@ -129,7 +154,11 @@ const Equipment = () => {
           </select>
 
           <p></p>
-          <button className={styles.submitButton} >Добавить оборудование</button>
+          <button className={styles.submitButton} onClick={async () => {
+            await createEquipment(form) ?
+              setPage(pages.equipmentView)
+              : console.log("Ошибка создания")
+          }}>Выдать оборудование</button>
         </div>
         : null}
 
