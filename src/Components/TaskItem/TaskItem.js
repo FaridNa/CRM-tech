@@ -85,6 +85,7 @@ const TaskItem = ({task, i, func, history}) => {
                 <p>{json_history?.length ? <p style={{color: 'blue', fontWeight: 500}}> {getHistoryType(json_history[json_history.length - 1])} </p>: <p style={{color: 'red', fontWeight: 500}}>Не прочитана</p>}</p>
                 <p>{task[5] ? 'начало: ' + moment(task[5]).format('DD.MM HH:mm') : null}</p>
                 </div>
+                <div><p style={{color: 'green', fontWeight: 500}}>{task[64]}</p></div>
                 {/*{task[18] === 'Новая' || task[18] === 'В работе' ? <p className={styles.date}><Moment format="DD.MM.YYYY  HH:mm">{task[17]}</Moment></p> : <p className={styles.date}><Moment format="DD.MM.YYYY hh:mm">{task[6]}</Moment></p>}*/}
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                   <div>

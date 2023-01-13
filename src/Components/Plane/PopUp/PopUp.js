@@ -131,10 +131,10 @@ const PopUp = ({ item, time, close }) => {
       data.append('type', type)
 
 
-      if (admins.includes(user.ID) === false) {
-        close();
-        return;
-      }
+      // if (admins.includes(user.ID) === false) {
+      //   close();
+      //   return;
+      // }
 
       if (item[48] === '1') {
         if (item[42]) {
