@@ -282,7 +282,7 @@ const TaskItemNew = ({item}) => {
       fetch('https://volga24bot.com/kartoteka/api/tech/retryTask.php',{
         method: "POST",
         body: formData
-    })
+    }).then(() => console.log('Успешно возобновлена, закройте заявку для обновления.'))
     }
 
     return (
