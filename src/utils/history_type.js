@@ -15,5 +15,7 @@ export const getHistoryType = (el) => {
       return `Прочитана ${el.user.split(' ')[0]}`;
     } else if (el.type === 'plane_change') {
         return el.value;
+    } else if (el.type === 'retry') {
+        return 'Возобновлена - ' + el.value;
     }
 }

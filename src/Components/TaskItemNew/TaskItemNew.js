@@ -269,6 +269,22 @@ const TaskItemNew = ({item}) => {
 
     //console.log(history2)
 
+    const onClickRetryTask = () => {
+      const prob = prompt('Введите причину');
+      if (!prob) return;
+
+      let formData = new FormData();
+      formData.append('id', item[0]);
+      formData.append('type', 'retry');
+      formData.append('value', prob);
+      formData.append('user', `${user.LAST_NAME} ${user.NAME} ${user.SECOND_NAME}`);
+
+      fetch('https://volga24bot.com/kartoteka/api/tech/retryTask.php',{
+        method: "POST",
+        body: formData
+    })
+    }
+
     return (
         <div className={styles.taskItemWrapper}>
             {loading ? <div className={styles.loaderWrapper}><Loader/></div> : null}
@@ -320,7 +336,10 @@ const TaskItemNew = ({item}) => {
                         <p className={styles.label}  >Статус</p>
                         <p style={item[18] === 'Брак' ? {color: "red"} : null} className={`${styles.status} ${item[18] === 'Новая' ? styles.redStatus : null} ${item[18] === 'В работе' ? styles.orangeStatus : null} ${item[18] !== 'Новая' && item[18] !== 'В работе' ? styles.blueStatus : null}`} >
                           {item[18]}
-                        <span>{daysOverdue}</span></p>
+                        <span>{daysOverdue}</span>
+                        {item[18] !== 'Новая' ? <button className={styles.retryTask} onClick={onClickRetryTask}>Возобновить</button> : null }
+                        </p>
+                          
                     </div>
                     <div className={styles.taskItemInput}>
                         <p className={styles.label}  >Номер</p>
@@ -409,6 +428,8 @@ const TaskItemNew = ({item}) => {
                             type = `Смена исполнителя`
                         } else if (el.type === 'view') {
                             type = `Прочитана`
+                        } else if (el.type === 'retry') {
+                            type = 'Возобновлена'
                         }
 
                         if (el.type === 'view') {
