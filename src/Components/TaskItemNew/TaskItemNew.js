@@ -282,7 +282,8 @@ const TaskItemNew = ({item}) => {
       fetch('https://volga24bot.com/kartoteka/api/tech/retryTask.php',{
         method: "POST",
         body: formData
-    }).then(() => console.log('Успешно возобновлена, закройте заявку для обновления.'))
+      })
+      .then(() => alert('Успешно возобновлена, закройте заявку для обновления.'))
     }
 
     return (
@@ -337,7 +338,7 @@ const TaskItemNew = ({item}) => {
                         <p style={item[18] === 'Брак' ? {color: "red"} : null} className={`${styles.status} ${item[18] === 'Новая' ? styles.redStatus : null} ${item[18] === 'В работе' ? styles.orangeStatus : null} ${item[18] !== 'Новая' && item[18] !== 'В работе' ? styles.blueStatus : null}`} >
                           {item[18]}
                         <span>{daysOverdue}</span>
-                        {item[18] !== 'Новая' ? <button className={styles.retryTask} onClick={onClickRetryTask}>Возобновить</button> : null }
+                        {(admins.includes(user.ID)) ? item[18] !== 'Новая' && item[18] !== 'В работе' ? <button className={styles.retryTask} onClick={onClickRetryTask}>Возобновить</button> : null : null }
                         </p>
                           
                     </div>
