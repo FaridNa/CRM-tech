@@ -46,7 +46,7 @@ const BurgerMenu = ({ active, setActive }) => {
                             setActive(false)
                         }} className={nav === 'stats' ? styles.activeItem : null}>Статистика</a>
                     </li>
-                    {user.UF_DEPARTMENT[0]===15 ?
+                    {user.UF_DEPARTMENT[0]===15 || user.UF_DEPARTMENT[13] ===  || user.UF_DEPARTMENT[0] === 5 || user.UF_DEPARTMENT[0] === 1   ?
                     <li>
                         <a onClick={() => {
                             setNav('equipment')
