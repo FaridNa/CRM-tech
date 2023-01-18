@@ -26,6 +26,8 @@ const Equipment = () => {
 
   const [allEquipment, setAllEquipment] = useState([]);
 
+  const [selectedEquipment, setSelectedEquipment] = useState([]);
+
   const [form, setForm] = useState({
     id: '',
     name: '',
@@ -113,14 +115,13 @@ const Equipment = () => {
               <tr key={el.name}>
                 <td>{el.type1}</td>
                 <td>{el.type2}</td>
-                <td className={styles.tdEquipmentName} onClick={e => setShow(true)}>{el.name}</td>
+                <td className={styles.tdEquipmentName} onClick={e => {setSelectedEquipment(el);setShow(true)}}>{el.name}</td>
                 <td>{el.techName}</td>
-                {show ? <EquipmentPopUp item={el} close={(a) => setShow(a)}/> : null}
               </tr>
             )}
           </table>
 
-          
+          {show ? <EquipmentPopUp item={selectedEquipment} close={(a) => setShow(a)}/> : null}
         </div>
         : null}
 
