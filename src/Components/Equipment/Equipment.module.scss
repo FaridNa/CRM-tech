@@ -1,91 +1,97 @@
-td,
-th {
-    border: 1px solid rgb(190, 190, 190);
-    padding: 10px;
+.pageButton {
+  font-size: medium;
+  color: black;
+  background-color: white;
+
+  margin: 5px;
+  padding: 5px 10px;
+
+  border-width: 3px;
 }
 
-td {
-    text-align: center;
-}
+.pageEquipmentView {
+  font-family: sans-serif;
+  margin-top: 10px;
+  margin-left: 20px;
 
-tr:nth-child(even) {
-    background-color: #eee;
-}
-
-th[scope='col'] {
-    background-color: #696969;
-    color: #fff;
-}
-
-th[scope='row'] {
-    background-color: #d7d9f2;
-}
-
-caption {
-    padding: 10px;
-    caption-side: bottom;
-}
-
-table {
+  table {
     border-collapse: collapse;
     border: 2px solid rgb(200, 200, 200);
     letter-spacing: 1px;
-    font-family: sans-serif;
     font-size: 0.8rem;
-    margin: 10px;
+    margin-bottom: 10px;
+  }
+
+  td, th {
+    border: 1px solid rgb(190, 190, 190);
+    padding: 10px;
+  }
+  td {
+    text-align: center;
+  }
+  tr:nth-child(even) {
+    background-color: #eee;
+  }
+  th[scope='col'] {
+    background-color: #696969;
+    color: #fff;
+  }
+  th[scope='row'] {
+    background-color: #d7d9f2;
+  }
+
+  caption {
+    padding: 10px;
+    caption-side: bottom;
+  }
+
+  .tdEquipmentName{
+    text-decoration: underline;
+  }
+
+  .tdEquipmentName:hover{
+    background-color: #282c34;
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 
+.pageEquipmentCreate {
+  font-family: sans-serif;
+  margin-top: 10px;
+  margin-left: 20px;
 
-
-.select {
-    display: block;
-    margin-top:5px;
-    margin-bottom:15px;
-    margin-left: 20px;
-    width: 50%;
-    outline: black;
-    border: 1px solid #9a9a9a;
-    height: 34px;
-    border-radius: 2px;
-  }
-
-
-  .pageButton {
-    font-size: medium;
-    color: black;
-    background-color: white;
-  
-    margin: 5px;
-    padding: 5px 10px;
-  
-    border-width: 3px;
-  }
-
-  .submitButton {
-    display: block;
-    width: 45%;
-    height: 20%;
-
-    font-size: small;
-    color: black;
-    background-color: white;
-
-    margin-left: 40px;
-    padding: 3px 5px;
-    border-width: 3px;
-  }
-
-  .sklad_b{
-    margin-left: 20px;
+  b {
     font-size: medium;
     text-shadow: #9a9a9a;
   }
 
-  .formInput{
-    margin-left: 20px;
+  select {
     display: block;
-    font-size: medium;
+    width: 70%;
+    outline: black;
+    border: 1px solid #9a9a9a;
+    height: 34px;
+    border-radius: 2px;
     margin-bottom: 10px;
-    width: 60%;
   }
 
+  input {
+    display: block;
+    font-size: medium;
+    width: 80%;
+    margin-bottom: 10px;
+  }
+
+  button {
+    display: block;
+    cursor: pointer;
+    background-color: red;
+    border: 1px solid black;
+    color: #ffffff;
+    font-size: medium;
+    font-weight: bold;
+    padding: 5px 5px;
+  }
+}
