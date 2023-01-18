@@ -28,6 +28,7 @@ const Equipment = () => {
     type1: '',
     type2: '',
     type3: '',
+    description: '',
     status: '',
     techName: '',
     brak: '',
@@ -79,8 +80,7 @@ const Equipment = () => {
       <PageButton onClick={() => setPage(pages.equipmentCreate)}>{pages.equipmentCreate}</PageButton>
 
       {page === pages.equipmentView
-        ? <div>
-          {/* <button onClick={c => console.log(dep)}> Нажми Меня </button> */}
+        ? <div className={styles.pageEquipmentView}>
           <b>Количество Выданного Инвентаря</b>
           <table>
             <tr>
@@ -109,7 +109,7 @@ const Equipment = () => {
               <tr key={el.name}>
                 <td>{el.type1}</td>
                 <td>{el.type2}</td>
-                <td>{el.name}</td>
+                <td className={styles.tdEquipmentName} onClick={e => console.log(222)}>{el.name}</td>
                 <td>{el.techName}</td>
               </tr>
             )}
@@ -118,10 +118,9 @@ const Equipment = () => {
         : null}
 
       {page === pages.equipmentCreate
-        ? <div>
-
+        ? <div className={styles.pageEquipmentCreate}>
           <b>Тип оборудования:</b>
-          <select className={styles.select} onChange={(e) => {
+          <select onChange={(e) => {
             setForm(prevState => ({ ...prevState, type1: e.target.value, name: "" }))
             console.log("Тип оборудования = " + form.type1)
           }}>
@@ -130,7 +129,7 @@ const Equipment = () => {
           </select>
 
           {form.type1 === "Охранные Блоки" ? <label> <b>Тип блока:</b>
-            <select className={styles.select} onChange={(e) => {
+            <select onChange={(e) => {
               setForm(prevState => ({ ...prevState, type2: e.target.value, name: "Охранный Блок " + e.target.value + " №" }))
               console.log("Тип блока = " + form.type2)
             }}>
@@ -141,12 +140,17 @@ const Equipment = () => {
             : null}
 
           <b>Наименование Оборудования:</b>
-          <input className={styles.formInput} type="text" value={form.name} onChange={(e) => {
+          <input type="text" value={form.name} onChange={(e) => {
             setForm(prevState => ({ ...prevState, name: e.target.value }))
           }}></input>
 
+          <b>Доп. Описание:</b>
+          <input type="text" value={form.description} onChange={(e) => {
+            setForm(prevState => ({ ...prevState, description: e.target.value }))
+          }}></input>
+
           <b>Техник:</b>
-          <select className={styles.select} onChange={(e) => {
+          <select onChange={(e) => {
             setForm(prevState => ({ ...prevState, techName: e.target.value }))
           }}>
             {dep.map(e => e.LAST_NAME + " " + e.NAME + " " + e.SECOND_NAME).filter(el => !el.includes("Начальник")).map(el => <option value={el} key={el}>{el}</option>)}
@@ -154,8 +158,8 @@ const Equipment = () => {
           </select>
 
           <p></p>
-          <button className={styles.submitButton} onClick={async () => {
-            await createEquipment(form) ?
+          <button onClick={async () => {
+            await createEquipment(form, user) ?
               setPage(pages.equipmentView)
               : console.log("Ошибка создания")
           }}>Выдать оборудование</button>
