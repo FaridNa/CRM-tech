@@ -5,6 +5,8 @@ import { $user } from "../../state/user";
 import { $depStatus } from "../../state/user";
 import { useStore } from "effector-react";
 import { createEquipment } from "../../actions/CreateEquipment";
+import EquipmentPopUp from "./EquipmentPopUp";
+import { setShowTask } from "../../state/showTask";
 
 const pages = {
   start: '/',
@@ -19,8 +21,12 @@ const Equipment = () => {
   const user_name = user.NAME + " " + user.LAST_NAME + " " + user.SECOND_NAME;
 
   const [page, setPage] = useState(pages.start);
+  
+  const [show, setShow] = useState(false);
 
   const [allEquipment, setAllEquipment] = useState([]);
+
+  const [selectedEquipment, setSelectedEquipment] = useState([]);
 
   const [form, setForm] = useState({
     id: '',
@@ -109,11 +115,13 @@ const Equipment = () => {
               <tr key={el.name}>
                 <td>{el.type1}</td>
                 <td>{el.type2}</td>
-                <td className={styles.tdEquipmentName} onClick={e => console.log(222)}>{el.name}</td>
+                <td className={styles.tdEquipmentName} onClick={e => {setSelectedEquipment(el);setShow(true)}}>{el.name}</td>
                 <td>{el.techName}</td>
               </tr>
             )}
           </table>
+
+          {show ? <EquipmentPopUp item={selectedEquipment} close={(a) => setShow(a)}/> : null}
         </div>
         : null}
 

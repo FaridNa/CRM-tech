@@ -14,7 +14,7 @@ export const createEquipment = async (form, user) => {
     return;
   } else {
     let formData = new FormData();
-    for (let key in form) { formData.append([key], form[key]) }
+    for (let key in form) { key==="status" ? formData.append("status", "Создан") : formData.append([key], form[key]) }
     formData.append('user',user.LAST_NAME + " " + user.NAME + " " + user.SECOND_NAME);
 
   // console.log("", 
