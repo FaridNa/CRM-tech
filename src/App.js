@@ -62,8 +62,8 @@ function App() {
            //setUser({ID: "155", NAME: 'Тимур', LAST_NAME: 'Лиджанов', SECOND_NAME : 'Николаевич', UF_DEPARTMENT: [51]})
            //setUser({ID: "83", NAME: 'Олег', LAST_NAME: 'Кирюшкин', SECOND_NAME : 'Юрьевич', UF_DEPARTMENT: [5]})
            //setUser({ID: "1", NAME: 'Фёдор', LAST_NAME: 'Клочков', SECOND_NAME : 'Викторович', UF_DEPARTMENT: [5]})
-           //setUser({ID: "1", NAME: 'Фарид', LAST_NAME: 'Иралиев', SECOND_NAME : 'Апахович', UF_DEPARTMENT: [5]})
-           setUser({ID: "1", NAME: 'Никита', LAST_NAME: 'Шишлянников', SECOND_NAME : 'Сергеевич', UF_DEPARTMENT: [5]})
+           setUser({ID: "1", NAME: 'Фарид', LAST_NAME: 'Иралиев', SECOND_NAME : 'Апахович', UF_DEPARTMENT: [15]})
+           //setUser({ID: "1", NAME: 'Никита', LAST_NAME: 'Шишлянников', SECOND_NAME : 'Сергеевич', UF_DEPARTMENT: [15]})
         }
         getAllReq()
         getReq()
