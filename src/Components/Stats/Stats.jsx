@@ -8,31 +8,37 @@ const pages = {
 
 }
 
-const Average = (arr) => {
-  return (arr.reduce((a, b) => a + +b.kpd, 0) / arr.length).toFixed(1);
-}
+  // useEffect(() => {
+  //   getObjectsWithExtFields(setObjects);
+  // }, [])
 
-const getObjectsWithExtFields = (setObjects) => {
-  fetch(`https://volga24bot.com/kartoteka/api/boq/andromedaObjects/getAllWithExtFields.php`)
-    .then(res => res.json())
-    .then(data => setObjects(data.map(object => ({
-      ...object,
-      ObjectNumber: Number(object.ObjectNumber).toString(16)
-    })).sort((a, b) => (a.ObjectNumber - b.ObjectNumber))))
-    .catch(e => console.log(e))
-}
+  // useEffect(() => {
+  //   const withSim = Array.from(new Set(objects?.filter(el => el.ExtFieldName?.includes('Сим')).map(el => el.ObjectID)));
+  //   const withoutSim = Array.from(new Set(objects?.filter(el => withSim.includes(el.ObjectID) === false).map(el => el.ObjectNumber)));
+  //   setRes(withoutSim.map(el => objects?.find(obj => obj.ObjectNumber === el)));
+  // }, [objects])
 
-const ObjectItem = ({ item }) => {
-  return (
-    <div className={styles.objectItem}>
-      <div className={styles.info} >
-        <p className={styles.pcoNumber}>{item.ObjectNumber}</p>
-        <p className={styles.name}>{item.Name}</p>
-        <p className={styles.address}>{item.Address}</p>
-      </div>
-    </div>
-  )
-}
+// const getObjectsWithExtFields = (setObjects) => {
+//   fetch(`https://volga24bot.com/kartoteka/api/boq/andromedaObjects/getAllWithExtFields.php`)
+//     .then(res => res.json())
+//     .then(data => setObjects(data.map(object => ({
+//       ...object,
+//       ObjectNumber: Number(object.ObjectNumber).toString(16)
+//     })).sort((a, b) => (a.ObjectNumber - b.ObjectNumber))))
+//     .catch(e => console.log(e))
+// }
+
+// const ObjectItem = ({ item }) => {
+//   return (
+//     <div className={styles.objectItem}>
+//       <div className={styles.info} >
+//         <p className={styles.pcoNumber}>{item.ObjectNumber}</p>
+//         <p className={styles.name}>{item.Name}</p>
+//         <p className={styles.address}>{item.Address}</p>
+//       </div>
+//     </div>
+//   )
+// }
 
 const PageButton = ({ children, ...props }) => {
   return (
@@ -40,7 +46,14 @@ const PageButton = ({ children, ...props }) => {
   )
 }
 
+const Average = (arr) => {
+  return (arr.reduce((a, b) => a + +b.kpd, 0) / arr.length).toFixed(1);
+}
+
 const Stats = () => {
+  // const [objects, setObjects] = useState([]);
+  // const [res, setRes] = useState([]);
+
   const [page, setPage] = useState(pages.start);
 
   const [startDate, setStartDate] = useState([]);
@@ -51,8 +64,6 @@ const Stats = () => {
   const [notComleted, setNotCompleted] = useState([]);
   const [countNotPlanedAndRepeats, setCountNotPlanedAndRepeats] = useState({});
 
-  const [objects, setObjects] = useState([]);
-  const [res, setRes] = useState([]);
 
 
   const StatsTechs = () => {
@@ -90,23 +101,10 @@ const Stats = () => {
       .catch(e => console.log(e))
   }
 
-
-
-  useEffect(() => {
-    getObjectsWithExtFields(setObjects);
-  }, [])
-
-  useEffect(() => {
-    const withSim = Array.from(new Set(objects?.filter(el => el.ExtFieldName?.includes('Сим')).map(el => el.ObjectID)));
-    const withoutSim = Array.from(new Set(objects?.filter(el => withSim.includes(el.ObjectID) === false).map(el => el.ObjectNumber)));
-    setRes(withoutSim.map(el => objects?.find(obj => obj.ObjectNumber === el)));
-  }, [objects])
-
-
   return (
     <div>
       <PageButton onClick={() => setPage(pages.kpdByTech)}>{pages.kpdByTech}</PageButton>
-      <PageButton onClick={() => setPage(pages.objectsWithoutSim)}>{pages.objectsWithoutSim}</PageButton>
+      {/* <PageButton onClick={() => setPage(pages.objectsWithoutSim)}>{pages.objectsWithoutSim}</PageButton> */}
 
       {page === pages.kpdByTech
         ?
@@ -185,11 +183,11 @@ const Stats = () => {
         </>
         : null}
 
-      {page === pages.objectsWithoutSim
+      {/* {page === pages.objectsWithoutSim
         ? <div className={styles.objects}>
           {res?.map(el => <ObjectItem key={el.ObjectID} item={el} />)}
         </div>
-        : null}
+        : null} */}
     </div>
   )
 }
