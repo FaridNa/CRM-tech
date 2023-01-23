@@ -207,6 +207,10 @@ padding-top: 1px;
     }
   }
 }
+.historyWrapper {
+  overflow: scroll;
+  margin-bottom: 40px;
+}
 
 .uploadImage {
   margin-top: 12px;
@@ -256,7 +260,7 @@ padding-top: 1px;
 
 }
 
-.deffect {
+.cct {
   background: red;
 }
 

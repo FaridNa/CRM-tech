@@ -29,7 +29,7 @@ function getDateOnMS(date) {
 }
 
 export const TimeLine = ({tasks, title, info, status, plane}) => {
-
+    
     const title2 = title.split(' ');
     const firstTime = useStore($firstTime);
     const [planeT, setPlane] = useState([])

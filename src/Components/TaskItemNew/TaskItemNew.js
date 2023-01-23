@@ -412,7 +412,7 @@ const TaskItemNew = ({item}) => {
             {nav === 'history' ? <div className={styles.processTracker}>
 
                 <HistoryItem title={'Поставлена'} active={[0, new Date(item[17]).getTime() <= new Date(item[51]).getTime() ? item[17] !== '0000-00-00 00:00:00' ? item[17] : item[51] : item[51] !== '0000-00-00 00:00:00' ? item[51] : item[17]]} />
-                <div className={styles.deffect_block}>
+                <div className={styles.historyWrapper}>
                     {history2.filter(el => el.type === 'view').length === 0 && <HistoryItem title={'Прочитана'} withLine={true} active={[]}/>}
                     {history2.map(el => {
                         let type = '';
@@ -447,6 +447,7 @@ const TaskItemNew = ({item}) => {
                             {history2.filter(el => el.type === 'deffect').length === 1 && <HistoryItem title={'Брак'} withLine={true} active={[0, history2.filter(el => el.type === 'deffect')[0].date]} activeText={history2.filter(el => el.type === 'deffect')[0].value} failed={true}/>}
                             {history2.filter(el => el.type === 'start').length === 0 && <HistoryItem title={'В работе'} withLine={true} active={[]}/>}
                             {history2.filter(el => el.type === 'finish').length === 0 && <HistoryItem title={'Завершил работу'} withLine={true} active={[]}/>}
+                  {item[18] !== 'Новая' &&  item[18] !== 'В работе' && (item[6] || item[15] || item[12]) ? <button className={styles.raport} onClick={() => showReport(item)}>Посмотреть отчет</button> : null}
                 </div>
 
                 {/*{history2.map(el2 => {*/}
@@ -528,10 +529,7 @@ const TaskItemNew = ({item}) => {
                     {/*{history2.filter(el => el.type === 'start').length === 0 && <HistoryItem title={'В работе'} withLine={true} active={[]}/>}*/}
                     {/*{history2.filter(el => el.type === 'finish').length === 0 && <HistoryItem title={'Завершил работу'} withLine={true} active={[]}/>}*/}
 
-
-                <div>
-                    {item[18] !== 'Новая' &&  item[18] !== 'В работе' && (item[6] || item[15] || item[12]) ? <button className={styles.raport} onClick={() => showReport(item)}>Посмотреть отчет</button> : null}
-                </div>
+                    
             </div> : null}
             {nav === 'blockInfo' ? item[1] !== '0' ? <DopInfo num={item[1]}/> : <p style={{textAlign: "center"}}>В задаче нет номера объекта!</p> : null}
 

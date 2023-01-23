@@ -1,22 +1,19 @@
 import { useState, useEffect } from "react";
 import styles from './Stats.module.scss';
+import PageButton from "./PageButton/PageButton";
+import TableKpd from "./TableKpd/TableKpd";
+import TableStats from "./TableStats/TableStats";
 
-const pages = {
-  start: '/',
-  kpdByTech: 'Статистика техников',
-  objectsWithoutSim: 'Объекты без сим карт',
 
-}
+// useEffect(() => {
+//   getObjectsWithExtFields(setObjects);
+// }, [])
 
-  // useEffect(() => {
-  //   getObjectsWithExtFields(setObjects);
-  // }, [])
-
-  // useEffect(() => {
-  //   const withSim = Array.from(new Set(objects?.filter(el => el.ExtFieldName?.includes('Сим')).map(el => el.ObjectID)));
-  //   const withoutSim = Array.from(new Set(objects?.filter(el => withSim.includes(el.ObjectID) === false).map(el => el.ObjectNumber)));
-  //   setRes(withoutSim.map(el => objects?.find(obj => obj.ObjectNumber === el)));
-  // }, [objects])
+// useEffect(() => {
+//   const withSim = Array.from(new Set(objects?.filter(el => el.ExtFieldName?.includes('Сим')).map(el => el.ObjectID)));
+//   const withoutSim = Array.from(new Set(objects?.filter(el => withSim.includes(el.ObjectID) === false).map(el => el.ObjectNumber)));
+//   setRes(withoutSim.map(el => objects?.find(obj => obj.ObjectNumber === el)));
+// }, [objects])
 
 // const getObjectsWithExtFields = (setObjects) => {
 //   fetch(`https://volga24bot.com/kartoteka/api/boq/andromedaObjects/getAllWithExtFields.php`)
@@ -40,14 +37,10 @@ const pages = {
 //   )
 // }
 
-const PageButton = ({ children, ...props }) => {
-  return (
-    <button className={styles.pageButton} {...props} >{children}</button>
-  )
-}
-
-const Average = (arr) => {
-  return (arr.reduce((a, b) => a + +b.kpd, 0) / arr.length).toFixed(1);
+const pages = {
+  page: '/',
+  kpds: 'Статистика техников',
+  // objectsWithoutSim: 'Объекты без сим карт',
 }
 
 const Stats = () => {
@@ -56,67 +49,40 @@ const Stats = () => {
 
   const [page, setPage] = useState(pages.start);
 
-  const [startDate, setStartDate] = useState([]);
-  const [endDate, setEndDate] = useState([]);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
-  const [kpds, setKpds] = useState([]);
-  const [pretension, setPretension] = useState([]);
-  const [notComleted, setNotCompleted] = useState([]);
-  const [countNotPlanedAndRepeats, setCountNotPlanedAndRepeats] = useState({});
+  const [stats, setStats] = useState();
 
-
-
-  const StatsTechs = () => {
-    GetKpdByTech();
-    GetPretension();
-    GetNotComleted();
-    GetCountNotPlanedAndRepeats();
-  }
-
-  const GetKpdByTech = () => {
-    fetch(`https://volga24bot.com/kartoteka/api/tech/daily/getKpdByTech.php?startDate=${startDate}&endDate=${endDate}`)
+  const StatsHandler = () => {
+    fetch(`https://volga24bot.com/kartoteka/api/tech/Stats/getStats.php?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`)
       .then(res => res.json())
-      .then(data => setKpds(data.items.sort((a, b) => a.tech.localeCompare(b.tech))))
-      .catch(e => console.log(e))
-  }
-
-  const GetPretension = () => {
-    fetch(`https://volga24bot.com/kartoteka/api/tech/daily/getPretension.php?startDate=${startDate}&endDate=${endDate}`)
-      .then(res => res.json())
-      .then(data => setPretension(data.items))
-      .catch(e => console.log(e))
-  }
-
-  const GetNotComleted = () => {
-    fetch(`https://volga24bot.com/kartoteka/api/tech/daily/getNotCompleted.php?startDate=${startDate}&endDate=${endDate}`)
-      .then(res => res.json())
-      .then(data => setNotCompleted(data.items))
-      .catch(e => console.log(e))
-  }
-
-  const GetCountNotPlanedAndRepeats = () => {
-    fetch(`https://volga24bot.com/kartoteka/api/tech/daily/getCountNotPlanedAndRepeats.php?startDate=${startDate}&endDate=${endDate}`)
-      .then(res => res.json())
-      .then(data => setCountNotPlanedAndRepeats(data))
-      .catch(e => console.log(e))
+      .then(data => setStats(data))
+      .catch(e => console.error(e))
   }
 
   return (
     <div>
-      <PageButton onClick={() => setPage(pages.kpdByTech)}>{pages.kpdByTech}</PageButton>
+      <PageButton onClick={() => setPage(pages.kpds)}>{pages.kpds}</PageButton>
       {/* <PageButton onClick={() => setPage(pages.objectsWithoutSim)}>{pages.objectsWithoutSim}</PageButton> */}
 
-      {page === pages.kpdByTech
+      {page === pages.kpds
         ?
         <>
           <div className={styles.chooseDate}>
-            <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
-            <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
-            <button onClick={StatsTechs}>Принять</button>
+            <input type="date" valueAsDate={startDate} onChange={e => setStartDate(new Date(e.target.value))} />
+            <input type="date" valueAsDate={endDate} onChange={e => setEndDate(new Date(e.target.value))} />
+            <button onClick={StatsHandler}>Принять</button>
           </div>
-          {countNotPlanedAndRepeats.cnp ?
+          <h2>Ведомость за {startDate.toLocaleString('ru', { month: 'long' })} {startDate.getFullYear()}</h2>
+          <table>
+            <td><TableKpd sd={startDate} ed={endDate} kpds={stats?.kpds} /></td>
+            <td><TableStats sd={startDate} ed={endDate} stats={stats} /></td>
+          </table>
+          {/* {countNotPlanedAndRepeats.cnp ?
             <span>Не распределенных задач: {countNotPlanedAndRepeats.cnp}</span>
-            : null}
+            : null} */}
+          {/* Введомость за {startDate.toLocaleString('ru', { month: 'long' })}
           <div>
             <table border="1" cellpadding="3">
               <tr>
@@ -179,7 +145,7 @@ const Stats = () => {
                 </tr>
               )}
             </table>
-          </div>
+          </div> */}
         </>
         : null}
 
