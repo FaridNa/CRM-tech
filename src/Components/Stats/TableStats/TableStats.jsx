@@ -1,13 +1,17 @@
-import styles from './TableStats.module.scss';
 
 const TableStats = ({ sd, ed, stats }) => {
   const techs = Array.from(new Set(stats?.kpds?.map(el => el.tech)));
   const days = Array.from(new Set(stats?.kpds?.map(el => el.createAt)));
 
   const colorKpd = (kpd) => {
-    if (+kpd >= 70) return { 'background-color': 'lightgreen' };
-    if (+kpd <= 30) return { 'background-color': 'lightsalmon' };
-    return { 'background-color': 'white' };
+    if (+kpd >= 70) return { 'backgroundColor': 'lightgreen' };
+    if (+kpd <= 30) return { 'backgroundColor': 'lightsalmon' };
+    return { 'backgroundColor': 'white' };
+  }
+  const stylesExcelKpd = (kpd) => {
+    if (+kpd >= 70) return "90EE90";
+    if (+kpd <= 30) return "ffa07a";
+    return;
   }
 
   const filtredArray = (tech, arr) => {
@@ -27,21 +31,28 @@ const TableStats = ({ sd, ed, stats }) => {
   }
 
   return (
-    <table className={styles.tableKpd} border="1" cellpadding="3" >
-      <tr className={styles.tr}>{columns.map(column => <th>{column}</th>)}</tr>
-      {techs.map(tech =>
-        <tr>
-          <th>{tech}</th>
-          <th style={colorKpd(Average(tech, stats?.kpds))}>{Average(tech, stats?.kpds)}</th>
-          <th style={colorKpd(Math.max(...filtredArray(tech, stats?.kpds).map(item => +item.kpd)))}>
-            {Math.max(...filtredArray(tech, stats?.kpds).map(item => +item.kpd))}</th>
-          <th style={colorKpd(Math.min(...filtredArray(tech, stats?.kpds).map(item => +item.kpd)))}>
-            {Math.min(...filtredArray(tech, stats?.kpds).map(item => +item.kpd))}</th>
-          <th>{stats?.pretensions.filter(p => p.plane_techs.includes(tech)).length}</th>
-          <th>{stats?.repeats.filter(p => p.plane_techs.includes(tech)).length}</th>
-          <th>{stats?.notCompleted.filter(p => p.plane_techs.includes(tech)).length}</th>
-          <th>{Absense(tech, stats?.kpds)}</th>
-        </tr>)}
+    <table border="1" cellPadding="3" >
+      <thead>
+        <tr>{columns.map(column => <th data-t="s" data-a-h="center" key={column}>{column}</th>)}</tr>
+      </thead>
+      <tbody>
+        {techs.map(tech =>
+          <tr key={tech} >
+            <th data-t="s" data-a-h="center">{tech.split(' ')[0]}</th>
+            <th style={colorKpd(Average(tech, stats?.kpds))}
+              data-t="n" data-fill-color={stylesExcelKpd(Average(tech, stats?.kpds))} data-a-h="center">{Average(tech, stats?.kpds)}</th>
+            <th style={colorKpd(Math.max(...filtredArray(tech, stats?.kpds).map(item => +item.kpd)))}
+              data-t="n" data-fill-color={stylesExcelKpd(Math.max(...filtredArray(tech, stats?.kpds).map(item => +item.kpd)))} data-a-h="center">
+              {Math.max(...filtredArray(tech, stats?.kpds).map(item => +item.kpd))}</th>
+            <th style={colorKpd(Math.min(...filtredArray(tech, stats?.kpds).map(item => +item.kpd)))}
+              data-t="n" data-fill-color={stylesExcelKpd(Math.min(...filtredArray(tech, stats?.kpds).map(item => +item.kpd)))} data-a-h="center">
+              {Math.min(...filtredArray(tech, stats?.kpds).map(item => +item.kpd))}</th>
+            <th data-t="n" data-a-h="center">{stats?.pretensions.filter(p => p.plane_techs.includes(tech)).length}</th>
+            <th data-t="n" data-a-h="center">{stats?.repeats.filter(p => p.plane_techs.includes(tech)).length}</th>
+            <th data-t="n" data-a-h="center">{stats?.notCompleted.filter(p => p.plane_techs.includes(tech)).length}</th>
+            <th data-t="n" data-a-h="center">{Absense(tech, stats?.kpds)}</th>
+          </tr>)}
+      </tbody>
     </table>
   )
 }

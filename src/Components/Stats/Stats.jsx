@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import TableToExcel from "@linways/table-to-excel";
 import styles from './Stats.module.scss';
 import PageButton from "./PageButton/PageButton";
 import TableKpd from "./TableKpd/TableKpd";
@@ -52,6 +53,7 @@ const Stats = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
+  const refTable = useRef();
   const [stats, setStats] = useState();
 
   const StatsHandler = () => {
@@ -59,6 +61,14 @@ const Stats = () => {
       .then(res => res.json())
       .then(data => setStats(data))
       .catch(e => console.error(e))
+  }
+
+  const UploadTables = () => {
+    if (!stats) {
+      alert('Для начал нужно выбрать период и сгенерировать таблицу.');
+      return;
+    }
+    TableToExcel.convert(refTable.current);
   }
 
   return (
@@ -71,11 +81,20 @@ const Stats = () => {
           <div className={styles.chooseDate}>
             <input type="date" valueAsDate={startDate} onChange={e => setStartDate(new Date(e.target.value))} />
             <input type="date" valueAsDate={endDate} onChange={e => setEndDate(new Date(e.target.value))} />
-            <button onClick={StatsHandler}>Принять</button>
+            <button onClick={StatsHandler}>Сгенерировать</button>
+            <button onClick={UploadTables}>Выгрузить</button>
           </div>
-          <h2>Ведомость за {startDate.toLocaleString('ru', { month: 'long' })} {startDate.getFullYear()}</h2>
-          <table>
+          <table ref={refTable}>
+            <td>
+              <tr>
+                <th></th><th></th><th></th>
+                <th data-t="s" data-f-sz="20" data-f-bold="true">
+                  Ведомость за {startDate.toLocaleString('ru', { month: 'long' })} {startDate.getFullYear()}</th>
+              </tr>
+            </td>
+            <td><tr></tr><tr></tr></td>
             <td><TableKpd sd={startDate} ed={endDate} kpds={stats?.kpds} /></td>
+            <td><tr></tr><tr></tr></td>
             <td><TableStats sd={startDate} ed={endDate} stats={stats} /></td>
           </table>
         </> : null}
