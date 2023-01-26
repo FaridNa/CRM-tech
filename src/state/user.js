@@ -31,12 +31,12 @@ export const $depStatus = combine(
             const last3 = data.pop();
             const first = data.shift();
             const kirishkin = data.shift();
-            data.push(first);
-            data.push(last1);
-            data.push(last2);
-            data.push(last3);
-            data.unshift(kirishkin);
-            data.unshift(galkin);
+            if (first !== undefined) data.push(first)
+            if (last1 !== undefined) data.push(last1);
+            if (last2 !== undefined) data.push(last2);
+            if (last3 !== undefined) data.push(last3);
+            if (kirishkin !== undefined) data.unshift(kirishkin);
+            if (galkin !== undefined) data.unshift(galkin);
             return data
         }
 
