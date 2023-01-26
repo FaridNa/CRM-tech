@@ -25,8 +25,18 @@ export const $depStatus = combine(
         if (isLoading) {
             return []
         } else {
-            const last = data.pop();
-            data.unshift(last);
+            const last1 = data.pop();
+            const galkin = data.pop();
+            const last2 = data.pop();
+            const last3 = data.pop();
+            const first = data.shift();
+            const kirishkin = data.shift();
+            data.push(first);
+            data.push(last1);
+            data.push(last2);
+            data.push(last3);
+            data.unshift(kirishkin);
+            data.unshift(galkin);
             return data
         }
 
