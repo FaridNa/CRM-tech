@@ -29,7 +29,7 @@ import { Stats } from './Components/Stats/Stats';
 import { Equipment } from './Components/Equipment/Equipment';
 
 const fetchItems = () => {
-  fetch(`https://volga24bot.com/kartoteka/api/boq/andromedaObjects/getAll.php`)
+  fetch(`https://volga24bot.com/kartoteka/api/tech/getAll.php`)
                 .then(response => response.json())
                 .then(commits => setItems(commits.map(el => {
                   el.ObjectNumber = Number(el.ObjectNumber).toString(16)
