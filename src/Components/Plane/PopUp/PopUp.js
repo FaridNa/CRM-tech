@@ -116,8 +116,9 @@ const PopUp = ({ item, time, close }) => {
     techs: [],
     all: false
   })
-  const admins = ['1', '11', '33', '29', '23', '53', '317', '109', '147', '3503', '3707', '83'];
+  const admins = ['1', '11', '33', '29', '23', '53', '317', '109', '147', '3503', '3707'];
 
+  const lowleveltech = ['Ларионов Анатолий Анатольевич', 'Володин Александр Александрович', 'Сергеев Андрей Николаевич', 'Мурзаков Денис Александрович', 'Трусов Егор Владимирович'];
 
   const handleSubmit = (date, time, type, techs, all, id, coefs) => {
     if (techs.length) {
@@ -131,10 +132,16 @@ const PopUp = ({ item, time, close }) => {
       data.append('type', type)
 
 
-      // if (admins.includes(user.ID) === false) {
-      //   close();
-      //   return;
-      // }
+      if (admins.includes(user.ID) === false) {
+        close();
+        return;
+      }
+
+
+      if (lowleveltech.includes(item[42]) && item[8] === 'СО') {
+        alert('Снятие объемов может выполнять только Кирюшкин Олег.');
+        return;
+      }
 
       if (item[48] === '1') {
         if (item[42]) {
@@ -150,7 +157,7 @@ const PopUp = ({ item, time, close }) => {
       data.append('ids', all ? today.filter(el => el[8] === item[8] && el[3] === item[3]).map(el => el[0]) : '')
 
       if (item[55] !== techs.join(', ')) {
-        const message = ` ${item[47]} ${item[2]} ${item[4]} перенаправлена ${item[55] && `c ${item[55].split(' ')[0]}`} на ${techs.map( t=> t.split(' ')[0]).join(', ')}`;
+        const message = ` ${item[47]} ${item[2]} ${item[4]} перенаправлена ${item[55] && `c ${item[55].split(' ')[0]}`} на ${techs.map(t => t.split(' ')[0]).join(', ')}`;
 
         Transfers.create('transfers', message);
         imMessageAdd('chat11871', message);
