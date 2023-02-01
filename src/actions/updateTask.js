@@ -11,11 +11,20 @@ const imMessageAdd = (chatId, message, isSystem = true) => {
 
 }
 
+const lowleveltech = ['Ларионов Анатолий Анатольевич', 'Володин Александр Александрович', 'Сергеев Андрей Николаевич', 'Мурзаков Денис Александрович', 'Трусов Егор Владимирович'];
 
 export const updateTask = (form, item, user) => {
 
     setLoading(true)
     let formData = new FormData();
+
+
+    if (lowleveltech.includes(form.executor) && form.type === 'СО') {
+      alert('Снятие объемов может выполнять только Кирюшкин Олег.');
+      setLoading(false)
+      return;
+    }
+    return;
 
     if (form.time !== item[34]) {
       const message = `${user.LAST_NAME} ${user.NAME}\n${item[2]} ${item[4]} изменил время с ${item[34]} час на ${form.time} час`;

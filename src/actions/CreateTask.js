@@ -1,6 +1,6 @@
 import { getAllReq, getMainReq, getNewReq } from "../state";
 import { setLoading } from "../state/loading";
-import {setShowTask} from "../state/showTask";
+import { setShowTask } from "../state/showTask";
 
 const isFreeTime = (tasks, newTask) => {
   const newTaskDate = new Date(newTask.date).getTime();
@@ -8,10 +8,10 @@ const isFreeTime = (tasks, newTask) => {
 
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
-    
+
     let taskDate = new Date(task[56] + ' ' + task[57]).getTime();
     let next = taskDate + 1 * 60 * 60 * 1000;
-    if (task[18] === 'Выполнена'){
+    if (task[18] === 'Выполнена') {
       taskDate = new Date(task[5]).getTime();
       next = new Date(task[6]).getTime();
     }
@@ -33,9 +33,17 @@ const fetchDataHistory = async () => {
   return mass;
 }
 
+const lowleveltech = ['Ларионов Анатолий Анатольевич', 'Володин Александр Александрович', 'Сергеев Андрей Николаевич', 'Мурзаков Денис Александрович', 'Трусов Егор Владимирович'];
+
 export const createTask = async (form, func, firstTime, secondTime, user, plane, graph) => {
 
   setLoading(true);
+
+  if (lowleveltech.includes(form.customer) && form.type === 'СО') {
+    alert('Снятие объемов может выполнять только Кирюшкин Олег.');
+    setLoading(false);
+    return;
+  }
 
   if (form.type === '') {
     alert('Необходимо выбрать проблему заявки!!');
@@ -79,7 +87,7 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
       const response = await fetch(`${base}/${url}`).then(res => res.json());
       if (response.results !== false) {
         if (response.object !== null)
-        form.customer = response.object.customer;
+          form.customer = response.object.customer;
       }
     }
   }
@@ -96,7 +104,7 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
       setLoading(false);
       return;
     }
-    
+
   }
 
 

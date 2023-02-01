@@ -274,12 +274,24 @@ const CreateTask = ({func}) => {
                         : <div>
                             {form.type !== 'Задача' ? <label>
                                 Адрес объекта
-                                <input type="text" className={styles.inputText} value={form.address} onChange={(e) => setForm(prevState => ({...prevState, address: e.target.value}))}/>
+                                <input onFocus={() => {
+                                        setFocusNum(false)
+                                        setFocusAddress(true)
+                                        setFocusUtils(false)
+                                        setFocusName(false)
+                                    }} type="text" className={styles.inputText} value={form.address} onChange={(e) => setForm(prevState => ({...prevState, address: e.target.value}))}/>
                             </label> : null}
+                            {focusAddress ? <SearchItems value={form.address} items={items} type={"Address"} func={(a,b,c) => setForm(prevState => ({...prevState, objNum: a, name: b, address: c}))} focus={() => setFocusAddress(false)}/> : null}
                             {form.type !== 'Задача' ? <label>
                                 Название объекта
-                                <input type="text"  className={styles.inputText} value={form.name} onChange={(e) => setForm(prevState => ({...prevState, name: e.target.value}))}/>
+                                <input onFocus={() => {
+                                        setFocusNum(false)
+                                        setFocusAddress(false)
+                                        setFocusName(true)
+                                        setFocusUtils(false)
+                                    }}  type="text"  className={styles.inputText} value={form.name} onChange={(e) => setForm(prevState => ({...prevState, name: e.target.value}))}/>
                             </label> : null}
+                            {focusName ? <SearchItems value={form.name} items={items} type={"Name"} func={(a,b,c) => setForm(prevState => ({...prevState, objNum: a, name: b, address: c}))} focus={() => setFocusName(false)}/> : null}
                             <label>
                                 Тел. клиента
                                 <input type="tel"  className={styles.inputText} value={form.clientPhone} onChange={(e) => {
