@@ -24,7 +24,6 @@ export const updateTask = (form, item, user) => {
       setLoading(false)
       return;
     }
-    return;
 
     if (form.time !== item[34]) {
       const message = `${user.LAST_NAME} ${user.NAME}\n${item[2]} ${item[4]} изменил время с ${item[34]} час на ${form.time} час`;

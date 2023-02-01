@@ -330,6 +330,12 @@ const CreateTask = ({func}) => {
                         <Select options={options2.concat([{ value: '', label: 'Общая (Нет исполнителя)' }])} onChange={(e) => setForm(prevState => ({...prevState, customer: e.value}))} placeholder={'Общая'}/>
                     </label>
                     <label>
+                      {form.type === 'ТО'
+                      ? <>
+                      <label>Период обслуживания ТО</label>
+                      <Select options={[ { value: 'Ежеквартальное ТО', label: 'Ежеквартальное ТО'}, { value: 'Ежемесячное ТО', label: 'Ежемесячное ТО'}]} onChange={(e) => setForm(prevState => ({...prevState, comment: e.value}))} placeholder={'Выберите период'}/>
+                      </>
+                      : <>
                         {form.type !== 'Нет контрольного события' ? 'Комментарий' : 'Дата появления проблемы'}
                         <textarea type="text" onFocus={() => {
                             setFocusNum(false)
@@ -337,6 +343,8 @@ const CreateTask = ({func}) => {
                             setFocusName(false)
                             setFocusUtils(false)
                         }} className={styles.inputLongText} value={form.comment} onChange={(e) => setForm(prevState => ({...prevState, comment: e.target.value}))}/>
+                      </>
+                      }
                     </label>
                     {form.type !== 'Нет контрольного события' ? <label>
                         Услуги
