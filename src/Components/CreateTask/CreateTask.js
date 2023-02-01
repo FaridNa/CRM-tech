@@ -112,7 +112,8 @@ const CreateTask = ({func}) => {
         date: formatedDate,
         changeTech: false,
         files: '',
-        label: ''
+        label: '',
+        timeJob: '1'
     });
     const options = [
         { value: '', label: 'Заявка'},
@@ -382,6 +383,11 @@ const CreateTask = ({func}) => {
                             setFocusName(false)
                             setFocusUtils(false)
                         }} className={styles.inputText} value={form.date} onChange={(e) => {setForm(prevState => ({...prevState, date: e.target.value})); }}/>
+                    </label>
+                    <label>
+                      Время на работу (час):
+                      <br />
+                      <input type="number"  className={styles.inputText} value={form.timeJob} onChange={(e) => setForm(prevState => ({...prevState, timeJob: e.target.value}))}/>
                     </label>
                     <div className={styles.flex_box}>
                         <label className={styles.checkbox}>
