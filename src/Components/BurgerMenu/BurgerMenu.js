@@ -51,7 +51,7 @@ const BurgerMenu = ({ active, setActive }) => {
                         <a onClick={() => {
                             setNav('equipment')
                             setActive(false)
-                        }} className={nav === 'equipment' ? styles.activeItem : null}>Склад</a>
+                        }} className={nav === 'equipment' ? styles.activeItem : null}>Инвентарь</a>
                     </li>
                     :null}
                     <li>

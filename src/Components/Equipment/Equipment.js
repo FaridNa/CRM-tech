@@ -1,67 +1,20 @@
-import { getAllByAltText } from "@testing-library/react";
 import { useState, useEffect } from "react";
 import styles from './Equipment.module.scss';
-import { $user } from "../../state/user";
-import { $depStatus } from "../../state/user";
-import { useStore } from "effector-react";
-import { createEquipment } from "../../actions/CreateEquipment";
-import EquipmentPopUp from "./EquipmentPopUp";
-import { setShowTask } from "../../state/showTask";
 
-const pages = {
-  start: '/',
-  equipmentView: 'Просмотр Инвентаря',
-  equipmentCreate: 'Выдать Инвентарь'
-}
+import EquipmentPopUp from "./EquipmentPopUp";
 
 const Equipment = () => {
-  const user = useStore($user);
-  const dep = useStore($depStatus);
 
-  const user_name = user.NAME + " " + user.LAST_NAME + " " + user.SECOND_NAME;
 
-  const [page, setPage] = useState(pages.start);
-  
-  const [show, setShow] = useState(false);
+  const [info, setInfo] = useState(false);
+
+  const [create, setCreate] = useState(false);
+
+  const [editStatus, setEditStatus] = useState(false);;
 
   const [allEquipment, setAllEquipment] = useState([]);
 
   const [selectedEquipment, setSelectedEquipment] = useState([]);
-
-  const [form, setForm] = useState({
-    id: '',
-    name: '',
-    type1: '',
-    type2: '',
-    type3: '',
-    description: '',
-    status: '',
-    techName: '',
-    brak: '',
-    history: ''
-  });
-
-  const type1_options = [
-    { value: 'Охранные Блоки', label: 'Охранные Блоки' },
-    { value: 'Расходники для охранных блоков', label: 'Расходники для охранных блоков' },
-    { value: 'Кабели', label: 'Кабели' },
-    { value: 'Ключи', label: 'Ключи' },
-    { value: 'Видеокамеры', label: 'Видеокамеры' },
-    { value: 'Прочее', label: 'Прочее' }
-  ]
-
-  const block_options = [
-    { value: 'Cnord', label: 'Cnord' },
-    { value: 'Неман', label: 'Неман' },
-    { value: 'Струна', label: 'Струна' },
-    { value: 'Ларс', label: 'Ларс' }
-  ]
-
-  const PageButton = ({ children, ...props }) => {
-    return (
-      <button className={styles.pageButton} {...props} >{children}</button>
-    )
-  }
 
   const GetUniqueEquipment = (equipment) => {
     console.log(allEquipment);
@@ -78,16 +31,16 @@ const Equipment = () => {
 
     GetAllEquipment().
       catch(console.error);
-  }, [page])
+
+    console.log("update!!!")
+  }, [info, create, editStatus])
 
   return (
     <div>
-      <PageButton onClick={() => setPage(pages.equipmentView)}>{pages.equipmentView}</PageButton>
-      <PageButton onClick={() => setPage(pages.equipmentCreate)}>{pages.equipmentCreate}</PageButton>
 
-      {page === pages.equipmentView
-        ? <div className={styles.pageEquipmentView}>
-          <b>Количество Выданного Инвентаря</b>
+      {/* ANCHOR - Таблица  */}
+      <div className={styles.equipmentView}>
+        {/* <b>Количество Выданного Инвентаря</b>
           <table>
             <tr>
               <th scope="col">Тип</th>
@@ -101,78 +54,42 @@ const Equipment = () => {
                 <td>{allEquipment.map(e => e = e.type2).filter(c => c == el).length}</td>
               </tr>
             )}
-          </table>
+            </table> */}
 
-          <b>Полный Список Выданного Инвентаря</b>
-          <table>
-            <tr>
-              <th scope="col">Тип</th>
-              <th scope="col">Вид</th>
-              <th scope="col">Полное Название</th>
-              <th scope="col">Закреплен за техником</th>
+        <div className={styles.title}>
+          <span>Инвентарь</span>
+          <button onClick={e => setCreate(true)}>+ Добавить</button>
+          {create ? <EquipmentPopUp method="create" close={(a) => setCreate(a)} /> : null}
+        </div>
+        <table>
+          <tr>
+            <th scope="col">Тип</th>
+            <th scope="col">Вид</th>
+            <th scope="col">Полное Название</th>
+            <th scope="col">Описание</th>
+            <th scope="col">Когда создан</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Ответственный</th>
+          </tr>
+          {allEquipment.map(el =>
+            <tr key={el.name}>
+              <td>{el.type1}</td>
+              <td>{el.type2}</td>
+              <td className={styles.tdEquipmentName} onClick={e => { setSelectedEquipment(el); setInfo(true); console.log(el) }}>{el.name}</td>
+              <td>{el.description}</td>
+              <td>{JSON.parse(el.history)?.filter(item => item.type === "create")?.filter(item => item.date !== null)[0]?.date} </td>
+              <td>
+                {el.status === "Установлен" ? <div style={{ backgroundColor: 'green' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); console.log(el) }}>{el.status}</div> :
+                  el.status === "Создан" ? <div style={{ backgroundColor: '#003366' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); console.log(el) }}>{el.status}</div> :
+                    el.status === "Экипирован" ? <div style={{ backgroundColor: 'yellow' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); console.log(el) }}>{el.status}</div> : null}</td>
+              <td >{el.techName}</td>
             </tr>
-            {allEquipment.map(el =>
-              <tr key={el.name}>
-                <td>{el.type1}</td>
-                <td>{el.type2}</td>
-                <td className={styles.tdEquipmentName} onClick={e => {setSelectedEquipment(el);setShow(true)}}>{el.name}</td>
-                <td>{el.techName}</td>
-              </tr>
-            )}
-          </table>
+          )}
+        </table>
 
-          {show ? <EquipmentPopUp item={selectedEquipment} close={(a) => setShow(a)}/> : null}
-        </div>
-        : null}
-
-      {page === pages.equipmentCreate
-        ? <div className={styles.pageEquipmentCreate}>
-          <b>Тип оборудования:</b>
-          <select onChange={(e) => {
-            setForm(prevState => ({ ...prevState, type1: e.target.value, name: "" }))
-            console.log("Тип оборудования = " + form.type1)
-          }}>
-            {type1_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
-            <option value="" selected disabled hidden>Выберите Тип Оборудования</option>
-          </select>
-
-          {form.type1 === "Охранные Блоки" ? <label> <b>Тип блока:</b>
-            <select onChange={(e) => {
-              setForm(prevState => ({ ...prevState, type2: e.target.value, name: "Охранный Блок " + e.target.value + " №" }))
-              console.log("Тип блока = " + form.type2)
-            }}>
-              {block_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
-              <option value="" selected disabled hidden>Выберите Тип Блока</option>
-            </select>
-          </label>
-            : null}
-
-          <b>Наименование Оборудования:</b>
-          <input type="text" value={form.name} onChange={(e) => {
-            setForm(prevState => ({ ...prevState, name: e.target.value }))
-          }}></input>
-
-          <b>Доп. Описание:</b>
-          <input type="text" value={form.description} onChange={(e) => {
-            setForm(prevState => ({ ...prevState, description: e.target.value }))
-          }}></input>
-
-          <b>Техник:</b>
-          <select onChange={(e) => {
-            setForm(prevState => ({ ...prevState, techName: e.target.value }))
-          }}>
-            {dep.map(e => e.LAST_NAME + " " + e.NAME + " " + e.SECOND_NAME).filter(el => !el.includes("Начальник")).map(el => <option value={el} key={el}>{el}</option>)}
-            <option value="" selected disabled hidden>Выберите Техника</option>
-          </select>
-
-          <p></p>
-          <button onClick={async () => {
-            await createEquipment(form, user) ?
-              setPage(pages.equipmentView)
-              : console.log("Ошибка создания")
-          }}>Выдать оборудование</button>
-        </div>
-        : null}
+        {info ? <EquipmentPopUp method="info" close={(a) => setInfo(a)} item={selectedEquipment} /> : null}
+        {editStatus ? <EquipmentPopUp method="editStatus" close={(a) => setEditStatus(a)} item={selectedEquipment} /> : null}
+      </div>
 
     </div>
   )
