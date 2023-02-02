@@ -27,7 +27,7 @@
     border-collapse: collapse;
     border: 2px solid rgb(200, 200, 200);
     letter-spacing: 0, 9px;
-    font-size: 1.2rem;
+    font-size: 1.0rem;
     margin-bottom: 10px;
   }
 
@@ -48,6 +48,11 @@
   th[scope='col'] {
     background-color: #003366;
     color: #fff;
+  }
+  
+  th[scope='col']:hover {
+    text-decoration:underline;
+    cursor: pointer;
   }
 
   th[scope='row'] {
@@ -78,7 +83,7 @@
   }
 
   .tdDivEquipmentStatus:hover{
-    opacity: 60%;
+    background-color: black !important;
     cursor: pointer;
   }
 }
