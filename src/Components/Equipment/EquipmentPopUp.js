@@ -8,6 +8,7 @@ import { createEquipment } from "../../actions/CreateEquipment";
 import { setShowTask } from "../../state/showTask";
 import { getAllByAltText } from "@testing-library/react";
 import { useState } from 'react';
+import { editEquipment } from '../../actions/EditEquipment';
 
 
 const EquipmentPopUp = ({ method, close, item }) => {
@@ -62,6 +63,26 @@ const EquipmentPopUp = ({ method, close, item }) => {
         { value: 'Струна', label: 'Струна' },
         { value: 'Ларс', label: 'Ларс' }
     ]
+
+    const info_history = (item) => {
+        const history_paragraphs = {
+            create: <span style={{ color: '#003366' }}>Создано</span>,
+            install: <span style={{ color: 'green' }}>Установлено</span>,
+            equip: <span style={{ color: 'yellow' }}>Экипировано</span>,
+
+            //Статусы:
+            Выдан: <span style={{ color: '#f77f00' }}>Выдано</span>,
+            Утерян: <span style={{ color: '#d62828' }}>Утеряно</span>,
+            Возвращен: <span style={{ color: '#023047' }}>Возвращено</span>
+        }
+
+        return (JSON.parse(item.history)?.map(el =>
+            <div>
+                {el.type === "editStatus" ? history_paragraphs[el.value.split(" ")[3]] : history_paragraphs[el.type]}
+                <span style={{ float: "right" }}>{el.date}</span>
+            </div>
+        ))
+    }
 
     //Закрыть это Всплывающее Окно
     const closePopUp = (element) => {
@@ -152,25 +173,25 @@ const EquipmentPopUp = ({ method, close, item }) => {
 
                     <div className={styles.block}>
                         <p className={styles.title}>История:</p>
-                        {JSON.parse(item.history)?.map(el =>
-                            el.type === "create" ? <p> <span style={{ color: '#003366' }}>Создано:</span> {el.date} ({el.user}) </p> :
-                                el.type === "install" ? <p> <span style={{ color: 'green' }}>Установлено:</span> {el.date} ({el.user}) </p> :
-                                    el.type === "equip" ? <p> <span style={{ color: 'yellow' }}>Экипировано:</span> {el.date} ({el.user}) </p> : null
-                        )}
+                        {info_history(item)}
+
                     </div>
                 </div>
                 : null}
 
             {method === "editStatus" ?
                 <div className={styles.equipmentEditStatus}>
-                    
+
                     <p>Статус: {item.status}</p>
                     <p>{item.name}</p>
                     <p>Закреплен за: {item.techName}</p>
-                    
-                    <button style={{ backgroundColor: '#f77f00' }}>Выдан </button>
-                    <button style={{ backgroundColor: '#d62828' }}>Утерян </button>
-                    <button style={{ backgroundColor: '#023047' }}>Возвращен </button>
+
+                    {item.status !== "Выдан" ?
+                        <button style={{ backgroundColor: '#f77f00' }} onClick={e => editEquipment("editStatus", { id: item.id, status: 'Выдан' }, user)}>Выдан </button> : null}
+                    {item.status !== "Утерян" ?
+                        <button style={{ backgroundColor: '#d62828' }} onClick={e => editEquipment("editStatus", { id: item.id, status: 'Утерян' }, user)}>Утерян </button> : null}
+                    {item.status !== "Возвращен" ?
+                        <button style={{ backgroundColor: '#023047' }} onClick={e => editEquipment("editStatus", { id: item.id, status: 'Возвращен' }, user)}>Возвращен </button> : null}
 
                 </div> : null}
 
