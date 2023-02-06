@@ -1,4 +1,5 @@
 import { setLoading } from "../state/loading";
+import { setEquipmentHistory } from "./setEquipmentHistory";
 
 export const createEquipment = async (form, user) => {
   setLoading(true);
@@ -28,7 +29,7 @@ export const createEquipment = async (form, user) => {
       .then(res => res.json())
       .then(res => {
         if (res === 'success') {
-          //setEquipmentHistory("", "create",`Оборудование создано ${new Date().toLocaleDateString('en-CA') + ' ' + new Date().toLocaleTimeString()} Пользователем: ${user.LAST_NAME}`,user.LAST_NAME + " " + user.NAME + " " + user.SECOND_NAME);
+          // setEquipmentHistory("", "create",JSON.stringify({"techName": form.techName}),user.LAST_NAME + " " + user.NAME + " " + user.SECOND_NAME);
 
           alert('Оборудование создано');
           setLoading(false)

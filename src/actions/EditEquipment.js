@@ -15,11 +15,14 @@ export const editEquipment = async (method, form, user) => {
       formData.append('method', 'editStatus')
       formData.append('id', form.id)
       formData.append('status', form.status)
+      form.hasOwnProperty('blockNumber') ? formData.append('blockNumber', form.blockNumber) : formData.append('blockNumber', 0)
     }
     else {
-    for (let key in form) { formData.append([key], form[key]) }
+      for (let key in form) { formData.append([key], form[key]) }
     }
     //formData.append('user',user.LAST_NAME + " " + user.NAME + " " + user.SECOND_NAME);
+
+    console.log(formData)
     fetch('https://volga24bot.com/kartoteka/api/equipment/editEquipment.php', {
       method: "POST",
       body: formData
@@ -27,12 +30,12 @@ export const editEquipment = async (method, form, user) => {
       .then(res => res.text())
       .then(res => {
         if (res === "success") {
-          
-          if(method ==="editStatus"){
+
+          if (method === "editStatus") {
             console.log("", "editStatus", `Статус изменен на ${form.status} ${new Date().toLocaleDateString('en-CA') + ' ' + new Date().toLocaleTimeString()} Пользователем: ${user.LAST_NAME}`, user.LAST_NAME + " " + user.NAME + " " + user.SECOND_NAME)
-            setEquipmentHistory(form.id, "editStatus", `Статус изменен на ${form.status} ${new Date().toLocaleDateString('en-CA') + ' ' + new Date().toLocaleTimeString()} Пользователем: ${user.LAST_NAME}`, user.LAST_NAME + " " + user.NAME + " " + user.SECOND_NAME);
+            setEquipmentHistory(form.id, "editStatus", JSON.stringify({"status": form.status, "techName": form.techName}), user.LAST_NAME + " " + user.NAME + " " + user.SECOND_NAME);
           } else {
-            setEquipmentHistory(form.id, "edit",`Оборудование изменено ${new Date().toLocaleDateString('en-CA') + ' ' + new Date().toLocaleTimeString()} Пользователем: ${user.LAST_NAME}`,user.LAST_NAME + " " + user.NAME + " " + user.SECOND_NAME);
+            setEquipmentHistory(form.id, "edit", JSON.stringify({"status": form.status, "techName": form.techName}), user.LAST_NAME + " " + user.NAME + " " + user.SECOND_NAME);
           }
 
           alert('Изменено Успешно!');

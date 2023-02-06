@@ -12,7 +12,22 @@
       font-size: 1.6rem;
       font-weight: bold;
     }
+
+    span:hover{
+      cursor: pointer;
+      color: #f77f00;
+    }
+
+    span:active{
+      color: #003366;
+    }
   
+    img {
+      width: 20px;
+      height: 20px;
+      margin-left: 5px;
+    }
+
     button {
       background-color: #003366;
       color: white;

@@ -3,6 +3,8 @@ import styles from './Equipment.module.scss';
 
 import EquipmentPopUp from "./EquipmentPopUp";
 
+import { IoIosRefresh } from 'react-icons/io';
+
 const Equipment = () => {
 
 
@@ -22,6 +24,8 @@ const Equipment = () => {
 
   const [oldSortType, setOldSortType] = useState("id");
 
+  const [refresh, setRefresh] = useState(0);
+
   const setSort = (newSortType) => {
     setOldSortType(sortType);
     setSortType(newSortType);
@@ -32,19 +36,24 @@ const Equipment = () => {
     return equipment.map(e => e.type2).filter((v, i, a) => a.indexOf(v) === i)
   }
 
+  const GetAllEquipment = async () => {
+    await fetch(`https://volga24bot.com/kartoteka/api/tech/daily/getAllEquipment.php`)
+      .then(res => res.json())
+      .then(data => setAllEquipment(data.items))
+      .catch(e => console.log(e))
+  }
+
   useEffect(() => {
-    const GetAllEquipment = async () => {
-      await fetch(`https://volga24bot.com/kartoteka/api/tech/daily/getAllEquipment.php`)
-        .then(res => res.json())
-        .then(data => setAllEquipment(data.items))
-        .catch(e => console.log(e))
+    if (create === false) {
+      GetAllEquipment().
+        catch(console.error);
+      console.log("update!!!");
+    } else if (editStatus === false) {
+      GetAllEquipment().
+        catch(console.error);
+      console.log("update!!!");
     }
-
-    GetAllEquipment().
-      catch(console.error);
-
-    console.log("update!!!")
-  }, [info, create, editStatus])
+  }, [create, editStatus, refresh])
 
   return (
     <div>
@@ -68,10 +77,11 @@ const Equipment = () => {
             </table> */}
 
         <div className={styles.title}>
-          <span>Инвентарь</span>
+          <span onClick={e => setRefresh(refresh+1)}><IoIosRefresh/>Инвентарь</span>
           <button onClick={e => setCreate(true)}>+ Добавить</button>
           {create ? <EquipmentPopUp method="create" close={(a) => setCreate(a)} /> : null}
         </div>
+        
         <table>
           <tr>
             <th scope="col" onClick={e => sortType !== "type1" ? setSort("type1") : setSortType(oldSortType)}>Тип</th>
@@ -82,7 +92,7 @@ const Equipment = () => {
             <th scope="col" onClick={e => sortType !== "status" ? setSort("status") : setSortType(oldSortType)}>Статус</th>
             <th scope="col" onClick={e => sortType !== "techName" ? setSort("techName") : setSortType(oldSortType)}>Ответственный</th>
           </tr>
-          {allEquipment.sort((a,b) => (a[sortType] > b[sortType]) ? 1 : ((b[sortType] > a[sortType]) ? -1 : 0)).map(el =>
+          {allEquipment.sort((a, b) => (a[sortType] > b[sortType]) ? 1 : ((b[sortType] > a[sortType]) ? -1 : 0)).map(el =>
             <tr key={el.name}>
               <td>{el.type1}</td>
               <td>{el.type2}</td>

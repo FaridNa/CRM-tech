@@ -17,7 +17,11 @@ const EquipmentPopUp = ({ method, close, item }) => {
     const user = useStore($user);
     const dep = useStore($depStatus);
 
+
     const user_name = user.NAME + " " + user.LAST_NAME + " " + user.SECOND_NAME;
+
+    const [selectedStatus, setSelectedStatus] = useState(null);
+    const [noBlockNumberCheck, setNoBlockNumberCheck] = useState(false);
 
     const [form, setForm] = useState({
         id: '',
@@ -28,6 +32,7 @@ const EquipmentPopUp = ({ method, close, item }) => {
         type3: '',
         description: '',
         status: '',
+        blockNumber: '',
         techName: '',
         brak: '',
         history: ''
@@ -78,7 +83,7 @@ const EquipmentPopUp = ({ method, close, item }) => {
 
         return (JSON.parse(item.history)?.map(el =>
             <div>
-                {el.type === "editStatus" ? history_paragraphs[el.value.split(" ")[3]] : history_paragraphs[el.type]}
+                {el.type === "editStatus" ? history_paragraphs[el.value.status] : history_paragraphs[el.type]}
                 <span style={{ float: "right" }}>{el.date}</span>
             </div>
         ))
@@ -94,10 +99,28 @@ const EquipmentPopUp = ({ method, close, item }) => {
         // Дивы, отвечающие за размер Всплывающего Окна
         <div className={styles.wrapper}> <div className={styles.popUpWrapper}> <div className={styles.closeWrapper} onClick={(e) => { closePopUp(e); }}><img src={Close} alt="" /></div>
 
+            {/* ANCHOR - МЕТОД - Информация об объекте */}
+            {method === "info" ?
+                <div className={styles.equipmentInfo}>
+                    <div className={styles.block}>
+                        <p className={styles.title}>{item.name}</p>
+                        <p>Тип: {item.type1}{item.type2 ? "/" + item.type2 : ""}{item.type3 ? "/" + item.type3 : ""}</p>
+                        <p>Описание: {item.description}</p>
+                        <p>Статус: {item.status === "Создан" ? "Недавно создан" : ""}</p>
+                        <p>Закреплен за: {item.techName}</p>
+                        <p>Номер Блока: {item.blockNumber}</p>
+                    </div>
 
-            {/* МЕТОД - Создание объекта */}
+                    <div className={styles.block}>
+                        <p className={styles.title}>История:</p>
+                        {info_history(item)}
+
+                    </div>
+                </div>
+                : null}
+
+            {/* ANCHOR - МЕТОД - Создание объекта */}
             {method === "create" ?
-
                 <div className={styles.equipmentCreate}>
                     <b>Вид оборудования:</b>
                     <select onChange={(e) => {
@@ -155,30 +178,11 @@ const EquipmentPopUp = ({ method, close, item }) => {
                         await createEquipment(form, user) ?
                             closePopUp(e)
                             : console.log("Ошибка создания")
-                    }}>Выдать оборудование</button>
+                    }}>Добавить оборудование</button>
                 </div>
                 : null}
 
-
-            {/* МЕТОД - Информация об объекте */}
-            {method === "info" ?
-                <div className={styles.equipmentInfo}>
-                    <div className={styles.block} onClick={(e) => console.log(222)}>
-                        <p className={styles.title}>{item.name}</p>
-                        <p>Тип: {item.type1}{item.type2 ? "/" + item.type2 : ""}{item.type3 ? "/" + item.type3 : ""}</p>
-                        <p>Описание: {item.description}</p>
-                        <p>Статус: {item.status === "Создан" ? "Недавно создан" : ""}</p>
-                        <p>Закреплен за: {item.techName}</p>
-                    </div>
-
-                    <div className={styles.block}>
-                        <p className={styles.title}>История:</p>
-                        {info_history(item)}
-
-                    </div>
-                </div>
-                : null}
-
+            {/* ANCHOR - МЕТОД -Изменение Статуса */}
             {method === "editStatus" ?
                 <div className={styles.equipmentEditStatus}>
 
@@ -186,12 +190,31 @@ const EquipmentPopUp = ({ method, close, item }) => {
                     <p>{item.name}</p>
                     <p>Закреплен за: {item.techName}</p>
 
-                    {item.status !== "Выдан" ?
-                        <button style={{ backgroundColor: '#f77f00' }} onClick={e => editEquipment("editStatus", { id: item.id, status: 'Выдан' }, user)}>Выдан </button> : null}
-                    {item.status !== "Утерян" ?
-                        <button style={{ backgroundColor: '#d62828' }} onClick={e => editEquipment("editStatus", { id: item.id, status: 'Утерян' }, user)}>Утерян </button> : null}
-                    {item.status !== "Возвращен" ?
-                        <button style={{ backgroundColor: '#023047' }} onClick={e => editEquipment("editStatus", { id: item.id, status: 'Возвращен' }, user)}>Возвращен </button> : null}
+                    {selectedStatus ? selectedStatus === "Выдан" ? <div>
+                        <div style={{ width: '80%' }}>
+
+                            {noBlockNumberCheck === false ? <div>
+                                <p className={styles.title}>Введите номер блока:</p>
+                                <input type="text" value={form.blockNumber} onChange={(e) => {
+                                    setForm(prevState => ({ ...prevState, blockNumber: e.target.value }))
+                                }}></input>
+                            </div> : null}
+
+                            <p className={styles.title} style={{ display: 'inline' }}>Без номера блока:</p>
+                            <input className={styles.checkbox} type="checkbox" onClick={e => e.target.checked ? setNoBlockNumberCheck(true) : setNoBlockNumberCheck(false)}></input>
+                        </div>
+                        <button style={{ backgroundColor: '#f77f00' }} onClick={e => noBlockNumberCheck
+                            ? editEquipment("editStatus", { id: item.id, status: 'Выдан', techName: item.techName }, user).then(closePopUp(e))
+                            : editEquipment("editStatus", { id: item.id, status: 'Выдан', techName: item.techName, blockNumber: form.blockNumber }, user).then(closePopUp(e))
+                        }>Выдать</button>
+                    </div> : null : <div>
+                        {item.status !== "Выдан" ?
+                            <button style={{ backgroundColor: '#f77f00' }} onClick={e => setSelectedStatus("Выдан")}>Выдан </button> : null}
+                        {item.status !== "Утерян" ?
+                            <button style={{ backgroundColor: '#d62828' }} onClick={e => editEquipment("editStatus", { id: item.id, status: 'Утерян', techName: item.techName}, user).then(closePopUp(e))}>Утерян </button> : null}
+                        {item.status !== "Возвращен" ?
+                            <button style={{ backgroundColor: '#023047' }} onClick={e => editEquipment("editStatus", { id: item.id, status: 'Возвращен', techName: item.techName}, user).then(closePopUp(e))}>Возвращен </button> : null}
+                    </div>}
 
                 </div> : null}
 
