@@ -204,7 +204,7 @@ const EquipmentPopUp = ({ method, close, item }) => {
                             <input className={styles.checkbox} type="checkbox" onClick={e => e.target.checked ? setNoBlockNumberCheck(true) : setNoBlockNumberCheck(false)}></input>
                         </div>
                         <button style={{ backgroundColor: '#f77f00' }} onClick={e => noBlockNumberCheck
-                            ? editEquipment("editStatus", { id: item.id, status: 'Выдан', techName: item.techName }, user).then(closePopUp(e))
+                            ? editEquipment("editStatus", { id: item.id, status: 'Выдан', techName: item.techName, blockNumber: 0 }, user).then(closePopUp(e))
                             : editEquipment("editStatus", { id: item.id, status: 'Выдан', techName: item.techName, blockNumber: form.blockNumber }, user).then(closePopUp(e))
                         }>Выдать</button>
                     </div> : null : <div>
