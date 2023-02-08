@@ -12,7 +12,22 @@
       font-size: 1.6rem;
       font-weight: bold;
     }
+
+    span:hover{
+      cursor: pointer;
+      color: #f77f00;
+    }
+
+    span:active{
+      color: #003366;
+    }
   
+    img {
+      width: 20px;
+      height: 20px;
+      margin-left: 5px;
+    }
+
     button {
       background-color: #003366;
       color: white;
@@ -27,7 +42,7 @@
     border-collapse: collapse;
     border: 2px solid rgb(200, 200, 200);
     letter-spacing: 0, 9px;
-    font-size: 1.2rem;
+    font-size: 1.0rem;
     margin-bottom: 10px;
   }
 
@@ -49,6 +64,11 @@
     background-color: #003366;
     color: #fff;
   }
+  
+  th[scope='col']:hover {
+    text-decoration:underline;
+    cursor: pointer;
+  }
 
   th[scope='row'] {
     background-color: #eeeefd;
@@ -57,6 +77,25 @@
   caption {
     padding: 10px;
     caption-side: bottom;
+  }
+
+  .thDelete:hover{
+    cursor:not-allowed !important;
+    text-decoration: none !important;
+  }
+
+  .tdDelete{
+    font-size: 1.5rem;
+  }
+
+  .tdDelete:hover{
+    color: red;
+    cursor: pointer;
+  }
+
+  .tdDelete:active{
+    color: rgb(140, 0, 0);
+    cursor: pointer;
   }
 
   .tdEquipmentName {
@@ -78,7 +117,7 @@
   }
 
   .tdDivEquipmentStatus:hover{
-    opacity: 60%;
+    background-color: black !important;
     cursor: pointer;
   }
 }

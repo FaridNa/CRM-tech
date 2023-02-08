@@ -6,6 +6,8 @@ export const setEquipmentHistory = (id, type, value, user, func = () => {}) => {
     formData.append('value', value);
     formData.append('user', user);
 
+    console.log(formData);
+
     fetch('https://volga24bot.com/kartoteka/api/equipment/pushToEquipmentHistory.php',{
         method: "POST",
         body: formData

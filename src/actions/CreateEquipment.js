@@ -22,6 +22,7 @@ export const createEquipment = async (form, user) => {
   // `Оборудование создано ${new Date().toLocaleDateString('en-CA') + ' ' + new Date().toLocaleTimeString()} Пользователем: ${user.LAST_NAME}`,
   // user.LAST_NAME + " " + user.NAME + " " + user.SECOND_NAME);
 
+  console.log(formData);
     fetch('https://volga24bot.com/kartoteka/api/equipment/createEquipment.php', {
       method: "POST",
       body: formData
@@ -29,12 +30,12 @@ export const createEquipment = async (form, user) => {
       .then(res => res.json())
       .then(res => {
         if (res === 'success') {
-          //setEquipmentHistory("", "create",`Оборудование создано ${new Date().toLocaleDateString('en-CA') + ' ' + new Date().toLocaleTimeString()} Пользователем: ${user.LAST_NAME}`,user.LAST_NAME + " " + user.NAME + " " + user.SECOND_NAME);
+          // setEquipmentHistory("", "create",JSON.stringify({"techName": form.techName}),user.LAST_NAME + " " + user.NAME + " " + user.SECOND_NAME);
 
           alert('Оборудование создано');
           setLoading(false)
         } else {
-          alert('Ошибка!')
+          alert(res)
           setLoading(false)
         }
       })
