@@ -79,6 +79,25 @@
     caption-side: bottom;
   }
 
+  .thDelete:hover{
+    cursor:not-allowed !important;
+    text-decoration: none !important;
+  }
+
+  .tdDelete{
+    font-size: 1.5rem;
+  }
+
+  .tdDelete:hover{
+    color: red;
+    cursor: pointer;
+  }
+
+  .tdDelete:active{
+    color: rgb(140, 0, 0);
+    cursor: pointer;
+  }
+
   .tdEquipmentName {
     text-decoration: underline;
   }
