@@ -19,11 +19,14 @@ const EquipmentPopUp = ({ method, close, item }) => {
     const user = useStore($user);
     const dep = useStore($depStatus);
 
+   
 
     const user_name = user.NAME + " " + user.LAST_NAME + " " + user.SECOND_NAME;
 
     const [selectedStatus, setSelectedStatus] = useState(null);
     const [noBlockNumberCheck, setNoBlockNumberCheck] = useState(false);
+
+    const [showExtraInfo, setShowExtraInfo] = useState([]);
 
     const [form, setForm] = useState({
         id: '',
@@ -45,7 +48,7 @@ const EquipmentPopUp = ({ method, close, item }) => {
     const type_options = [
         { value: 'Монтажные', label: '🛠️ Монтажные' },
         { value: 'Инструменты', label: '🧰 Инструменты' },
-        { value: 'Расходники', label: '🧷 Расходники' }
+        // { value: 'РемКомплект', label: '🧷 РемКомплект' }
     ]
 
     const montazh_options = [
@@ -108,20 +111,27 @@ const EquipmentPopUp = ({ method, close, item }) => {
 
 
     const info_history = (item) => {
+
         const history_paragraphs = {
             create: <span style={{ color: '#003366' }}>Создано</span>,
             install: <span style={{ color: 'green' }}>Установлено</span>,
             equip: <span style={{ color: 'yellow' }}>Экипировано</span>,
+            delete: <span style={{ color: 'red' }}>Удалено</span>,
 
-            //Статусы:
+            //при editStatus:
             Выдан: <span style={{ color: '#f77f00' }}>Выдано</span>,
             Утерян: <span style={{ color: '#d62828' }}>Утеряно</span>,
-            Возвращен: <span style={{ color: '#023047' }}>Возвращено</span>
+            Возвращен: <span style={{ color: '#023047' }}>Возвращено</span>,
+            Удален: <span style={{ color: 'red' }}>Удалено</span>
         }
 
         return (JSON.parse(item.history)?.map(el =>
             <div>
-                {el.type === "editStatus" ? history_paragraphs[el.value.status] : history_paragraphs[el.type]}
+                <span onMouseOver={e => setShowExtraInfo([...showExtraInfo, el.date])} onMouseOut={e => setShowExtraInfo(showExtraInfo.filter(elem => elem !== el.date))}>{el.type === "editStatus" ? history_paragraphs[el.value.status] : history_paragraphs[el.type]}</span>
+
+                {showExtraInfo.includes(el.date) && el.value.hasOwnProperty('techName') ? el.techName !== "" ?<span style={{"color":"#390099"}}> на техника: {el.value.techName.split(" ")[0]}</span>: null : null}
+                {showExtraInfo.includes(el.date) && el.hasOwnProperty('user') ? el.user !== "" ?<span style={{"color":"#9e0059"}}> (пользователем: {el.user.split(" ")[0]})</span>: null : null}
+
                 <span style={{ float: "right" }}>{el.date}</span>
             </div>
         ))
@@ -144,9 +154,12 @@ const EquipmentPopUp = ({ method, close, item }) => {
                         <p className={styles.title}>{item.name}</p>
                         <p>Тип: {item.type1}{item.type2 ? "/" + item.type2 : ""}</p>
                         <p>Описание: {item.description}</p>
-                        <p>Статус: {item.status === "Создан" ? "Недавно создан" : ""}</p>
+                        <p>Статус: {item.status}</p>
                         <p>Закреплен за: {item.techName}</p>
-                        <p>Номер Блока: {item.blockNumber}</p>
+                        {item.payMethod ? <p>Вид оплаты: {item.payMethod}</p> : null}
+                        {item.quantity ? <p>Количество: {item.quantity}</p> : null}
+                        {item.blockNumber && item.blockNumber !== "0" ? <p>Закреплен за блоком: №{item.blockNumber}</p> : null}
+                        
                     </div>
 
                     <div className={styles.block}>
@@ -175,7 +188,7 @@ const EquipmentPopUp = ({ method, close, item }) => {
                         }}>
                             {form.type === "Монтажные" ? montazh_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>) : null}
                             {form.type === "Инструменты" ? instrument_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>) : null}
-                            {form.type === "Расходники" ? rashodnik_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>) : null}
+                            {/* {form.type === "РемКомплект" ? rashodnik_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>) : null} */}
                             <option value="" selected disabled hidden>Выберите Тип Оборудования</option>
                         </select>
 
@@ -203,7 +216,7 @@ const EquipmentPopUp = ({ method, close, item }) => {
                             : null}
 
 
-                        {form.type === "Расходники" ? <div>
+                        {/* {form.type === "РемКомплект" ? <div>
                             <b>Количество:</b>
                             <div className={styles.rashodnikQuantity}>
                                 <label style={{ "color": form.quantity === "Единичный" ? "#003366" : "grey", "borderColor": form.quantity === "Единичный" ? "#003366" : "grey" }}>
@@ -215,7 +228,7 @@ const EquipmentPopUp = ({ method, close, item }) => {
                                     <MdAutoAwesomeMotion style={{ "padding-right": "0.1rem" }} />Множественный
                                 </label>
                             </div> </div>
-                            : null}
+                            : null} */}
 
                         <b>Наименование Оборудования:</b>
                         <input type="text" value={form.name} onChange={(e) => {
@@ -252,6 +265,7 @@ const EquipmentPopUp = ({ method, close, item }) => {
                         setForm(prevState => ({ ...prevState, techName: e.target.value }))
                     }}>
                         {dep.map(e => e.LAST_NAME + " " + e.NAME + " " + e.SECOND_NAME).filter(el => !el.includes("Начальник")).map(el => <option value={el} key={el}>{el}</option>)}
+                        <option value="Иралиев Фарид Апахович">{"Иралиев Фарид Апахович"}</option>
                         <option value="" selected disabled hidden>Выберите Техника</option>
                     </select>
 
@@ -269,9 +283,9 @@ const EquipmentPopUp = ({ method, close, item }) => {
                         } else if ((form.type1 === 'Охранные блоки' || form.type1 === 'Датчики') && form.type3 === '') {
                             alert('Необходимо указать тип блока/датчика!!');
                             return;
-                        } else if (form.type === 'Расходники' && form.quantity === '') {
-                            alert('Необходимо указать количество расходников!!');
-                            return;
+                        // } else if (form.type === 'РемКомплект' && form.quantity === '') {
+                        //     alert('Необходимо указать количество расходников!!');
+                        //     return;
                         } else if (form.techName === '') {
                             alert('Необходимо указать техника!!');
                             return;
