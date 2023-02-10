@@ -24,6 +24,7 @@ const Search = () => {
     const [isNew, setIsNew] = useState(true);
     const [isWorking, setIsWorking] = useState(true);
     const [isCompleted, setIsCompleted] = useState(false);
+    const [isTO, setIsTO] = useState(false);
 
     const [tasks, setTasks] = useState([]);
     
@@ -71,18 +72,23 @@ const Search = () => {
                             <div className={`${styles.circle2} ${styles.green}`}></div>
                             <p><input type="checkbox" checked={isCompleted} onChange={(e) => setIsCompleted(e.target.checked)} /> Выполнено <span>({req.filter(item => item[18] === 'Выполнена' || item[18] === 'Не выполнено' || item[18] === 'Выполнено частично' || item[18] === 'Выезд не требуется' || item[18] === 'Не выезжали').length})</span></p>
                         </div>
+                        <div className={styles.legendWrapper}>
+                            <p><input type="checkbox" checked={isTO} onChange={(e) => setIsTO(e.target.checked)} />Показать ТО</p>
+                        </div>
 
                     </div>
                 </header>
 
                 <SearchItemsWrapper  >
                     {req
+                    .filter(item => !isTO ? item[8] !== 'ТО' : item[8] === 'ТО')
                     .filter(item => item[18] !== 'Брак')
                     .filter(item => !isCompleted ? item[18] !== 'Выполнена' && item[18] !== 'Не выполнено' && item[18] !== 'Выполнено частично' && item[18] !== 'Выезд не требуется' && item[18] !== 'Не выезжали' : item)
                     .filter(item => !isNew ? item[18] !== 'Новая' : item)
                     .filter(item => !isWorking ? item[18] !== 'В работе' : item)
                     .splice(0, 40)
                     .map((el, i) => {
+                      console.log(el);
                         return <TaskItem task={el} key={el[0]} i={i} history={tasks}/>
 
                     })}

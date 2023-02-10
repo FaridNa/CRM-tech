@@ -132,12 +132,17 @@ const PopUp = ({ item, time, close }) => {
       data.append('type', type)
 
 
-      if (admins.includes(user.ID) === false) {
-        alert('Вы не можете планировать!');
-        close();
+      // if (admins.includes(user.ID) === false) {
+      //   alert('Вы не можете планировать!');
+      //   close();
+      //   return;
+      // }
+
+      if ((new Date(date + 'T' + time).getTime() > Date.now()) === false) {
+        alert('Запланированное время не может быть меньше текущего!');
         return;
       }
-
+      
 
       if (lowleveltech.includes(item[42]) && item[8] === 'СО') {
         alert('Снятие объемов может выполнять только Кирюшкин Олег.');
