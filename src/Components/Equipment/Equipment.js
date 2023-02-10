@@ -3,17 +3,23 @@ import styles from './Equipment.module.scss';
 import { useState, useEffect } from "react";
 import { useStore } from "effector-react";
 
-import { $user } from "../../state/user";
+import { $user, $depStatus } from "../../state/user";
 
 import EquipmentPopUp from "./EquipmentPopUp";
 import { deleteEquipment } from "../../actions/DeleteEquipment";
 
 import { IoIosRefresh } from 'react-icons/io';
-import { GiTrashCan } from "react-icons/gi";
+import { GiTrashCan, GiLightBackpack } from "react-icons/gi";
+import { TiArrowBack } from "react-icons/ti";
 
 const Equipment = () => {
 
   const user = useStore($user);
+  const dep = useStore($depStatus);
+
+  const [showPage, setShowPage] = useState("equipmentView");
+
+  const [repairKitTechName, setRepairKitTechName] = useState(false);
 
   const [info, setInfo] = useState(false);
 
@@ -66,49 +72,35 @@ const Equipment = () => {
     <div>
 
       {/* ANCHOR - Таблица  */}
-      <div className={styles.equipmentView}>
-        {/* <b>Количество Выданного Инвентаря</b>
-          <table>
-            <tr>
-              <th scope="col">Тип</th>
-              <th scope="col">Вид</th>
-              <th scope="col">Количество</th>
-            </tr>
-            {GetUniqueEquipment(allEquipment).map(el =>
-              <tr key={el}>
-                <td>{allEquipment.find(e => e.type2 === el).type1}</td>
-                <td>{el}</td>
-                <td>{allEquipment.map(e => e = e.type2).filter(c => c == el).length}</td>
-              </tr>
-            )}
-            </table> */}
+      {showPage === "equipmentView" ? <div className={styles.equipmentView}>
 
         <div className={styles.title}>
           <span onClick={e => setRefresh(refresh + 1)}><IoIosRefresh />Инвентарь</span>
           <button onClick={e => setCreate(true)}>+ Добавить</button>
+          <button className={styles.buttonRepairKit} onClick={e => setShowPage("repairKitView")}><GiLightBackpack /> РемКомплект</button>
           {create ? <EquipmentPopUp method="create" close={(a) => setCreate(a)} /> : null}
         </div>
 
         <table>
           <tr>
-            <th scope="col" onClick={e => sortType !== "type1" ? setSort("type1") : setSortType(oldSortType)}>Тип</th>
-            <th scope="col" onClick={e => sortType !== "type2" ? setSort("type2") : setSortType(oldSortType)}>Вид</th>
+            <th scope="col" onClick={e => sortType !== "type" ? setSort("type") : setSortType(oldSortType)}>Тип</th>
+            <th scope="col" onClick={e => sortType !== "type1" ? setSort("type1") : setSortType(oldSortType)}>Вид</th>
             <th scope="col" onClick={e => sortType !== "name" ? setSort("name") : setSortType(oldSortType)}>Полное Название</th>
             <th scope="col" onClick={e => sortType !== "zayavkaNumber" ? setSort("zayavkaNumber") : setSortType(oldSortType)}>№ Заявки</th>
-            <th scope="col" onClick={e => sortType !== "payMethod" ? setSort("payMethod") : setSortType(oldSortType)}>Вид Оплаты</th>
+            {/* <th scope="col" onClick={e => sortType !== "payMethod" ? setSort("payMethod") : setSortType(oldSortType)}>Вид Оплаты</th> */}
             <th scope="col" onClick={e => sortType !== "description" ? setSort("description") : setSortType(oldSortType)}>Описание</th>
             <th scope="col" onClick={e => sortType !== "id" ? setSort("id") : setSortType(oldSortType)}>Когда создан</th>
             <th scope="col" onClick={e => sortType !== "status" ? setSort("status") : setSortType(oldSortType)}>Статус</th>
             <th scope="col" onClick={e => sortType !== "techName" ? setSort("techName") : setSortType(oldSortType)}>Ответственный</th>
             <th scope="col" className={styles.thDelete}><GiTrashCan /></th>
           </tr>
-          {allEquipment.filter(el => el.status !== "Удален").sort((a, b) => (a[sortType] > b[sortType]) ? 1 : ((b[sortType] > a[sortType]) ? -1 : 0)).map(el =>
+          {allEquipment.filter(el => el.status !== "Удален" && el.type !== "РемКомплект").sort((a, b) => (a[sortType] > b[sortType]) ? 1 : ((b[sortType] > a[sortType]) ? -1 : 0)).map(el =>
             <tr key={el.name}>
+              <td>{el.type}</td>
               <td>{el.type1}</td>
-              <td>{el.type2}</td>
               <td className={styles.tdEquipmentName} onClick={e => { setSelectedEquipment(el); setInfo(true); console.log(el) }}>{el.name}</td>
               <td>{el.zayavkaNumber}</td>
-              <td>{el.payMethod}</td>
+              {/* <td>{el.payMethod}</td> */}
               <td>{el.description}</td>
               <td>{JSON.parse(el.history)?.filter(item => item.type === "create")?.filter(item => item.date !== null)[0]?.date} </td>
               <td>
@@ -125,7 +117,46 @@ const Equipment = () => {
 
         {info ? <EquipmentPopUp method="info" close={(a) => setInfo(a)} item={selectedEquipment} /> : null}
         {editStatus ? <EquipmentPopUp method="editStatus" close={(a) => setEditStatus(a)} item={selectedEquipment} /> : null}
-      </div>
+      </div> : null}
+
+
+      {/* ANCHOR -  РемКомплект */}
+      {showPage === "repairKitView" ? <div className={styles.repairKitView}>
+
+        <div className={styles.title}>
+          <span className={styles.backButton} onClick={e => setShowPage("equipmentView")}>
+            <TiArrowBack style={{ "verticalAlign": "text-top" }} />
+          </span>
+          <select onChange={(e) => {
+            setRepairKitTechName(e.target.value);
+          }}>
+            {dep.map(e => e.LAST_NAME + " " + e.NAME + " " + e.SECOND_NAME).filter(el => !el.includes("Начальник")).map(el => <option value={el} key={el}>{el}</option>)}
+            <option value="Иралиев Фарид Апахович">{"Иралиев Фарид Апахович"}</option>
+            <option value="" selected disabled hidden>Выберите Техника</option>
+          </select>
+
+          {/* <span onClick={e => setRefresh(refresh + 1)}><IoIosRefresh />Ремонтный Комплект</span> */}
+        </div>
+
+        <table>
+          <tr>
+            <th scope="col" onClick={e => sortType !== "type" ? setSort("type") : setSortType(oldSortType)}>Тип</th>
+            <th scope="col" onClick={e => sortType !== "type1" ? setSort("type1") : setSortType(oldSortType)}>Вид</th>
+            <th scope="col" onClick={e => sortType !== "techName" ? setSort("techName") : setSortType(oldSortType)}>Количество</th>
+          </tr>
+          {allEquipment.filter(el => el.status !== "Удален" && el.techName === repairKitTechName && el.type === "РемКомплект").sort((a, b) => (a[sortType] > b[sortType]) ? 1 : ((b[sortType] > a[sortType]) ? -1 : 0)).map(el =>
+            <tr key={el.name}>
+              <td>{el.type}</td>
+              <td>{el.type1}</td>
+              <td className={styles.tdEquipmentName} onClick={e => { setSelectedEquipment(el); setInfo(true); console.log(el) }}>{el.name}</td>
+            </tr>
+          )}
+        </table>
+
+        {info ? <EquipmentPopUp method="info" close={(a) => setInfo(a)} item={selectedEquipment} /> : null}
+        {editStatus ? <EquipmentPopUp method="editStatus" close={(a) => setEditStatus(a)} item={selectedEquipment} /> : null}
+      </div> : null}
+
 
     </div>
   )

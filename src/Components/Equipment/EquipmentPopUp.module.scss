@@ -218,6 +218,14 @@ h1 {
 
     label:hover{
       cursor: pointer;
+      border-color: #0080ee !important;
+      color: #0080ee !important;
+    }
+
+    label:active{
+      cursor: pointer;
+      border-color: #003366 !important;
+      color: #003366 !important;
     }
   }
 }
