@@ -1,4 +1,19 @@
-.equipmentView {
+.equipmentView{
+  --main-color:#003366;
+  --accent-color: #006dcc;
+}
+
+.archiveView {
+  --main-color:#2d6a4f;
+  --accent-color: #f77f00;
+}
+
+.repairKitView {
+  --main-color:#335c67;
+  --accent-color: #f77f00;
+}
+
+.equipmentView, .archiveView, .repairKitView {
   font-family: sans-serif;
   margin-top: 10px;
   margin-left: 20px;
@@ -8,18 +23,18 @@
     margin-bottom: 10px;
 
     span {
-      color: #003366;
+      color: var(--main-color);
       font-size: 1.6rem;
       font-weight: bold;
     }
 
     span:hover {
       cursor: pointer;
-      color: #f77f00;
+      color: var(--accent-color);
     }
 
     span:active {
-      color: #003366;
+      color: var(--main-color);
     }
 
     img {
@@ -29,7 +44,7 @@
     }
 
     button {
-      background-color: #003366;
+      background-color: var(--main-color);
       color: white;
       border: none;
       padding: 5px;
@@ -39,11 +54,37 @@
 
     button:hover {
       cursor: pointer;
+      background-color: var(--accent-color);
     }
 
     .buttonRepairKit {
-      background-color: #2b2d42;
+      background-color: #335c67; 
     }
+
+    .buttonArchive {
+      background-color: #2d6a4f;
+    }
+
+  }
+
+  select {
+    width: fit-content;
+    height: auto;
+    font-size: 1.5rem;
+    border: none;
+    background-color: white;
+    color: var(--main-color);
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+
+  select:hover {
+    cursor: pointer;
+    color: var(--accent-color);
+  }
+
+  option{
+    color: var(--main-color);
   }
 
   table {
@@ -52,34 +93,34 @@
     letter-spacing: 0, 9px;
     font-size: 1.0rem;
     margin-bottom: 10px;
-  }
 
-  td,
-  th {
-    border: 1px solid rgb(190, 190, 190);
-    padding: 10px;
-  }
+    td,
+    th {
+      border: 1px solid rgb(190, 190, 190);
+      padding: 10px;
+    }
 
-  td {
-    text-align: center;
-  }
+    td {
+      text-align: center;
+    }
 
-  tr:nth-child(even) {
-    background-color: #eee;
-  }
+    tr:nth-child(even) {
+      background-color: #eee;
+    }
 
-  th[scope='col'] {
-    background-color: #003366;
-    color: #fff;
-  }
+    th[scope='col'] {
+      background-color: var(--main-color);
+      color: #fff;
+    }
 
-  th[scope='col']:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
+    th[scope='col']:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
 
-  th[scope='row'] {
-    background-color: #eeeefd;
+    th[scope='row'] {
+      background-color: #eeeefd;
+    }
   }
 
   caption {
@@ -128,87 +169,4 @@
     background-color: black !important;
     cursor: pointer;
   }
-}
-
-.repairKitView {
-  font-family: sans-serif;
-  margin-top: 10px;
-  margin-left: 20px;
-  margin-right: 20px;
-
-  .title {
-
-    span {
-      color: #2b2d42;
-      font-size: 1.8rem;
-      font-weight: bold;
-    }
-
-    span:hover {
-      cursor: pointer;
-      color: #f77f00;
-    }
-
-    span:active {
-      color: #003366;
-    }
-
-    select {
-      width: fit-content;
-      height: auto;
-      font-size: 1.5rem;
-      border: none;
-      background-color: white;
-      color: #2b2d42;
-      border-radius: 2px;
-      margin-bottom: 10px;
-    }
-
-    select:hover {
-      cursor: pointer;
-      color: #f77f00;
-    }
-
-    option{
-      color: #2b2d42;
-    }
-  }
-
-
-  table {
-    border-collapse: collapse;
-    border: 2px solid rgb(200, 200, 200);
-    letter-spacing: 0, 9px;
-    font-size: 1.0rem;
-    margin-bottom: 10px;
-
-    td,
-    th {
-      border: 1px solid rgb(190, 190, 190);
-      padding: 10px;
-    }
-
-    td {
-      text-align: center;
-    }
-
-    tr:nth-child(even) {
-      background-color: #eee;
-    }
-
-    th[scope='col'] {
-      background-color: #2b2d42;
-      color: #fff;
-    }
-
-    th[scope='col']:hover {
-      text-decoration: underline;
-      cursor: pointer;
-    }
-
-    th[scope='row'] {
-      background-color: #eeeefd;
-    }
-  }
-
 }

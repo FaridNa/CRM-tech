@@ -1,4 +1,4 @@
-export const setEquipmentHistory = (id, type, value, user, func = () => {}) => {
+export const setEquipmentHistory = async(id, type, value, user, func = () => {}) => {
     let formData = new FormData();
 
     formData.append('id', id);
@@ -8,7 +8,7 @@ export const setEquipmentHistory = (id, type, value, user, func = () => {}) => {
 
     console.log(formData);
 
-    fetch('https://volga24bot.com/kartoteka/api/equipment/pushToEquipmentHistory.php',{
+    await fetch('https://volga24bot.com/kartoteka/api/equipment/pushToEquipmentHistory.php',{
         method: "POST",
         body: formData
     })

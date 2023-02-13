@@ -431,15 +431,17 @@ const TaskItemNew = ({item}) => {
                             type = `Прочитана`
                         } else if (el.type === 'retry') {
                             type = 'Возобновлена'
+                        } else if (el.type === 'myTechCreate'){
+                            type = 'Создана заявка MyTech'
                         }
 
                         if (el.type === 'view') {
                         return <>
-                        <HistoryItem title={type} withLine={true} active={[0, el.date]} activeText={el.value}/>
+                        <HistoryItem title={type} withLine={true} active={[0, el.date]} activeText={el.type !== 'myTechCreate' ? el.value : ''}/>
                         {history2.filter(el => el.type === 'call').length === 0 && <HistoryItem title={'Созвонился'} withLine={true} active={[]}/>}
                         </>
                     } else if (el.type !== 'deffect') {
-                        return <HistoryItem title={type} withLine={true} active={[0, el.date]} activeText={el.value} comm={item[64]}/>
+                        return <HistoryItem title={type} withLine={true} active={[0, el.date]} activeText={el.type !== 'myTechCreate' ? el.value : ''} comm={item[64]}/>
 
                     }
 
