@@ -23,7 +23,7 @@ const EquipmentPopUp = ({ method, close, item }) => {
     const user_name = user.NAME + " " + user.LAST_NAME + " " + user.SECOND_NAME;
 
     const [selectedStatus, setSelectedStatus] = useState(null);
-    const [noBlockNumberCheck, setNoBlockNumberCheck] = useState(false);
+    const [noBlockNumberCheck, setNoBlockNumberCheck] = useState(true);
 
     const [showExtraInfo, setShowExtraInfo] = useState([]);
 
@@ -348,31 +348,14 @@ const EquipmentPopUp = ({ method, close, item }) => {
                             <div style={{ width: '80%' }}>
 
                                 {noBlockNumberCheck === false ? <div>
-                                    <p className={styles.title}>Введите Пультовой номер блока:</p>
+                                    <p className={styles.title}>Введите Пультовой Номер Блока:</p>
                                     <input type="text" value={form.blockNumber} onChange={(e) => {
                                         setForm(prevState => ({ ...prevState, blockNumber: e.target.value }))
                                     }}></input>
                                 </div> : null}
 
-                                <p className={styles.title} style={{ display: 'inline' }}>Без номера блока:</p>
-                                <input className={styles.checkbox} type="checkbox" onClick={e => e.target.checked ? setNoBlockNumberCheck(true) : setNoBlockNumberCheck(false)}></input>
-                            </div>
-                            <button style={{ backgroundColor: '#f77f00' }} onClick={e => noBlockNumberCheck
-                                ? editEquipment("editStatus", { id: item.id, status: 'Выдан', techName: item.techName, blockNumber: 0 }, user).then(closePopUp(e))
-                                : editEquipment("editStatus", { id: item.id, status: 'Выдан', techName: item.techName, blockNumber: form.blockNumber }, user).then(closePopUp(e))
-                            }>Выдать</button>
-                        </div> : selectedStatus === "Выдан" ? <div>
-                            <div style={{ width: '80%' }}>
-
-                                {noBlockNumberCheck === false ? <div>
-                                    <p className={styles.title}>Введите Пультовой номер блока:</p>
-                                    <input type="text" value={form.blockNumber} onChange={(e) => {
-                                        setForm(prevState => ({ ...prevState, blockNumber: e.target.value }))
-                                    }}></input>
-                                </div> : null}
-
-                                <p className={styles.title} style={{ display: 'inline' }}>Без номера блока:</p>
-                                <input className={styles.checkbox} type="checkbox" onClick={e => e.target.checked ? setNoBlockNumberCheck(true) : setNoBlockNumberCheck(false)}></input>
+                                <p className={styles.title} style={{ display: 'inline' }}>Без Пультового Номера Блока:</p>
+                                <input className={styles.checkbox} type="checkbox" checked={noBlockNumberCheck} onClick={e => e.target.checked ? setNoBlockNumberCheck(true) : setNoBlockNumberCheck(false)}></input>
                             </div>
                             <button style={{ backgroundColor: '#f77f00' }} onClick={e => noBlockNumberCheck
                                 ? editEquipment("editStatus", { id: item.id, status: 'Выдан', techName: item.techName, blockNumber: 0 }, user).then(closePopUp(e))
