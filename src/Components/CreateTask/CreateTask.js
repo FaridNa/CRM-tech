@@ -16,7 +16,7 @@ import {$planeStatus, $selectedUser} from "../../state/plane";
 import {$graphData} from "../../state/GraphTask";
 import {$customerStatus, getCustomer, setCustomer} from "../../state/getCustomerByPhone";
 import {$items} from '../../store/objectWithAndromeda'
-
+import EquipmentPopUp from '../Equipment/EquipmentPopUp';
 
 
 const utils = ['ОС', 'ПС', 'ВН', 'КТС', 'ТО', 'Иное (написать в комментарий)']
@@ -137,9 +137,22 @@ const CreateTask = ({func}) => {
     const [focusName, setFocusName] = useState(false);
     const [focusAddress, setFocusAddress] = useState(false);
     const [focusUtils, setFocusUtils] = useState(false);
+
+    const [create, setCreate] = useState(false);
+
     const options2 = dep.filter(el => el.WORK_POSITION !== 'Водитель' & !(el.WORK_POSITION.includes('Начальник'))).map(el => ({value: `${el.LAST_NAME} ${el.NAME} ${el.SECOND_NAME}`, label: `${el.LAST_NAME} ${el.NAME[0]}.${el.SECOND_NAME[0]}`}))
 
     const items = useStore($items);
+
+    const [allEquipment, setAllEquipment] = useState([]);
+    useEffect(() => {
+        if (user.UF_DEPARTMENT[0] === 13 || user.UF_DEPARTMENT[0] === 15) {
+            fetch(`https://volga24bot.com/kartoteka/api/tech/daily/getAllEquipment.php`)
+                .then(res => res.json())
+                .then(data => setAllEquipment(data.items))
+                .catch(e => console.log(e))
+        }
+    }, [])
 
     return (
         <>
@@ -273,26 +286,15 @@ const CreateTask = ({func}) => {
 
                         </>
                         : <div>
+                            {/* Монтаж, СО и остальное */}
                             {form.type !== 'Задача' ? <label>
                                 Адрес объекта
-                                <input onFocus={() => {
-                                        setFocusNum(false)
-                                        setFocusAddress(true)
-                                        setFocusUtils(false)
-                                        setFocusName(false)
-                                    }} type="text" className={styles.inputText} value={form.address} onChange={(e) => setForm(prevState => ({...prevState, address: e.target.value}))}/>
+                                <input type="text" className={styles.inputText} value={form.address} onChange={(e) => setForm(prevState => ({...prevState, address: e.target.value}))}/>
                             </label> : null}
-                            {focusAddress ? <SearchItems value={form.address} items={items} type={"Address"} func={(a,b,c) => setForm(prevState => ({...prevState, objNum: a, name: b, address: c}))} focus={() => setFocusAddress(false)}/> : null}
                             {form.type !== 'Задача' ? <label>
                                 Название объекта
-                                <input onFocus={() => {
-                                        setFocusNum(false)
-                                        setFocusAddress(false)
-                                        setFocusName(true)
-                                        setFocusUtils(false)
-                                    }}  type="text"  className={styles.inputText} value={form.name} onChange={(e) => setForm(prevState => ({...prevState, name: e.target.value}))}/>
+                                <input type="text"  className={styles.inputText} value={form.name} onChange={(e) => setForm(prevState => ({...prevState, name: e.target.value}))}/>
                             </label> : null}
-                            {focusName ? <SearchItems value={form.name} items={items} type={"Name"} func={(a,b,c) => setForm(prevState => ({...prevState, objNum: a, name: b, address: c}))} focus={() => setFocusName(false)}/> : null}
                             <label>
                                 Тел. клиента
                                 <input type="tel"  className={styles.inputText} value={form.clientPhone} onChange={(e) => {
@@ -305,22 +307,18 @@ const CreateTask = ({func}) => {
 
                                         if (formatPhone.length-1 < 11) {
                                             setForm(prevState => ({...prevState, clientPhone: formatPhone}))
-                                            if (eleven.length === 11) {
+                                            // if (eleven.length === 11) {
 
-                                                getCustomer(eleven)
-                                            }
+                                            //     getCustomer(eleven)
+                                            // }
                                         }
                                     }
-
-
-
                                 }} placeholder="Формат: +7 либо 8" />
                             </label>
                             <label>
                                 ФИО. клиента
                                 <input type="text" className={styles.inputText} value={form.clientFio} onChange={(e) => {
                                     setForm(prevState => ({...prevState, clientFio: e.target.value}))
-
                                 }}/>
                             </label>
                         </div>}
@@ -330,6 +328,28 @@ const CreateTask = ({func}) => {
                         Исполнитель                   
                         <Select options={options2.concat([{ value: '', label: 'Общая (Нет исполнителя)' }])} onChange={(e) => setForm(prevState => ({...prevState, customer: e.value}))} placeholder={'Общая'}/>
                     </label>
+
+                    {/* {form.customer && ( user.UF_DEPARTMENT[0] === 13 || user.UF_DEPARTMENT[0] === 15 ) ? <label>
+                        Добавить Инвентарь
+                        <table className={styles.equipmentTable}>
+                            <tbody>
+                                <tr>
+                                    <th>Вид</th>
+                                    <th onClick={e => console.log(form.customer)}>Название</th>
+                                    <th onClick={e => setCreate(true)}>+</th>
+                                </tr>
+                                {allEquipment?.filter(el => el.type !== "Монтажные" && el.status === "Выдан" && el.techName === form.customer).map(el =>
+                                    <tr key={el.id}>
+                                        <td>{el.type}</td>
+                                        <td>{el.name}</td>
+
+                                    </tr>)}
+
+                            </tbody>
+                        </table>
+                        
+                    </label> : null} */}
+
                     <label>
                       {form.type === 'ТО'
                       ? <>
@@ -404,6 +424,7 @@ const CreateTask = ({func}) => {
                 </div>
                 {loading || customer === 'loading' ? <Loader/> : null}
             </div>
+            {create ? <EquipmentPopUp method="create" close={(a) => setCreate(a)} /> : null}
         </>
 
 
