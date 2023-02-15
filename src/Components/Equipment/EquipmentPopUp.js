@@ -12,6 +12,8 @@ import { editEquipment } from '../../actions/EditEquipment';
 
 import { setEquipmentHistory } from '../../actions/setEquipmentHistory';
 
+import { $allReqStatus, getAllReq } from '../../state';
+
 import { MdSell, MdOutlineMonetizationOn, MdAttachment, MdAutoAwesomeMotion, MdOutlineLooksOne, MdOutlineLooksTwo, MdHourglassDisabled } from "react-icons/md";
 
 
@@ -19,13 +21,23 @@ const EquipmentPopUp = ({ method, close, item }) => {
 
     const user = useStore($user);
     const dep = useStore($depStatus);
+    const tasks = useStore($allReqStatus);
 
     const user_name = user.NAME + " " + user.LAST_NAME + " " + user.SECOND_NAME;
 
     const [selectedStatus, setSelectedStatus] = useState(null);
+
+    const [issueMethod, setIssueMethod] = useState("");
     const [noBlockNumberCheck, setNoBlockNumberCheck] = useState(true);
 
     const [showExtraInfo, setShowExtraInfo] = useState([]);
+
+    const [tasksFilter, setTasksFilter] = useState({
+        id: '',
+        // techName: '',
+        dateCreate: '',
+        excludedType: 'ТО'
+    });
 
     const [form, setForm] = useState({
         id: '',
@@ -38,7 +50,8 @@ const EquipmentPopUp = ({ method, close, item }) => {
         quantity: '',
         timeReturn: '',
         status: '',
-        zayavkaNumber: '',
+        buhCounter: '',
+        taskId: '',
         blockNumber: '',
         techName: '',
         brak: '',
@@ -132,13 +145,19 @@ const EquipmentPopUp = ({ method, close, item }) => {
         }
 
         return (JSON.parse(item.history)?.map(el =>
-            <div>
-                <span onMouseOver={e => setShowExtraInfo([...showExtraInfo, el.date])} onMouseOut={e => setShowExtraInfo(showExtraInfo.filter(elem => elem !== el.date))}>{el.type === "editStatus" ? history_paragraphs[el.value.status] : history_paragraphs[el.type]}</span>
+            <div className={styles.historyParagraphs}>
 
-                {showExtraInfo.includes(el.date) && el.value.hasOwnProperty('techName') ? el.techName !== "" ? <span style={{ "color": "#390099" }}> на техника: {el.value.techName.split(" ")[0]}</span> : null : null}
-                {showExtraInfo.includes(el.date) && el.hasOwnProperty('user') ? el.user !== "" ? <span style={{ "color": "#9e0059" }}> (пользователем: {el.user.split(" ")[0]})</span> : null : null}
+                <p onMouseOver={e => setShowExtraInfo([...showExtraInfo, el.date])} onMouseOut={e => setShowExtraInfo(showExtraInfo.filter(elem => elem !== el.date))}>{el.type === "editStatus" ? history_paragraphs[el.value.status] : history_paragraphs[el.type]}</p>
 
-                <span style={{ float: "right" }}>{el.date}</span>
+                <span className = {styles.extraInfoParagraphs}>
+
+                    <p>{el.date}</p>
+                    {showExtraInfo.includes(el.date) && el.value.hasOwnProperty('techName') ? el.techName !== "" ? <p style={{"color": "#390099" }}> Техник: {el.value.techName.split(" ")[0]}</p> : null : null}
+                    {showExtraInfo.includes(el.date) && el.hasOwnProperty('user') ? el.user !== "" ? <p style={{"color": "#9e0059" }}> Изменил: {el.user.split(" ")[0]}</p> : null : null}
+                    {showExtraInfo.includes(el.date) && el.hasOwnProperty('blockNumber') ? el.blockNumber !== "" ? <p style={{"color": "#9e0059" }}> Номер блока: {el.blockNumber.split(" ")[0]}</p> : null : null}
+                    {showExtraInfo.includes(el.date) && el.hasOwnProperty('taskId') ? el.taskId !== "" ? <p style={{"color": "#9e0059" }}> ID Заявки: {el.taskId.split(" ")[0]}</p> : null : null}
+
+                </span>
             </div>
         ))
     }
@@ -179,6 +198,7 @@ const EquipmentPopUp = ({ method, close, item }) => {
             {/* ANCHOR - МЕТОД - Создание объекта */}
             {method === "create" ?
                 <div className={styles.equipmentCreate}>
+
                     <b>Вид оборудования:</b>
                     <select onChange={(e) => {
                         setForm(prevState => ({ ...prevState, type: e.target.value, name: "", type1: "", type2: "" }))
@@ -202,7 +222,6 @@ const EquipmentPopUp = ({ method, close, item }) => {
                         {form.type1 === "Охранные Блоки" ? <div> <b>Тип блока:</b>
                             <select onChange={(e) => {
                                 setForm(prevState => ({ ...prevState, type2: e.target.value, name: e.target.value + " №" }))
-                                console.log("Тип блока = " + form.type2)
                             }}>
                                 {block_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
                                 <option value="" selected disabled hidden>Выберите Тип Блока</option>
@@ -213,7 +232,6 @@ const EquipmentPopUp = ({ method, close, item }) => {
                         {form.type1 === "Датчики" ? <div> <b>Тип блока:</b>
                             <select onChange={(e) => {
                                 setForm(prevState => ({ ...prevState, type2: e.target.value, name: e.target.value + " №" }))
-                                console.log("Тип датчика = " + form.type2)
                             }}>
                                 {sensor_options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
                                 <option value="" selected disabled hidden>Выберите Тип Датчика</option>
@@ -245,9 +263,9 @@ const EquipmentPopUp = ({ method, close, item }) => {
                         {form.type === "Монтажные" ?
                             <div>
                                 <b>Номер Заявки*:</b>
-                                <input style={{ "width": "20%" }} type="text" value={form.zayavkaNumber} onChange={(e) => {
+                                <input style={{ "width": "20%" }} type="text" value={form.buhCounter} onChange={(e) => {
                                     if (/^\d+$/.test(e.target.value) || e.target.value.length === 0) {
-                                        setForm(prevState => ({ ...prevState, zayavkaNumber: e.target.value }))
+                                        setForm(prevState => ({ ...prevState, buhCounter: e.target.value }))
                                     }
                                 }}></input>
 
@@ -345,21 +363,66 @@ const EquipmentPopUp = ({ method, close, item }) => {
 
                     {selectedStatus ?
                         selectedStatus === "Выдан" ? <div>
-                            <div style={{ width: '80%' }}>
+                            {/* TODO - Сделать привязку к заявке */}
+                            <b className={styles.title}>Привязать:</b>
 
+                            <div className={styles.divIssueMethod}>
+                                <label style={{ "color": issueMethod === "Заявка" ? "#003366" : "grey", "borderColor": issueMethod === "Заявка" ? "#003366" : "grey" }}>
+                                    <input type="radio" value="Заявка" name="issueMethod" checked={issueMethod === 'Заявка'} onChange={(e) => setIssueMethod("Заявка")} />
+                                    <MdOutlineLooksOne style={{ "padding-right": "0.1rem" }} />Заявка
+                                </label>
+                                <label style={{ "color": issueMethod === "Пультовой Номер Блока" ? "#003366" : "grey", "borderColor": issueMethod === "Пультовой Номер Блока" ? "#003366" : "grey" }}>
+                                    <input type="radio" value="Пультовой Номер Блока" name="issueMethod" checked={issueMethod === 'Пультовой Номер Блока'} onChange={(e) => setIssueMethod("Пультовой Номер Блока")} />
+                                    <MdOutlineLooksTwo style={{ "padding-right": "0.1rem" }} />Пультовой Номер Блока
+                                </label>
+                            </div>
+
+
+                            {issueMethod === "Заявка" ?
+
+                                <div>
+                                    {/* <select onChange={(e) => {
+                                        setSelectedTechName(e.target.value);
+                                    }}>
+                                        {dep.map(e => e.LAST_NAME + " " + e.NAME + " " + e.SECOND_NAME).filter(el => !el.includes("Начальник")).map(el => <option value={el} key={el}>{el}</option>)}
+                                        <option value="Иралиев Фарид Апахович">{"Иралиев Фарид Апахович"}</option>
+                                        <option value="" selected disabled hidden>Выберите Техника</option>
+                                    </select> */}
+
+
+                                    {/* <b>Только Сегодня</b>
+                                    <input className={styles.checkbox} type="checkbox" checked={tasksFilter.dateCreate===Date.now()} onClick={e => e.target.checked ? setTasksFilter(array => ({...array, dateCreate: Date.now()})) : setTasksFilter(array => ({...array, dateCreate: ''}))}></input> */}
+
+                                    <b>Без ТО</b>
+                                    <input className={styles.checkbox} type="checkbox" checked={tasksFilter.excludedType === "ТО"} onClick={e => e.target.checked ? setTasksFilter(array => ({ ...array, excludedType: "ТО" })) : setTasksFilter(array => ({ ...array, excludedType: "" }))}></input>
+
+
+                                    <div className={styles.divIssueMethodTasks}>
+                                        {tasks.filter(el => el[42] === item.techName && (el[18] === "Новая" || el[18] === "В работе") && el[8] !== tasksFilter.excludedType).map(element =>
+                                            <div className={styles.divReqInfo} style={{ "color": tasksFilter.id === element[0] ? "#003366" : "grey", "borderColor": tasksFilter.id === element[0] ? "#003366" : "grey" }} onClick={e => tasksFilter.id !== element[0] ? setTasksFilter(array => ({ ...array, id: element[0] })) : setTasksFilter(array => ({ ...array, id: '' }))}>
+                                                <div className={styles.divReqInfoText}>
+                                                    <b style={{ fontWeight: "bold", "color": tasksFilter.id === element[0] ? "#003366" : "grey", "borderColor": tasksFilter.id === element[0] ? "#003366" : "grey" }}>{element[8]}</b>
+                                                    <p style={{ textDecoration: "underline", "color": tasksFilter.id === element[0] ? "#003366" : "grey", "borderColor": tasksFilter.id === element[0] ? "#003366" : "grey" }}>{element[2]}</p>
+                                                    <p style={{ "color": tasksFilter.id === element[0] ? "#003366" : "grey", "borderColor": tasksFilter.id === element[0] ? "#003366" : "grey" }}>{element[4]}</p>
+                                                    <p style={{ fontStyle: "italic", "color": tasksFilter.id === element[0] ? "#003366" : "grey", "borderColor": tasksFilter.id === element[0] ? "#003366" : "grey" }}>Создана: {element[17]}</p>
+                                                </div>
+                                            </div>)
+                                        }
+                                    </div> </div> : null}
+
+
+                            {issueMethod === "Пультовой Номер Блока" ? <div className={styles.divIssueMethodBlockNumber}>
                                 {noBlockNumberCheck === false ? <div>
                                     <p className={styles.title}>Введите Пультовой Номер Блока:</p>
                                     <input type="text" value={form.blockNumber} onChange={(e) => {
                                         setForm(prevState => ({ ...prevState, blockNumber: e.target.value }))
                                     }}></input>
                                 </div> : null}
-
                                 <p className={styles.title} style={{ display: 'inline' }}>Без Пультового Номера Блока:</p>
                                 <input className={styles.checkbox} type="checkbox" checked={noBlockNumberCheck} onClick={e => e.target.checked ? setNoBlockNumberCheck(true) : setNoBlockNumberCheck(false)}></input>
-                            </div>
-                            <button style={{ backgroundColor: '#f77f00' }} onClick={e => noBlockNumberCheck
-                                ? editEquipment("editStatus", { id: item.id, status: 'Выдан', techName: item.techName, blockNumber: 0 }, user).then(closePopUp(e))
-                                : editEquipment("editStatus", { id: item.id, status: 'Выдан', techName: item.techName, blockNumber: form.blockNumber }, user).then(closePopUp(e))
+                            </div> : null}
+
+                            <button style={{ backgroundColor: '#f77f00' }} onClick={e => editEquipment("editStatus", { id: item.id, status: 'Выдан', techName: item.techName, taskId: tasksFilter.id !== 0 ? tasksFilter.id : 0, blockNumber: noBlockNumberCheck !== 0 ? form.blockNumber : "0" }, user).then(closePopUp(e))
                             }>Выдать</button>
                         </div> : null
 
