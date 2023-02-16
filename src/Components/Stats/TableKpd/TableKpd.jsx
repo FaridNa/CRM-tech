@@ -32,12 +32,27 @@ const TableKpd = ({ sd, ed, kpds }) => {
     return;
   }
 
+  const convertFromKpdToTime = (kpd) => {
+    const seconds = kpd * 60 * 60 * 8 / 100;
+    const hours = Math.floor(seconds / 60 / 60);
+    const minutes = Math.floor(seconds / 60) - hours * 60;
+
+    const fHours = hours > 10 ? hours : '0' + hours;
+    const fMinutes = minutes > 10 ? minutes : '0' + minutes;
+
+    return fHours + ':' + fMinutes;
+  }
+
   return (
     <table border="1" cellPadding="3" >
       <thead>
         <tr>
           <th style={{ 'width': 60 }}></th>
           {techs.map(tech => <th key={tech} data-t="s" data-a-h="center">{tech.split(' ')[0]}</th>)}
+        </tr>
+        <tr>
+          <th style={{ 'width': 60 }}></th>
+          {techs.map(tech => <th key={tech} data-t="s" data-a-h="center">КПД | Время</th>)}
         </tr>
       </thead>
       <tbody>
@@ -46,8 +61,11 @@ const TableKpd = ({ sd, ed, kpds }) => {
             <th data-t="s" data-fill-color={stylesExcelDay(day)} data-a-h="center">{day.split('-')[2]}</th>
             {techs.map(tech => kpds?.filter(kpd => kpd.tech === tech && kpd.createAt === day).length === 1
               ? kpds?.filter(kpd => kpd.tech === tech && kpd.createAt === day)
-                .map((kpd, id) => <th key={id} style={colorKpd(day, kpd.kpd)}
-                  data-t="n" data-fill-color={stylesExcelKpd(day, kpd.kpd)} data-a-h="center">{kpd.kpd}</th>)
+                .map((kpd, id) =>
+                  <th key={id} style={colorKpd(day, kpd.kpd)} data-t="n" data-fill-color={stylesExcelKpd(day, kpd.kpd)} data-a-h="center">
+                    <span>{kpd.kpd}</span> | <span>{convertFromKpdToTime(kpd.kpd)}</span>
+                  </th>
+                )
               : <th data-t="s" data-a-h="center">x</th>
             )}
           </tr>)}
