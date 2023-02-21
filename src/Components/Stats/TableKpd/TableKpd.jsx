@@ -62,8 +62,8 @@ const TableKpd = ({ sd, ed, kpds }) => {
             {techs.map(tech => kpds?.filter(kpd => kpd.tech === tech && kpd.createAt === day).length === 1
               ? kpds?.filter(kpd => kpd.tech === tech && kpd.createAt === day)
                 .map((kpd, id) =>
-                  <th key={id} style={colorKpd(day, kpd.kpd)} data-t="n" data-fill-color={stylesExcelKpd(day, kpd.kpd)} data-a-h="center">
-                    <span>{kpd.kpd}</span> | <span>{convertFromKpdToTime(kpd.kpd)}</span>
+                  <th key={id} style={colorKpd(day, kpd.kpd)} data-t="s" data-fill-color={stylesExcelKpd(day, kpd.kpd)} data-a-h="center">
+                    {kpd.kpd} | {convertFromKpdToTime(kpd.kpd)}
                   </th>
                 )
               : <th data-t="s" data-a-h="center">x</th>
