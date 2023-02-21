@@ -215,3 +215,39 @@ label {
   height: 34px;
   border-radius: 2px;
 }
+
+.equipment{
+
+  table {
+    border-collapse: collapse;
+    border: 2px solid rgb(200, 200, 200);
+    letter-spacing: 0, 9px;
+  
+    td,
+    th {
+      border: 1px solid rgb(190, 190, 190);
+      padding: 10px;
+      text-align: center;
+
+      input {
+        // opacity: 0;
+        // position: fixed;
+      }
+
+      label{
+        width: 100% !important;
+        height: 100% !important;
+        margin-top: 0px !important;
+      }
+    }
+  
+    th {
+      background-color: #003366;
+      color: #fff;
+    }
+  
+    tr:nth-child(even) {
+      background-color: #eee;
+    }
+  }
+}

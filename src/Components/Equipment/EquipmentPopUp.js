@@ -166,6 +166,7 @@ const EquipmentPopUp = ({ method, close, item }) => {
     const closePopUp = (element) => {
         element.stopPropagation()
         close(false)
+        console.log("Окно Закрыто")
     }
 
     return (
