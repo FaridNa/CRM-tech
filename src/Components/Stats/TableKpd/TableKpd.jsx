@@ -47,23 +47,23 @@ const TableKpd = ({ sd, ed, kpds }) => {
     <table border="1" cellPadding="3" >
       <thead>
         <tr>
-          <th style={{ 'width': 60 }}></th>
-          {techs.map(tech => <th key={tech} data-t="s" data-a-h="center">{tech.split(' ')[0]}</th>)}
+          <th style={{ 'width': 20 }}></th>
+          {techs.map(tech => <th key={tech} data-t="s" data-a-h="center" data-f-sz="9">{tech.split(' ')[0]}</th>)}
         </tr>
         <tr>
-          <th style={{ 'width': 60 }}></th>
-          {techs.map(tech => <th key={tech} data-t="s" data-a-h="center">КПД | Время</th>)}
+          <th style={{ 'width': 20 }}></th>
+          {techs.map(tech => <th key={tech} data-t="s" data-a-h="center" data-f-sz="8">КПД|Ч</th>)}
         </tr>
       </thead>
       <tbody>
         {days.map(day =>
           <tr key={day} style={colorDay(day)}>
-            <th data-t="s" data-fill-color={stylesExcelDay(day)} data-a-h="center">{day.split('-')[2]}</th>
+            <th data-t="s" data-fill-color={stylesExcelDay(day)} data-a-h="center" data-f-sz="10">{day.split('-')[2]}</th>
             {techs.map(tech => kpds?.filter(kpd => kpd.tech === tech && kpd.createAt === day).length === 1
               ? kpds?.filter(kpd => kpd.tech === tech && kpd.createAt === day)
                 .map((kpd, id) =>
-                  <th key={id} style={colorKpd(day, kpd.kpd)} data-t="s" data-fill-color={stylesExcelKpd(day, kpd.kpd)} data-a-h="center">
-                    {kpd.kpd} | {convertFromKpdToTime(kpd.kpd)}
+                  <th key={id} style={colorKpd(day, kpd.kpd)} data-t="s" data-fill-color={stylesExcelKpd(day, kpd.kpd)} data-a-h="center" data-f-sz="10">
+                    {kpd.kpd}|{convertFromKpdToTime(kpd.kpd)}
                   </th>
                 )
               : <th data-t="s" data-a-h="center">x</th>
