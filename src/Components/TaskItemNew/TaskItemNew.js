@@ -42,6 +42,9 @@ import ExclamationMark from '../../img/ExclamationMark.png'
 import Suitcase from '../../img/Suitcase.png'
 import { $depStatus } from "../../state/user";
 
+
+import MapContainer from '../Map/MapHistory';
+
 const PopUp = ({ data, func }) => {
 
     useEffect(() => {
@@ -304,8 +307,13 @@ const TaskItemNew = ({ item }) => {
                     </li>
                     <li className={nav === 'history' ? styles.active : null} onClick={() => setNav('history')}>
                         <img src={History} alt="" />
-
                     </li>
+
+                    
+                    {history2.filter(el => el.hasOwnProperty('location')).filter(el => el.location !== null).length > 0 ? <li style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={nav === 'historyLocation' ? styles.active : null} onClick={() => setNav('historyLocation')}>
+                        <p>Карта</p>
+                    </li> : null}
+
                     <li style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={nav === 'historyObj' ? styles.active : null} onClick={() => setNav('historyObj')}>
                         <p>История</p>
                     </li>
@@ -536,6 +544,9 @@ const TaskItemNew = ({ item }) => {
 
 
             </div> : null}
+
+            {nav === 'historyLocation' ? <MapContainer items={history2} nav={"req"} user={user}/> : null}
+
             {nav === 'blockInfo' ? item[1] !== '0' ? <DopInfo num={item[1]} /> : <p style={{ textAlign: "center" }}>В задаче нет номера объекта!</p> : null}
 
             {nav === 'files' ? <div className={styles.filesWrapper}>
