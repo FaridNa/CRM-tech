@@ -570,7 +570,7 @@ const TaskItemNew = ({ item }) => {
             {nav === 'chat' ? <ItemChat item={item} /> : null}
             {report ? <ReportWrapper req={item} func={() => showReport(false)} /> : null}
 
-            {nav !== 'chat' && (admins.includes(user.ID)) ? <footer className={styles.footerNav}>
+            {nav !== 'chat' && nav !== 'historyLocation' && (admins.includes(user.ID)) ? <footer className={styles.footerNav}>
                 <ul>
                     <li className={nav === 'info' ? styles.active : null} style={{ background: 'white' }} onClick={() => {
                         const answer = window.confirm('Удалить задачу?')

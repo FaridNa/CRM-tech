@@ -72,7 +72,7 @@ class WithMarkers extends Component {
                     lng: 48.02041759999999
                 }}
             >
-
+                
 
 
                 {this.props.nav === 'null' ? this.props.items.map(el => {
@@ -126,6 +126,7 @@ class WithMarkers extends Component {
                     marker={this.state.activeMarker}
                     onClose={this.onInfoWindowClose}
                     visible={this.state.showingInfoWindow}
+                    onClick={console.log(this.props.items)}
                 >
                     <div className={styles.infoWrapper} >
                         <p className={styles.type}>{this.state.selectedPlace.type}</p>
