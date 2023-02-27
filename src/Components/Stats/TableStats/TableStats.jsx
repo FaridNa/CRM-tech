@@ -20,7 +20,7 @@ const TableStats = ({ sd, ed, stats }) => {
         && new Date(item.createAt).getDay() !== 0) || item.kpd !== '0');
   }
 
-  const columns = ['ФИО', 'Сред', 'Макс', 'Мин', 'Претензии', 'Повторы', 'Не выполненные', 'Прогулы'];
+  const columns = ['сред', 'макс', 'прет', 'повт', 'невы', 'прог', 'брак'];
   const Average = (tech, arr) => {
     const filtredArr = filtredArray(tech, arr);
     return (filtredArr.reduce((a, b) => a + +b.kpd, 0) / filtredArr.length).toFixed(1);
@@ -32,25 +32,31 @@ const TableStats = ({ sd, ed, stats }) => {
 
   return (
     <table border="1" cellPadding="3" >
-      <thead>
-        <tr>{columns.map(column => <th data-t="s" data-a-h="center" key={column}>{column}</th>)}</tr>
-      </thead>
       <tbody>
-        {techs.map(tech =>
-          <tr key={tech} >
-            <th data-t="s" data-a-h="center">{tech.split(' ')[0]}</th>
-            <th style={colorKpd(Average(tech, stats?.kpds))}
-              data-t="n" data-fill-color={stylesExcelKpd(Average(tech, stats?.kpds))} data-a-h="center">{Average(tech, stats?.kpds)}</th>
-            <th style={colorKpd(Math.max(...filtredArray(tech, stats?.kpds).map(item => +item.kpd)))}
-              data-t="n" data-fill-color={stylesExcelKpd(Math.max(...filtredArray(tech, stats?.kpds).map(item => +item.kpd)))} data-a-h="center">
-              {Math.max(...filtredArray(tech, stats?.kpds).map(item => +item.kpd))}</th>
-            <th style={colorKpd(Math.min(...filtredArray(tech, stats?.kpds).map(item => +item.kpd)))}
-              data-t="n" data-fill-color={stylesExcelKpd(Math.min(...filtredArray(tech, stats?.kpds).map(item => +item.kpd)))} data-a-h="center">
-              {Math.min(...filtredArray(tech, stats?.kpds).map(item => +item.kpd))}</th>
-            <th data-t="n" data-a-h="center">{stats?.pretensions.filter(p => p.plane_techs.includes(tech)).length}</th>
-            <th data-t="n" data-a-h="center">{stats?.repeats.filter(p => p.plane_techs.includes(tech)).length}</th>
-            <th data-t="n" data-a-h="center">{stats?.notCompleted.filter(p => p.plane_techs.includes(tech)).length}</th>
-            <th data-t="n" data-a-h="center">{Absense(tech, stats?.kpds)}</th>
+        {columns.map(column =>
+          <tr key={column} >
+            <th data-t="s" data-a-h="center" data-f-sz="8" key={column}>{column}</th>
+            {techs.map(tech => {
+              if (column === 'сред') {
+                const avrg = Average(tech, stats?.kpds);
+                return <th style={colorKpd(avrg)} data-t="n" data-fill-color={stylesExcelKpd(avrg)} data-a-h="center" data-f-sz="10">{avrg}</th>;
+              }
+              else if (column === 'макс') {
+                const max = Math.max(...filtredArray(tech, stats?.kpds).map(item => +item.kpd));
+                return <th style={colorKpd(max)} data-t="n" data-fill-color={stylesExcelKpd(max)} data-a-h="center" data-f-sz="10">{max}</th>;
+              }
+              else if (column === 'прет')
+                return <th data-t="n" data-a-h="center" data-f-sz="10">{stats?.pretensions.filter(p => p.plane_techs.includes(tech)).length}</th>;
+              else if (column === 'повт')
+                return <th data-t="n" data-a-h="center" data-f-sz="10">{stats?.repeats.filter(p => p.plane_techs.includes(tech)).length}</th>;
+              else if (column === 'невы')
+                return <th data-t="n" data-a-h="center" data-f-sz="10">{stats?.notCompleted.filter(p => p.plane_techs.includes(tech)).length}</th>;
+              else if (column === 'прог')
+                return <th data-t="n" data-a-h="center" data-f-sz="10">{Absense(tech, stats?.kpds)}</th>;
+              else if (column === 'брак')
+                return <th data-t="n" data-a-h="center" data-f-sz="10">{stats?.defect.filter(p => p.plane_techs.includes(tech)).length}</th>;
+              return 'Это ошибочное сообщение, ты не мог сюда попасть';
+            })}
           </tr>)}
       </tbody>
     </table>

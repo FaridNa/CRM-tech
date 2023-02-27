@@ -46,17 +46,16 @@ const Stats = () => {
             <button onClick={StatsHandler}>Сгенерировать</button>
             <button onClick={UploadTables}>Выгрузить</button>
           </div>
-          <table ref={refTable}>
+          <table ref={refTable} data-cols-width="5">
             <td>
               <tr>
-                <th></th><th></th><th></th>
-                <th data-t="s" data-f-sz="20" data-f-bold="true">
+                <th></th>
+                <th data-t="s" data-f-sz="12" data-f-bold="true">
                   Ведомость за {startDate.toLocaleString('ru', { month: 'long' })} {startDate.getFullYear()}</th>
               </tr>
             </td>
-            <td><tr></tr><tr></tr></td>
             <td><TableKpd sd={startDate} ed={endDate} kpds={stats?.kpds} /></td>
-            <td><tr></tr><tr></tr></td>
+            <td><tr></tr></td>
             <td><TableStats sd={startDate} ed={endDate} stats={stats} /></td>
           </table>
         </> : null}
