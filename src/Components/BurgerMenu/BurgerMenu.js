@@ -55,7 +55,7 @@ const BurgerMenu = ({ active, setActive }) => {
                     </li>
                     :null}
                     <li>
-                        {(user.UF_DEPARTMENT[0] === 51 || user.UF_DEPARTMENT[0] === 25 || user.UF_DEPARTMENT[0] === 37 || user.UF_DEPARTMENT[0] === 41 || user.UF_DEPARTMENT[0] === 43 || user.UF_DEPARTMENT[0] === 45) && user.DEFAULT_DEP === undefined ? null : <select className={styles.select_reg} name="type_select" onChange={(e) => {
+                        {(user.UF_DEPARTMENT[0] === 51 || user.UF_DEPARTMENT[0] === 25 || user.UF_DEPARTMENT[0] === 37 || user.UF_DEPARTMENT[0] === 41 || user.UF_DEPARTMENT[0] === 43 || user.UF_DEPARTMENT[0] === 45) && user.DEFAULT_DEP === undefined ? null : <select className={styles.select_reg} name="type_select" value={user?.UF_DEPARTMENT[0]} onChange={(e) => {
                             user.DEFAULT_DEP && user.DEFAULT_DEP.length ? setUser({...user, UF_DEPARTMENT: [+e.target.value]}) : setUser({...user, DEFAULT_DEP: user.UF_DEPARTMENT, UF_DEPARTMENT: [+e.target.value]})
                             setActive(false)
                         }}>

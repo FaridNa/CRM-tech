@@ -1,10 +1,10 @@
 export const setEquipmentHistory = async(id, type, value, user, func = () => {}) => {
-    
-    console.log("id = ",id)
-    console.log("type =", type)
+
+    //console.log("id = ",id)
+    //console.log("type =", type)
     // console.log(value)
     // console.log(user)
-    
+
     let formData = new FormData();
 
     formData.append('id', id);

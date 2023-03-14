@@ -17,12 +17,12 @@ export const createEquipment = async (form, user) => {
     for (let key in form) { key==="status" ? formData.append("status", "Создан") : formData.append([key], form[key]) }
     formData.append('user',user.LAST_NAME + " " + user.NAME + " " + user.SECOND_NAME);
 
-  // console.log("", 
+  // console.log("",
   // "create",
   // `Оборудование создано ${new Date().toLocaleDateString('en-CA') + ' ' + new Date().toLocaleTimeString()} Пользователем: ${user.LAST_NAME}`,
   // user.LAST_NAME + " " + user.NAME + " " + user.SECOND_NAME);
 
-  console.log(formData);
+    //console.log(formData);
     fetch('https://volga24bot.com/kartoteka/api/equipment/createEquipment.php', {
       method: "POST",
       body: formData

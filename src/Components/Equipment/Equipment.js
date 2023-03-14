@@ -45,7 +45,6 @@ const Equipment = () => {
   }
 
   const GetUniqueEquipment = (equipment) => {
-    console.log(allEquipment);
     return equipment.map(e => e.type2).filter((v, i, a) => a.indexOf(v) === i)
   }
 
@@ -61,11 +60,9 @@ const Equipment = () => {
     if (create === false) {
       GetAllEquipment().
         catch(console.error);
-      console.log("update!!!");
     } else if (editStatus === false) {
       GetAllEquipment().
         catch(console.error);
-      console.log("update!!!");
     }
   }, [create, editStatus, refresh])
 
@@ -101,18 +98,18 @@ const Equipment = () => {
               <tr key={el.id}>
                 <td>{el.type}</td>
                 <td>{el.type1}</td>
-                <td className={styles.tdEquipmentName} onClick={e => { setSelectedEquipment(el); setInfo(true); console.log(el) }}>{el.name}</td>
+                <td className={styles.tdEquipmentName} onClick={e => { setSelectedEquipment(el); setInfo(true); }}>{el.name}</td>
                 <td>{el.buhCounter}</td>
                 {/* <td>{el.payMethod}</td> */}
                 <td>{el.description}</td>
                 <td>{JSON.parse(el.history)?.filter(item => item.type === "create")?.filter(item => item.date !== null)[0]?.date} </td>
                 <td>
-                  {el.status === "Установлен" ? <div style={{ backgroundColor: 'green' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); console.log(el) }}>{el.status}</div> :
-                    el.status === "Создан" ? <div style={{ backgroundColor: '#003366' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); console.log(el) }}>{el.status}</div> :
-                      el.status === "Выдан" ? <div style={{ backgroundColor: '#f77f00' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); console.log(el) }}>{el.status}</div> :
-                        el.status === "Утерян" ? <div style={{ backgroundColor: '#d62828' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); console.log(el) }}>{el.status}</div> :
-                          el.status === "Возвращен" ? <div style={{ backgroundColor: '#023047' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); console.log(el) }}>{el.status}</div> :
-                            el.status === "Восстановлен" ? <div style={{ backgroundColor: '#006d77' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); console.log(el) }}>{el.status}</div> : null}</td>
+                  {el.status === "Установлен" ? <div style={{ backgroundColor: 'green' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); }}>{el.status}</div> :
+                    el.status === "Создан" ? <div style={{ backgroundColor: '#003366' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); }}>{el.status}</div> :
+                      el.status === "Выдан" ? <div style={{ backgroundColor: '#f77f00' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); }}>{el.status}</div> :
+                        el.status === "Утерян" ? <div style={{ backgroundColor: '#d62828' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); }}>{el.status}</div> :
+                          el.status === "Возвращен" ? <div style={{ backgroundColor: '#023047' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); }}>{el.status}</div> :
+                            el.status === "Восстановлен" ? <div style={{ backgroundColor: '#006d77' }} className={styles.tdDivEquipmentStatus} onClick={e => { setSelectedEquipment(el); setEditStatus(true); }}>{el.status}</div> : null}</td>
                 <td >{el.techName.split(" ")[0]} {el.techName.split(" ")[1][0]}.{el.techName.split(" ")[2][0]}.</td>
                 <td className={styles.tdDelete} onClick={e => deleteEquipment(el.id, user)}><GiTrashCan /></td>
               </tr>
