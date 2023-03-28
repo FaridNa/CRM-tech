@@ -162,8 +162,6 @@ const MyTaskItem = ({item}) => {
 
     }
 
-
-    console.log()
     return (
             <div className={styles.taskItemWrapper}>
                 {loading ? <div className={styles.loaderWrapper}><Loader/></div> : null}

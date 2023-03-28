@@ -27,7 +27,7 @@ const Search = () => {
     const [isTO, setIsTO] = useState(false);
 
     const [tasks, setTasks] = useState([]);
-    
+
     const fetchDataHistory = async () => {
       let a = null;
       let b = null;
@@ -88,7 +88,7 @@ const Search = () => {
                     .filter(item => !isWorking ? item[18] !== 'В работе' : item)
                     .splice(0, 40)
                     .map((el, i) => {
-                      console.log(el);
+                      //console.log(el);
                         return <TaskItem task={el} key={el[0]} i={i} history={tasks}/>
 
                     })}

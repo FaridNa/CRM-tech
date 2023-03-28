@@ -67,7 +67,7 @@ class WithMarkers extends Component {
     }
 
     onPolylineClick = (props, polyline) => {
-        console.log(polyline.getPath().getArray()[0].toJSON().lat)
+        //console.log(polyline.getPath().getArray()[0].toJSON().lat)
         this.setState({
             center: {
                 lat: polyline.getPath().getArray()[0].toJSON().lat,

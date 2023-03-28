@@ -12,7 +12,7 @@ export const deleteEquipment = async (id, user) => {
     let formData = new FormData();
     formData.append('id', id)
 
-    console.log(formData)
+    //console.log(formData)
     fetch('https://volga24bot.com/kartoteka/api/equipment/deleteEquipment.php', {
       method: "POST",
       body: formData
