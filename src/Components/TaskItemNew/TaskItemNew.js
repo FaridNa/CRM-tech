@@ -310,7 +310,7 @@ const TaskItemNew = ({ item }) => {
                     </li>
 
                     
-                    {history2.filter(el => el.hasOwnProperty('location')).filter(el => el.location !== null).length > 0 ? <li style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={nav === 'historyLocation' ? styles.active : null} onClick={() => setNav('historyLocation')}>
+                    {history2.filter(el => el.hasOwnProperty('location')).filter(el => el.location !== null && el.location !== "загрузка.../загрузка...").length > 0 ? <li style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={nav === 'historyLocation' ? styles.active : null} onClick={() => setNav('historyLocation')}>
                         <p>Карта</p>
                     </li> : null}
 
