@@ -29,7 +29,7 @@ function getDateOnMS(date) {
 }
 
 export const TimeLine = ({tasks, title, info, status, plane}) => {
-    
+
     const title2 = title.split(' ');
     const firstTime = useStore($firstTime);
     const [planeT, setPlane] = useState([])
@@ -45,7 +45,6 @@ export const TimeLine = ({tasks, title, info, status, plane}) => {
             return true
         }
     })
-
 
     const date = new Date().getHours();
     useEffect(() => {
@@ -64,15 +63,15 @@ export const TimeLine = ({tasks, title, info, status, plane}) => {
             })
             .catch(function(res){ console.log(res) })
 
-        fetch(`https://volga24bot.com/kartoteka/api/tech/planing/getTrip.php?tech=${title2[0]}&date=${moment(firstTime).format('YYYY-MM-DD')}`)
-            .then(res => res.json())
-            .then(tasks => {
+        // fetch(`https://volga24bot.com/kartoteka/api/tech/planing/getTrip.php?tech=${title2[0]}&date=${moment(firstTime).format('YYYY-MM-DD')}`)
+        //     .then(res => res.json())
+        //     .then(tasks => {
 
-                if (tasks) {
-                    setTrip(tasks)
-                  }
-            })
-            .catch(function(res){ console.log(res) })
+        //         if (tasks) {
+        //             setTrip(tasks)
+        //           }
+        //     })
+        //     .catch(function(res){ console.log(res) })
 
     }, [plane, firstTime])
 
@@ -123,7 +122,7 @@ export const TimeLine = ({tasks, title, info, status, plane}) => {
             <div>
                 <p className={styles.title}>{title2[0]}</p>
                 {status === 'Дежурный' ? <p style={{color: 'green', fontSize: 13, marginLeft: 10}}>Дежурный</p> : null}
-                {trip.length ? <p style={{color: 'blue', fontSize: 13, marginLeft: 10}}>Командировка</p> : null}
+                {/* {trip.length ? <p style={{color: 'blue', fontSize: 13, marginLeft: 10}}>Командировка</p> : null} */}
                 <TechAnalys tasks={tasks} tech={info[0]} plane={plane} planeTasks={planeT} fio={title}/>
             </div>
             <div style={{overflowX: 'auto', overflowY: 'hidden',height: 70, paddingTop: 3, paddingBottom: 8}}>

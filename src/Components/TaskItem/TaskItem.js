@@ -27,7 +27,7 @@ const TaskItem = ({task, i, func, history}) => {
     }
 
     const [hLength, sethLength] = useState(0);
-    
+
 
     useEffect(() => {
       let l = task[1] !== '0'
@@ -41,8 +41,9 @@ const TaskItem = ({task, i, func, history}) => {
       return Math.ceil(Math.abs(firstTime.getTime() - taskDate) / (1000 * 3600 * 24)) - 1;
     }, [task, firstTime])
 
-    const isPast = useCallback((date) => {
-      const taskDate = Date.parse(date.replace(' ', 'T'));
+    const isPast = useCallback((task) => {
+      const taskDate =  Date.parse((task[56] + " " + task[57]).replace(' ', 'T'));
+      //const taskDate = Date.parse(task[17].replace(' ', 'T'));
       return firstTime.setHours(0, 0, 0, 0) > taskDate;
     }, [firstTime])
 
@@ -56,7 +57,7 @@ const TaskItem = ({task, i, func, history}) => {
 					<strong>{i+1}</strong>
                 {task[18] === 'Брак' ? <div><img style={{width: 20, height: 20}} src={Brak} alt=""/></div> : null}
                 {task[18] === 'Новая' ?
-                isPast(task[17])
+                isPast(task)
                 ? <div  className={`${styles.circle} ${styles.transparentRed}`}></div>
                 : <div  className={`${styles.circle} ${styles.blue}`}></div>
                 : null}

@@ -13,8 +13,8 @@ const TechAnalys = ({tech = [0, '', 0, 0], tasks, plane, planeTasks, fio}) => {
     const [coefColor, setCoefColor] = useState('green')
 
     const planeTask = useStore($planeStatus);
-    
-    
+
+
     const [planeCoef, setPlaneCoef] = useState(0);
     const [prosrochCoef, setProsroschCoef] = useState(0);
 
@@ -25,7 +25,7 @@ const TechAnalys = ({tech = [0, '', 0, 0], tasks, plane, planeTasks, fio}) => {
             if (el[8] !== "Повтор" && el[18] !== "Брак")
             {
                 if (getSurname(el[55]) === fio) {// 42 - executor   55 - plane tech
-                    
+
                     const time = el[59] * 60 * 60;
                     seconds+=time;
                 }
@@ -107,13 +107,13 @@ const TechAnalys = ({tech = [0, '', 0, 0], tasks, plane, planeTasks, fio}) => {
 
         setPlaneCoef(
             getCoef(
-                planeTask.CURRENT.filter(el => Date.parse(el[17].replace(' ', 'T')) >= Yesterday)
+                planeTask.CURRENT.filter(el => Date.parse((el[56] + " " + el[57]).replace(' ', 'T')) >= Yesterday)
             )
         )
 
         setProsroschCoef(
             getCoef(
-                planeTask.CURRENT.filter(el => Date.parse(el[17].replace(' ', 'T')) < Yesterday)
+                planeTask.CURRENT.filter(el => Date.parse((el[56] + " " + el[57]).replace(' ', 'T')) < Yesterday)
             )
         )
 
