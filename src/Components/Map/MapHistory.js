@@ -53,7 +53,8 @@ class WithMarkers extends Component {
         center: {
             lat: 46.3375031,
             lng: 48.02041759999999
-        }
+        },
+        filteredItems: this.props.items.filter(el => el.hasOwnProperty('location')).filter(el => el.location !== null && el.location!== "загрузка.../загрузка..." && Object.keys(typeNames).includes(el.type)).filter((el, index, array) => array.map(elem => elem['type']).indexOf(el['type']) === index)
     };
 
     onMarkerClick = async (props, marker) => {
@@ -97,7 +98,7 @@ class WithMarkers extends Component {
             styles: mapStyle
         })
 
-        // console.log(this.props.items.filter(el => el.hasOwnProperty('location')).filter(el => el.location !== null).map(el => ({
+        // console.log(this.state.filteredItems.map(el => ({
         //     lat: el.location.split('/')[0],
         //     lng: el.location.split('/')[1]
         // })))
@@ -108,6 +109,8 @@ class WithMarkers extends Component {
         //     { lat: -18.142, lng: 178.431 },
         //     { lat: -27.467, lng: 153.027 },
         // ])
+
+        console.log(this.props.items)
     }
 
     handleClick = () => {
@@ -129,18 +132,18 @@ class WithMarkers extends Component {
                 gestureHandling={"greedy"}
                 onReady={(mapProps, map) => this._mapLoaded(mapProps, map)}
                 initialCenter={{
-                    lat: parseFloat(this.props.items.filter(el => el.hasOwnProperty('location')).filter(el => el.location !== null)[0].location.split('/')[0]),
-                    lng: parseFloat(this.props.items.filter(el => el.hasOwnProperty('location')).filter(el => el.location !== null)[0].location.split('/')[1])
+                    lat: parseFloat(this.state.filteredItems[0].location.split('/')[0]),
+                    lng: parseFloat(this.state.filteredItems[0].location.split('/')[1])
                 }}
                 center={this.state.center}
             >
 
-                {this.props.items.filter(el => el.hasOwnProperty('location')).filter(el => el.location !== null).map(el => {
+                {this.state.filteredItems.map(el => {
                     return <Marker icon={icons[el.type]} key={el.date} name={el.user} type={el.type} address={""} problem={el.value} dateCreate={el.date} onClick={this.onMarkerClick}
                         position={{ lat: el.location.split('/')[0], lng: el.location.split('/')[1] }} optimized={true} />
                 })}
 
-                {this.props.items.filter(el => el.hasOwnProperty('location')).filter(el => el.location !== null).map((el, i, arr) =>
+                {this.state.filteredItems.map((el, i, arr) =>
                     i < arr.length - 1 ?
                         <Polyline
                             path={[
@@ -152,7 +155,7 @@ class WithMarkers extends Component {
                         />
                         : null)}
 
-                {this.props.items.filter(el => el.hasOwnProperty('location')).filter(el => el.location !== null).map(el =>
+                {this.state.filteredItems.map(el =>
                     <Circle
                         options={{ strokeColor: "red", fillColor: "red", fillOpacity: "90" }}
                         center={{
@@ -179,10 +182,11 @@ class WithMarkers extends Component {
                 </InfoWindow>
 
                 <ul className={styles.mapNav}>
-                    {this.props.items.filter(el => el.hasOwnProperty('location')).filter(el => el.location !== null).map(el =>
+                    {this.state.filteredItems.map(el =>
                         <li className={styles.typeName} onClick={e => this.setState({ center: { lat: el.location.split('/')[0], lng: el.location.split('/')[1] } })}>
                             <img src={icons[el.type]} />
-                            <p style={{ color: colors[el.type] }}>{typeNames[el.type]}</p>
+                            <p style={{ color: colors[el.type] }}>{typeNames[el.type]} {el.date}</p>
+                            {/* <p style={{ color: colors[el.type] }}>{el.date}</p> */}
                         </li>)}
                 </ul>
 

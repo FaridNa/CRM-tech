@@ -310,7 +310,7 @@ const TaskItemNew = ({ item }) => {
                     </li>
 
                     
-                    {history2.filter(el => el.hasOwnProperty('location')).filter(el => el.location !== null).length > 0 ? <li style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={nav === 'historyLocation' ? styles.active : null} onClick={() => setNav('historyLocation')}>
+                    {history2.filter(el => el.hasOwnProperty('location')).filter(el => el.location !== null && el.location !== "загрузка.../загрузка...").length > 0 ? <li style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={nav === 'historyLocation' ? styles.active : null} onClick={() => setNav('historyLocation')}>
                         <p>Карта</p>
                     </li> : null}
 
@@ -377,9 +377,8 @@ const TaskItemNew = ({ item }) => {
                     {edit ?
                         <select onChange={(e) => setForm(prevState => ({ ...prevState, executor: e.target.value }))} placeholder={'Общая'}>
                             {options2.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
-                            {user.UF_DEPARTMENT === "15" ? <option value="Иралиев Фарид Апахович">Иралиев Фарид Апахович</option> : null}
-                            {user.UF_DEPARTMENT === "15" ? <option value="Шишлянников Никита Сергеевич">Шишлянников Никита Сергеевич </option> : null}
-                            {user.UF_DEPARTMENT === "15" ? <option value="Тюлюгушев Ринат Исбасарович">Тюлюгушев Ринат Исбасарович</option> : null}
+                            {user.UF_DEPARTMENT[0] === 15 ? <option value="Иралиев Фарид Апахович">Иралиев Фарид Апахович</option> : null}
+                            {user.UF_DEPARTMENT[0] === 15 ? <option value="Шишлянников Никита Сергеевич">Шишлянников Никита Сергеевич </option> : null}
                             <option value="">Общая (Без Исполнителя)</option>
                             <option value={item[7].length ? getShortName(item[7]) : item[55] ? getShortName(item[55]) : ""} selected disabled hidden>{item[7].length ? getShortName(item[7]) : item[55].length ? getShortName(item[55]) : "Общая (Без Исполнителя)"}</option>
                         </select> :
