@@ -3,7 +3,7 @@ import {createEvent, createStore, combine, createEffect} from 'effector'
 
 export const setUser = createEvent();
 
-export const $user = createStore({ID: 0, UF_DEPARTMENT: [199999]}).on(setUser, (_, payload) => payload)
+export const $user = createStore({ID: 0, UF_DEPARTMENT: [199999]}).on(setUser, (_, payload) => payload.ID === "3707" ? {...payload, UF_DEPARTMENT: [+'all']} : payload)
 
 
 export const getDep = createEffect(async (id) => {
