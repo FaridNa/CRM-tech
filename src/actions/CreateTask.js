@@ -40,7 +40,7 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
   setLoading(true);
 
   if (lowleveltech.includes(form.customer) && form.type === 'СО') {
-    alert('Снятие объемов может выполнять только Кирюшкин Олег.');
+    alert('Этот техник не может выполнять снятие объемов.');
     setLoading(false);
     return;
   }
@@ -56,6 +56,18 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
   }
 
   if (form.customer) {
+    if (form.customer !== 'Галкин Сергей Александрович') { ////////////////////////////////////////////////////////////////////////
+      const maxTime = 8 * 2;
+      const res = await fetch('https://volga24bot.com/kartoteka/api/crm/taskByTech.php?fio=' + form.customer.split(' ')[0])
+            .then(res => res.json());
+      var sumTime = 0;
+      for (const item of res) sumTime += +item.timeJob;
+      if (sumTime > maxTime) {
+        alert(`На ${form.customer} назначено уже ${sumTime} часов работы, на него больше нельзя ставить задачи.`);
+        setLoading(false);
+        return;
+      }
+    }
     // plane - новые и просроченные
     // graph - в работе и выполненные
     // 56 - дата
