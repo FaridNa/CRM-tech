@@ -57,9 +57,9 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
 
   if (form.customer) {
     if (form.customer !== 'Галкин Сергей Александрович') { ////////////////////////////////////////////////////////////////////////
-      const maxTime = 8 * 2;
+      const maxTime = 8 * 3;
       const res = await fetch('https://volga24bot.com/kartoteka/api/crm/taskByTech.php?fio=' + form.customer.split(' ')[0])
-            .then(res => res.json());
+        .then(res => res.json());
       var sumTime = 0;
       for (const item of res) sumTime += +item.timeJob;
       if (sumTime > maxTime) {

@@ -143,7 +143,7 @@ const PopUp = ({ item, time, close }) => {
         return;
       }
 
-      const maxTime = 8 * 2;
+      const maxTime = 8 * 3;
       for (const fio of techs) {
         const res = await fetch('https://volga24bot.com/kartoteka/api/crm/taskByTech.php?fio=' + fio.split(' ')[0])
           .then(res => res.json());
