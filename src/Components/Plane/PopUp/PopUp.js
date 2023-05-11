@@ -118,9 +118,9 @@ const PopUp = ({ item, time, close }) => {
   })
   const admins = ['1', '11', '33', '29', '23', '53', '317', '109', '147', '3503', '3707', '83', '211'];
 
-  const lowleveltech = ['Ларионов Анатолий Анатольевич', 'Володин Александр Александрович', 'Сергеев Андрей Николаевич', 'Мурзаков Денис Александрович', 'Трусов Егор Владимирович'];
+  //const lowleveltech = ['Ларионов Анатолий Анатольевич', 'Володин Александр Александрович', 'Сергеев Андрей Николаевич', 'Мурзаков Денис Александрович', 'Трусов Егор Владимирович'];
 
-  const handleSubmit = (date, time, type, techs, all, id, coefs) => {
+  const handleSubmit = async (date, time, type, techs, all, id, coefs) => {
     if (techs.length) {
 
       let data = new FormData();
@@ -142,12 +142,24 @@ const PopUp = ({ item, time, close }) => {
         alert('Запланированное время не может быть меньше текущего!');
         return;
       }
-      
 
-      if (lowleveltech.includes(item[42]) && item[8] === 'СО') {
-        alert('Снятие объемов может выполнять только Кирюшкин Олег.');
-        return;
+      const maxTime = 8 * 2;
+      for (const fio of techs) {
+        const res = await fetch('https://volga24bot.com/kartoteka/api/crm/taskByTech.php?fio=' + fio.split(' ')[0])
+          .then(res => res.json());
+        var sumTime = 0;
+        for (const item of res) sumTime += +item.timeJob;
+        if (sumTime > maxTime) {
+          alert(`На ${fio} назначено уже ${sumTime} часов работы, на него больше нельзя ставить задачи.`);
+          return;
+        }
       }
+      return;
+
+      // if (lowleveltech.includes(item[42]) && item[8] === 'СО') {
+      //   alert('Снятие объемов может выполнять только Кирюшкин Олег.');
+      //   return;
+      // }
 
       if (item[48] === '1') {
         if (item[42]) {
