@@ -111,7 +111,7 @@ const options = [
 
 
 
-const fioTech = ['Артемов', 'Ларионов', 'Кирюшкин', 'Володин', 'Сергеев', 'Фатиги']
+const fioTech = ['Трусов', 'Пономарев', 'Фатиги']
 
 
 const TaskItemNew = ({ item }) => {
@@ -122,7 +122,7 @@ const TaskItemNew = ({ item }) => {
         label: `${el.LAST_NAME} ${el.NAME[0]}.${el.SECOND_NAME[0]}.`
     }))
 
-    const admins = [item[37], '1', '11', '33', '29', '23', '53', '317', '211', '109', '147', '3503', '3707'];
+    const admins = [item[37], '1', '11', '33', '29', '23', '53', '317', '211', '109', '147', '3503'];
 
     const [loading, setLoading] = useState(false)
     const [report, showReport] = useState(false);
@@ -309,7 +309,7 @@ const TaskItemNew = ({ item }) => {
                         <img src={History} alt="" />
                     </li>
 
-                    
+
                     {history2.filter(el => el.hasOwnProperty('location')).filter(el => el.location !== null && el.location !== "загрузка.../загрузка...").length > 0 ? <li style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={nav === 'historyLocation' ? styles.active : null} onClick={() => setNav('historyLocation')}>
                         <p>Карта</p>
                     </li> : null}
