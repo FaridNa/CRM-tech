@@ -64,8 +64,6 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
       for (const item of res) sumTime += +item.timeJob;
       if (sumTime > maxTime) {
         alert(`На ${form.customer} назначено уже ${sumTime} часов работы, на него больше нельзя ставить задачи.`);
-        setLoading(false);
-        return;
       }
     }
     // plane - новые и просроченные

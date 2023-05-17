@@ -151,7 +151,6 @@ const PopUp = ({ item, time, close }) => {
         for (const item of res) sumTime += +item.timeJob;
         if (sumTime > maxTime) {
           alert(`На ${fio} назначено уже ${sumTime} часов работы, на него больше нельзя ставить задачи.`);
-          return;
         }
       }
 
