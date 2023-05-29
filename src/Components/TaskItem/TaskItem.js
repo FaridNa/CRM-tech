@@ -61,8 +61,9 @@ const TaskItem = ({task, i, func, history}) => {
                 ? <div  className={`${styles.circle} ${styles.transparentRed}`}></div>
                 : <div  className={`${styles.circle} ${styles.blue}`}></div>
                 : null}
-                {task[18] === 'В работе' ? <div  className={`${styles.circle} ${styles.orange}`}></div> : null}
-                {task[18] !== 'В работе' && task[18] !== 'Новая' && task[18] !== 'Брак'  ? <div  className={`${styles.circle} ${styles.green}`}></div> : null}
+                {task[18] === 'В пути' ? <div  className={`${styles.circle} ${styles.orange}`}></div> : null}
+                {task[18] === 'В работе' ? <div  className={`${styles.circle} ${styles.yellow}`}></div> : null}
+                {task[18] !== 'В работе' && task[18] !== 'Новая' && task[18] !== 'В пути' && task[18] !== 'Брак'  ? <div  className={`${styles.circle} ${styles.green}`}></div> : null}
                 <strong style={{color: 'teal'}}>{hLength}</strong>
                 <p style={{marginTop: '26px'}}>{daysOverdue}</p>
             </div>

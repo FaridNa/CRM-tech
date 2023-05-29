@@ -14,12 +14,20 @@ export const TimeLineItem = ({timeStart, timeFinish, type, diffTime, task, i, ty
     const [width3, setWidth3] = useState(null);
     const [left2, setLeft2] = useState(null);
     const [left3, setLeft3] = useState(null);
+
+    const [width4, setWidth4] = useState(null);
+    const [left4, setLeft4] = useState(null);
+    const [width5, setWidth5] = useState(null);
+    const [left5, setLeft5] = useState(null);
+    const [C, setC] = useState('rgba(0,57,234, .5)');
+
     const [color, setColorr] = useState('green');
     const [newTimeStart, setNewTimeStart] = useState(null);
     const users = task[7].split(',').filter(el => el.indexOf('Фатиги') === -1 && el.indexOf('Петров') === -1)
     const firstTime = useStore($firstTime);
 
     const deadline = task[34] * 60 / users.length;
+    let timeMoving;
     let timeJob;
 
 
@@ -29,6 +37,34 @@ export const TimeLineItem = ({timeStart, timeFinish, type, diffTime, task, i, ty
     }, [task, firstTime])
 
     useEffect(() => {
+      let l2 = 0;
+      if (task[65] !== null) {
+        const d = task[65].substr(11, 5);
+        let newDate = moment().tz('Europe/Astrakhan')
+            let startDate = moment({
+                h: d.substr(0,2),
+                m: d.substr(3,2),
+                s: 0
+            })
+            const seconds = newDate.diff(startDate, "seconds")
+
+            if (seconds < 0) {
+                timeMoving = 0;
+            } else {
+                let resultDate = moment("1900-01-01 00:00:00").add(seconds, 'seconds').format("HH:mm:ss");
+                diffTime=resultDate.substr(0,5)
+                timeMoving = diffTime.substr(0,2) * 60 + +diffTime.substr(3,2);
+            }
+            if (timeMoving > 20) setC('red');
+            const w = timeMoving > 20 ? 20 * 0.5 : timeMoving * 0.5;
+            const l = (((d.substr(0, 2) - 8) * 60) + +d.substr(3, 2)) * 0.5;
+            const w2 = timeMoving > 20 ? (timeMoving * 0.5) - w - 1 : timeMoving * 0.5;
+            l2 = l + w;
+            setWidth4(w);
+            setLeft4(l);
+            setWidth5(w2);
+            setLeft5(l2);
+      }
         if (type === 'В работе') {
             let newDate = moment().tz('Europe/Astrakhan')
             let startDate = moment({
@@ -43,7 +79,7 @@ export const TimeLineItem = ({timeStart, timeFinish, type, diffTime, task, i, ty
             } else {
                 let resultDate = moment("1900-01-01 00:00:00").add(seconds, 'seconds').format("HH:mm:ss");
                 diffTime=resultDate.substr(0,5)
-                setColorr('orange');
+                setColorr('#ffe000');
                 timeJob = diffTime.substr(0,2) * 60 + +diffTime.substr(3,2);
             }
 
@@ -107,6 +143,8 @@ export const TimeLineItem = ({timeStart, timeFinish, type, diffTime, task, i, ty
 
             setWidth(width)
             setLeft(left)
+
+            setWidth5(left - l2);
         }
 
         if (type === 'В работе') {
@@ -159,6 +197,13 @@ export const TimeLineItem = ({timeStart, timeFinish, type, diffTime, task, i, ty
             {width3 !== null && left3 !== null ? <div onClick={() => setShowTask(task)} className={`${styles.item} `}  style={{width: width3, left: left3, backgroundColor: 'rgba(0,57,234, .5)',}} >
                 {width ? null : <p className={styles.number}>{i+1}</p>}
                 {i === lastI && width3 !== null && left3 !== null  ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
+            </div> : null}
+            {width4 !== null && left4 !== null ? <div onClick={() => setShowTask(task)} className={`${styles.item} `}  style={{width: width4, left: left4, backgroundColor: 'orange',}} >
+                {width ? null : <p className={styles.number}>{i+1}</p>}
+                {i === lastI && width4 !== null && left4 !== null  ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
+            </div> : null}
+            {width5 !== null && left5 !== null ? <div onClick={() => setShowTask(task)} className={`${styles.item} `}  style={{width: width5, left: left5, backgroundColor: C,}} >
+                {i === lastI && width5 !== null && left5 !== null  ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
             </div> : null}
         </div>
     )

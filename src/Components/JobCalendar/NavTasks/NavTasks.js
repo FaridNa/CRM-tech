@@ -67,12 +67,14 @@ const NavTasks = () => {
                     <li style={{background: 'rgba(0,57,234, .5)'}} onClick={() => nav === 'plane' ? setNav('all') : setNav('plane')} className={nav === 'plane' ? styles.active : null}><p>
                         {plane.CURRENT.filter(el => filterTasks(el, dep, selected))?.filter(el => !isPast(el))?.length}
                     </p> <p>План</p> </li>
-
-                    <li style={{background: 'orange'}} onClick={() => nav === 'injob' ? setNav('all') : setNav('injob')} className={nav === 'injob' ? styles.active : null}><p>
+                    <li style={{background: '#ff8000'}} onClick={() => nav === 'moving' ? setNav('all') : setNav('moving')} className={nav === 'moving' ? styles.active : null}><p>
+                        {graph.filter(el => el[18] === 'В пути').filter(el => filterTasks(el, dep, selected))?.length}
+                    </p> <p>В пути</p> </li>
+                    <li style={{background: '#ffe000'}} onClick={() => nav === 'injob' ? setNav('all') : setNav('injob')} className={nav === 'injob' ? styles.active : null}><p>
                         {graph.filter(el => el[18] === 'В работе').filter(el => filterTasks(el, dep, selected))?.length}
                     </p> <p>В работе</p> </li>
                     <li style={{background:  'rgba(35,163,62,0.9)'}} onClick={() => nav === 'comp' ? setNav('all') : setNav('comp')} className={nav === 'comp' ? styles.active : null}><p>
-                        {graph.filter(el => el[18] !== 'В работе').filter(el => filterTasks(el, dep, selected))?.length}
+                        {graph.filter(el => el[18] !== 'В работе' && el[18] !== 'В пути').filter(el => filterTasks(el, dep, selected))?.length}
                     </p> <p>Сделано</p> </li>
                 </ul>
                 <ul>
@@ -94,8 +96,9 @@ const NavTasks = () => {
                     ...plane.CURRENT.filter(el => filterTasks(el, dep, selected))?.sort((b, a) => Date.parse((a[56] + " " + a[57]).replace(' ', 'T')) - Date.parse((b[56] + " " + b[57]).replace(' ', 'T')))
                 ].map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks}/>)}
                 {nav === 'plane' && plane.CURRENT.filter(el => filterTasks(el, dep, selected))?.filter(el => !isPast(el))?.map((el, i)=> <TaskItem task={el} key={el[0]} i={i} history={tasks}/>) }
+                {nav === 'moving' && graph.filter(el => el[18] === 'В пути').filter(el => filterTasks(el, dep, selected))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks}/>) }
                 {nav === 'injob' && graph.filter(el => el[18] === 'В работе').filter(el => filterTasks(el, dep, selected))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks}/>) }
-                {nav === 'comp' && graph.filter(el => el[18] !== 'В работе').filter(el => filterTasks(el, dep, selected))?.map((el, i)=> <TaskItem task={el} key={el[0]} i={i} history={tasks}/>) }
+                {nav === 'comp' && graph.filter(el => el[18] !== 'В работе' && el[18] !== 'В пути').filter(el => filterTasks(el, dep, selected))?.map((el, i)=> <TaskItem task={el} key={el[0]} i={i} history={tasks}/>) }
                 {nav === 'change' && plane.CHANGES.filter(el => filterTasks(el, dep, selected))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks}/>) }
                 {nav === 'deff' && plane.CURRENT.filter(el => moment(`${el[56]} ${el[57]}`).valueOf() < new Date().getTime()).filter(el => filterTasks(el, dep, selected))?.filter(el => isPast(el))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks}/>) }
                 {nav === 'nc' && allReq.filter(el => (el[17].indexOf(moment(firstTime).format('YYYY-MM-DD')) !== -1 || el[17].indexOf(moment(firstTime).subtract(1, 'day').format('YYYY-MM-DD')) !== -1) && el[18] === 'Новая')?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks}/>) }

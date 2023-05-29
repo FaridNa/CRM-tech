@@ -343,7 +343,7 @@ const TaskItemNew = ({ item }) => {
                 <div className={styles.dflex}>
                     <div className={styles.taskItemInput}>
                         <p className={styles.label}  >Статус</p>
-                        <p style={item[18] === 'Брак' ? { color: "red" } : null} className={`${styles.status} ${item[18] === 'Новая' ? styles.redStatus : null} ${item[18] === 'В работе' ? styles.orangeStatus : null} ${item[18] !== 'Новая' && item[18] !== 'В работе' ? styles.blueStatus : null}`} >
+                        <p style={item[18] === 'Брак' ? { color: "red" } : null} className={`${styles.status} ${item[18] === 'Новая' ? styles.redStatus : null} ${item[18] === 'В пути' ? styles.orangeStatus : null} ${item[18] === 'В работе' ? styles.yellowStatus : null} ${item[18] !== 'Новая' && item[18] !== 'В пути' && item[18] !== 'В работе' ? styles.blueStatus : null}`} >
                             {item[18]}
                             <span>{daysOverdue}</span>
                             {(admins.includes(user.ID)) ? item[18] !== 'Новая' && item[18] !== 'В работе' ? <button className={styles.retryTask} onClick={onClickRetryTask}>Возобновить</button> : null : null}

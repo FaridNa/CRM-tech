@@ -41,7 +41,7 @@ export const TimeLine = ({tasks, title, info, status, plane}) => {
 
         const diffTime = htos + mtos + csec;
 
-        if (diffTime > 300 || el[18] === 'В работе') {
+        if (diffTime > 300 || el[18] === 'В работе' || el[18] === 'В пути') {
             return true
         }
     })

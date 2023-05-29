@@ -15,7 +15,7 @@ export const getNewReq = createEffect(async ({a, b}) => {
 })
 
 
-const $newReq = createStore({NEW: [], COMP: [], INJOB: [], NC: [], DEFFECT: [], DEFFECT2: {NEW: [], ALL: [], COMP: []}}).on(
+const $newReq = createStore({NEW: [], COMP: [], MOVING: [], INJOB: [], NC: [], DEFFECT: [], DEFFECT2: {NEW: [], ALL: [], COMP: []}}).on(
     getNewReq.doneData,
     (_, data) => data
 )
@@ -30,6 +30,7 @@ export const $newReqStatus = combine(
         } else {
             let data = {NEW: data2.NEW.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 COMP: data2.COMP.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
+                MOVING: data2.MOVING.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 INJOB: data2.INJOB.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 NC: data2.NC.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 DEFFECT: data2.DEFFECT.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
@@ -111,7 +112,43 @@ export const $newReqStatus = combine(
                 } else if (typeNav === 'ddv') {
                   return data.COMP.filter(el => el[8] === '220')
                 }
-            } else if (nav2 === 'INJOB') {
+            } else if (nav2 === 'MOVING') {
+              if (typeNav === 'so') {
+                  return data.MOVING.filter(el => el[8] === 'СО')
+              } else if (typeNav === 'req') {
+                  return data.MOVING.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор')
+              } else if (typeNav === 'mon') {
+                  return data.MOVING.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение')
+              } else if (typeNav === 'dem') {
+                  return data.MOVING.filter(el => el[8] === 'Демонтаж' )
+              } else if (typeNav === 'connection') {
+                  return data.MOVING.filter(el => el[3] === 'Нет контрольного события')
+              } else if (typeNav === 'repeats') {
+                  return data.MOVING.filter(el => el[3] === 'Повтор' )
+              } else if (typeNav === 'pre') {
+                  return data.MOVING.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта')
+              } else if (typeNav === 'toM') {
+                  return data.MOVING.filter(el => el[13] === 'Ежемесячное ТО' )
+              } else if (typeNav === 'toQ') {
+                  return data.MOVING.filter(el => el[13] === 'Ежеквартальное ТО')
+              } else if (typeNav === 'deffect') {
+                  return data.DEFFECT2.MOVING
+              } else if (typeNav === 'preP') {
+                  return data.MOVING.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта')
+              } else if (typeNav === 'corp') {
+                  return data.MOVING.filter(el => el[3] === 'Корпоративный')
+              }else if (typeNav === 'sp') {
+                return data.MOVING.filter(el => el[8] === 'Снятие/Постановка')
+              } else if (typeNav === 'sh') {
+                return data.MOVING.filter(el => el[8] === 'Шлейф')
+              } else if (typeNav === 'kts') {
+                return data.MOVING.filter(el => el[8] === 'КТС')
+              } else if (typeNav === 'key') {
+                return data.MOVING.filter(el => el[8] === 'Ключ')
+              } else if (typeNav === 'ddv') {
+                return data.MOVING.filter(el => el[8] === '220')
+              }
+          } else if (nav2 === 'INJOB') {
                 if (typeNav === 'so') {
                     return data.INJOB.filter(el => el[8] === 'СО')
                 } else if (typeNav === 'req') {
@@ -227,11 +264,12 @@ export const $counters = combine(
     (data2, isLoading, user) => {
 
         if (isLoading) {
-            return {NEW: [], COMP: [], INJOB: [], NC: [], DEFFECT: []}
+            return {NEW: [], COMP: [], MOVING: [], INJOB: [], NC: [], DEFFECT: []}
         } else {
 
             let data = {NEW: data2.NEW.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 COMP: data2.COMP.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
+                MOVING: data2.MOVING.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 INJOB: data2.INJOB.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 NC: data2.NC.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 DEFFECT: data2.DEFFECT.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
@@ -315,6 +353,25 @@ export const $counters = combine(
                 key: data.COMP.filter(el => el[8] === 'Ключ').length,
                 ddv: data.COMP.filter(el => el[8] === '220').length,
             }
+            const MOVING = {
+              req: data.MOVING.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
+              mon: data.MOVING.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение').length,
+              dem: data.MOVING.filter(el => el[8] === 'Демонтаж').length,
+              so: data.MOVING.filter(el => el[8] === 'СО').length,
+              pre: data.MOVING.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта').length,
+              toM: data.MOVING.filter(el => el[8] === 'ТО' && el[13].indexOf('меся') !== -1).length,
+              toQ: data.MOVING.filter(el => el[8] === 'ТО' && el[13].indexOf('квартал') !== -1).length,
+              repeats: data.MOVING.filter(el => el[3] === 'Повтор').length,
+              connection: data.MOVING.filter(el => el[3] === 'Нет контрольного события').length,
+              deffect: 0,
+              preP: data.MOVING.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта').length,
+              corp: data.MOVING.filter(el => el[3] === 'Корпоративный').length,
+              sp: data.MOVING.filter(el => el[8] === 'Снятие/Постановка').length,
+              sh: data.MOVING.filter(el => el[8] === 'Шлейф').length,
+              kts: data.MOVING.filter(el => el[8] === 'КТС').length,
+              key: data.MOVING.filter(el => el[8] === 'Ключ').length,
+              ddv: data.MOVING.filter(el => el[8] === '220').length,
+          }
             const INJOB = {
                 req: data.INJOB.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
                 mon: data.INJOB.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение').length,
@@ -334,7 +391,7 @@ export const $counters = combine(
                 key: data.INJOB.filter(el => el[8] === 'Ключ').length,
                 ddv: data.INJOB.filter(el => el[8] === '220').length,
             }
-            return {INJOB: INJOB, COMP: COMP, NC: NC, DEFFECT: DEFFECT, NEW:NEW}
+            return {MOVING: MOVING, INJOB: INJOB, COMP: COMP, NC: NC, DEFFECT: DEFFECT, NEW:NEW}
         }
     }
 )
