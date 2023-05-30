@@ -1,18 +1,32 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from './Nav.module.scss'
 import {useStore} from "effector-react";
 import {$nav, setNav} from "../../state/Nav";
 import TypeNav from "./TypeNav";
+import { Modal } from "./Modal/Modal";
 
 import {$counters} from "../../state";
 
 import {setCreateTask} from "../../state/createTaskState";
 
+export const useLocalStorage = (key, initState) => {
+  const [value, setValue] = useState(() => {
+    const storage = localStorage.getItem(key);
+    if (storage) return JSON.parse(storage);
+    return initState;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [value]);
+
+  return [value, setValue];
+}
 
 const Nav = ({setRefresh}) => {
     const nav = useStore($nav);
     const count = useStore($counters);
-
+    const [isOpen, setIsOpen] = useLocalStorage('modal', false);
 
     return (
         <div>
@@ -22,6 +36,12 @@ const Nav = ({setRefresh}) => {
                   setRefresh(prev => !prev);
                   setCreateTask(true);
                   }}>+</button>
+            </div>
+              <div className={styles.card}>
+              <button onClick={() => setIsOpen(true)}>
+                Подтвердить карточки
+              </button>
+              {isOpen && <Modal setIsOpen={setIsOpen} />}
             </div>
             <div className={styles.navWrapper}>
                     <ul>

@@ -111,6 +111,10 @@ export const TimeLineItem = ({timeStart, timeFinish, type, diffTime, task, i, ty
             setWidth2(width2)
             setLeft2(left2)
             setLeft(left)
+            if (type !== 'В пути') {
+              setWidth4(left - l);
+              setWidth5(left - l2);
+            }
         } else {
 
             let width = timeJob * 0.5
@@ -145,7 +149,7 @@ export const TimeLineItem = ({timeStart, timeFinish, type, diffTime, task, i, ty
             setWidth(width)
             setLeft(left)
 
-            if (type === 'В работе') {
+            if (type !== 'В пути') {
               setWidth4(left - l);
               setWidth5(left - l2);
             }

@@ -114,6 +114,11 @@
   box-shadow: 2px 5px 5px rgba(0, 0, 0, .5);
 }
 
+.card {
+  @include d-flex-r();
+  padding-top: 20px;
+  justify-content: center;
+}
 .createTask {
   @include d-flex-r();
   padding-top: 20px;
