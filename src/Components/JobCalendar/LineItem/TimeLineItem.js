@@ -144,7 +144,7 @@ export const TimeLineItem = ({timeStart, timeFinish, type, diffTime, task, i, ty
             setWidth(width)
             setLeft(left)
 
-            if (timeMoving > 20)
+            if (type === 'В работе')
               setWidth5(left - l2);
         }
 
