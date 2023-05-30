@@ -58,7 +58,7 @@ export const TimeLineItem = ({timeStart, timeFinish, type, diffTime, task, i, ty
             if (timeMoving > 20) setC('red');
             const w = timeMoving > 20 ? 20 * 0.5 : timeMoving * 0.5;
             const l = (((d.substr(0, 2) - 8) * 60) + +d.substr(3, 2)) * 0.5;
-            const w2 = timeMoving > 20 ? (timeMoving * 0.5) - w - 1 : timeMoving * 0.5;
+            const w2 = timeMoving > 20 ? (timeMoving * 0.5) - w - 1 : 20 * 0.5;
             l2 = l + w;
             setWidth4(w);
             setLeft4(l);
@@ -144,7 +144,8 @@ export const TimeLineItem = ({timeStart, timeFinish, type, diffTime, task, i, ty
             setWidth(width)
             setLeft(left)
 
-            setWidth5(left - l2);
+            if (timeMoving > 20)
+              setWidth5(left - l2);
         }
 
         if (type === 'В работе') {
