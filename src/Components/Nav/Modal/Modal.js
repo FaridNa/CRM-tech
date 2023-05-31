@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Modal.module.scss";
 import TaskItem from "../../TaskItem/TaskItem";
+import { useStore } from "effector-react";
+import { $user } from "../../../state/user";
+
+const admins = ['1', '29', '109', '23', '3503', '211']
 
 export const Modal = ({ setIsOpen }) => {
+  const user = useStore($user);
   const [tasks, setTasks] = useState([]);
 
   const applyCard = (id) => {
+    if (admins.includes(user.ID) === false) return;
+    
     const res = window.confirm("Вы уверены? Подтвердить карточку выбранного объекта?");
     if (res === true)
       fetch("https://volga24bot.com/kartoteka/api/tech/CheckCard/applyCard.php?id=" + id)
