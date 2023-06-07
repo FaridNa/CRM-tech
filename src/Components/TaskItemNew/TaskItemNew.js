@@ -289,6 +289,22 @@ const TaskItemNew = ({ item }) => {
             .then(() => alert('Успешно возобновлена, закройте заявку для обновления.'))
     }
 
+    const [newDate, setNewDate] = useState('');
+
+    const onClickNewPlaneTask = () => {
+      if (!newDate) return;
+      const data = new FormData();
+      data.append('id', item[0]);
+      data.append('date', newDate.split('T')[0]);
+      data.append('time', newDate.split('T')[1]);
+      fetch('https://volga24bot.com/kartoteka/api/tech/planing/newPlane.php', {
+        method: "POST",
+        body: data
+      })
+        .then(res => res.json())
+        .then(res => res === 'success' ? alert("Задача успешно перепланирована!"): null);
+    }
+
     return (
         <div className={styles.taskItemWrapper}>
             {loading ? <div className={styles.loaderWrapper}><Loader /></div> : null}
@@ -347,6 +363,13 @@ const TaskItemNew = ({ item }) => {
                             {item[18]}
                             <span>{daysOverdue}</span>
                             {(admins.includes(user.ID)) ? item[18] !== 'Новая' && item[18] !== 'В работе' ? <button className={styles.retryTask} onClick={onClickRetryTask}>Возобновить</button> : null : null}
+                            {(admins.includes(user.ID)) ? item[18] === 'Новая' || item[18] === 'Брак' ?
+                            <span>
+                              Дата
+                              <input style={{width: '160px'}} type="datetime-local" value={newDate} onChange={(e) => {setNewDate(e.target.value); }} />
+                              <button className={styles.retryTask} onClick={onClickNewPlaneTask}>Планировать</button>
+                            </span>
+                            : null : null}
                         </p>
 
                     </div>
