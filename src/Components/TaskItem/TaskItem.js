@@ -81,7 +81,11 @@ const TaskItem = ({task, i, func, history, children}) => {
                   : <p>Постановщик:<span style={{fontWeight: 500}}> Битрикс</span ></p>}
                   <p>{moment(task[17]).format('DD.MM HH:mm')}</p>
                 </div>
-                {<p><span style={{fontWeight: 500}}>Ответственный:</span> {deps.find(el2 => +el2.DEP === filterTaskCust(task[4]))?.CHIEF.LAST_NAME}</p>}
+
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                <p><span style={{fontWeight: 500}}>Ответственный:</span> {deps.find(el2 => +el2.DEP === filterTaskCust(task[4]))?.CHIEF.LAST_NAME}</p>
+                <p>{json_history.filter(j => j.type === 'deffect').length > 0 ? 'брак: ' + moment(json_history.filter(j => j.type === 'deffect')[0].date).format('DD.MM HH:mm') : null}</p>
+                </div>
 
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 {<p><span style={{fontWeight: 500}}>Исполнитель:</span> {task[7].length ? getLastName(task[7]) : task[55].length ? getLastName(task[55]) : 'Не назначен'} </p>}
@@ -92,7 +96,7 @@ const TaskItem = ({task, i, func, history, children}) => {
                 <p>{json_history?.length ? <p style={{color: 'blue', fontWeight: 500}}> {getHistoryType(json_history[json_history.length - 1])} </p>: <p style={{color: 'red', fontWeight: 500}}>Не прочитана</p>}</p>
                 <p>{task[5] ? 'начало: ' + moment(task[5]).format('DD.MM HH:mm') : null}</p>
                 </div>
-                
+
                 <div><p style={{color: 'green', fontWeight: 500}}>{task[64]}</p></div>
                 {/*{task[18] === 'Новая' || task[18] === 'В работе' ? <p className={styles.date}><Moment format="DD.MM.YYYY  HH:mm">{task[17]}</Moment></p> : <p className={styles.date}><Moment format="DD.MM.YYYY hh:mm">{task[6]}</Moment></p>}*/}
 
