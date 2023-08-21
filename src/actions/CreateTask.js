@@ -1,3 +1,4 @@
+import { GiUfo } from "react-icons/gi";
 import { getAllReq, getMainReq, getNewReq } from "../state";
 import { setLoading } from "../state/loading";
 import { setShowTask } from "../state/showTask";
@@ -102,17 +103,26 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
     }
   }
 
-  if (form.type !== 'Монтаж' && form.type !== 'Подключение' && form.type !== 'Снятие объемов' && form.type !== 'Претензия') {
+  if (form.type !== 'Монтаж' && form.type !== 'Подключение' && form.type !== 'Снятие объемов' && form.type !== 'Претензия' && form.type !== 'ТО') {
     const tasks = (await fetchDataHistory()).filter(el => (el[1] === form.objNum || el[2] === form.name) && el[4] !== '');
     const tasksNew = tasks.filter(el => el[18] === 'Новая').filter(el => el[8] !== 'ТО');
     if (tasksNew.length > 0) {
+
+
+
       const answer = window.confirm(`На этот объект уже существует заявка! Номер заявки ${tasksNew[0][47]}. Открыть эту заявку? Там вы можете написать комментарий.`);
       if (answer) {
         func();
         setShowTask(tasks[0]);
       }
       setLoading(false);
-      return;
+
+      console.log(answer);
+      if (user.UF_DEPARTMENT[0] === 15 && answer === false) {
+        alert("Создание Заявки в обход ограничениям (имеются привелегии инженерной службы)");
+      } else {
+        return;
+      }
     }
 
   }
