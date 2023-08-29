@@ -181,7 +181,7 @@ const CreateTask = ({ func }) => {
                         }} onChange={(e) => {
                             let newComment = "";
                             if (e.target.value === "ТО") newComment = "Ежеквартальное ТО";
-                            setForm(prevState => ({ ...prevState, type: e.target.value, comment: newComment }))
+                            setForm(prevState => ({ ...prevState, type: e.target.value, comment: newComment, timeJob: '0,5' }))
                         }}>
                             {options.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
                         </select>

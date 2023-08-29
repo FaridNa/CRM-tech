@@ -1,60 +1,22 @@
-.timeLine {
-
-  height: 40px;
-  border: 1px solid gray;
-  margin: 10px 20px;
-  border-radius: 3px;
+.timeLineWrapper {
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
   position: relative;
-  background: linear-gradient( #bbb, transparent 1px), linear-gradient( 90deg, #bbb, transparent 1px);
-  background-size: 20px 20px;
-  background-position: center center;
-  .labelStart {
+}
 
-    top: -12px;
-    left: -10px;
-
+@media (min-width: 768px) {
+  .titleWrapper {
+    min-width: 7%;
+    max-width: 7%;
   }
-  .label2 {
+}
 
-    top: -12px;
-    left: 2*60*0.5-10px;
-
-  }
-  .label3 {
-
-    top: -12px;
-    left: 4*60*0.5-10px;
-
-  }
-  .label4 {
-
-    top: -12px;
-    left: 6*60*0.5-10px;
-  }
-    .labelFinish {
-    top: 43px;
-    right: -15px;
-  }
-  span {
-    position: absolute;
-    font-size: 11px;
-  }
-
-  .item {
-    position: absolute;
-    height: 40px;
-
-    .start {
-      left: -10px;
-    }
-    .finish {
-      right: -14px;
-    }
-    span {
-      position: absolute;
-      font-size: 10px;
-      bottom: -13px;
-    }
+/* CSS rules for mobile */
+@media (max-width: 767px) {
+  .titleWrapper {
+    min-width: 20%;
+    max-width: 20%;
   }
 }
 
@@ -67,13 +29,72 @@
   flex-direction: row;
 }
 
-.timeLineWrapper {
-  margin: 5px 0;
+.timeLine {
 
-  display: flex;
-  align-items: center;
+  height: 40px;
+  border: 1px solid gray;
+  margin: 10px 20px;
+  border-radius: 3px;
   position: relative;
+  background: linear-gradient(#bbb, transparent 1px), linear-gradient(90deg, #bbb, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center center;
 
+  .labelStart {
+
+    top: -12px;
+    left: -10px;
+
+  }
+
+  .label2 {
+
+    top: -12px;
+    left: 2*60*0.5-10px;
+
+  }
+
+  .label3 {
+
+    top: -12px;
+    left: 4*60*0.5-10px;
+
+  }
+
+  .label4 {
+
+    top: -12px;
+    left: 6*60*0.5-10px;
+  }
+
+  .labelFinish {
+    top: 43px;
+    right: -15px;
+  }
+
+  span {
+    position: absolute;
+    font-size: 11px;
+  }
+
+  .item {
+    position: absolute;
+    height: 40px;
+
+    .start {
+      left: -10px;
+    }
+
+    .finish {
+      right: -14px;
+    }
+
+    span {
+      position: absolute;
+      font-size: 10px;
+      bottom: -13px;
+    }
+  }
 }
 
 .label {
@@ -99,6 +120,7 @@
   top: 5px;
   z-index: 10;
   left: 130px;
+
   p {
     position: absolute;
     left: -12px;
@@ -115,7 +137,7 @@
 .scrollBar {
   width: 110px;
   height: 110%;
-  background: rgba(0,0,0,.0);
+  background: rgba(0, 0, 0, .0);
   position: absolute;
   z-index: 100;
 }
@@ -130,6 +152,7 @@
   padding-bottom: 10px !important;
   display: flex;
   justify-content: center;
+
   li {
     padding: 5px 15px;
     background: #cfcfcf;
@@ -141,14 +164,17 @@
 
   .active {
     background: white;
-    box-shadow: 0 0 10px rgba(0,0,0,.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
   }
 }
+
 .techChecks {
   display: flex;
   justify-content: center;
+
   div {
     margin: 0 40px;
+
     p {
       margin-bottom: 5px;
       color: red;
@@ -160,6 +186,7 @@
 .tasks {
   margin-top: 10px;
   margin-left: 50px;
+
   .title {
     text-align: center;
     color: red;
@@ -170,11 +197,13 @@
 .brigad {
   display: flex;
   justify-content: space-around;
+
   span {
     font-size: 11px;
     font-weight: 500;
     color: #646464;
   }
+
   h3 {
     font-size: 14px;
     text-align: center;
@@ -184,11 +213,13 @@
 .completedJob {
   display: flex;
   justify-content: space-around;
+
   span {
     font-size: 14px;
     font-weight: 500;
     color: #ff0000;
   }
+
   h3 {
     font-size: 14px;
     text-align: center;
@@ -218,6 +249,7 @@
   img {
     width: 20px;
   }
+
   margin-left: 27px;
 
 }
@@ -290,7 +322,7 @@
   width: 70px;
   text-align: center;
   top: -14px;
-  padding:  0;
+  padding: 0;
   font-weight: 500;
   border-top: 1px solid red;
   border-right: 1px solid red;
@@ -313,11 +345,13 @@
   justify-content: center;
   font-size: 14px;
   margin-bottom: 10px !important;
+
   input {
     width: 20px;
     height: 20px;
     margin-right: 10px;
   }
+
   label {
     display: flex;
     padding-top: 2px;
@@ -335,7 +369,7 @@
 
 .plane_list {
   .title_plane {
-      font-size: 16px;
+    font-size: 16px;
     font-weight: 400;
     margin-top: 10px;
     text-align: center;
@@ -345,10 +379,13 @@
   li {
     padding: 10px 0;
     border-bottom: 2px solid gray;
-     p {
-       font-size: 13px;
-     }
+
+    p {
+      font-size: 13px;
+    }
+
     display: flex;
+
     .circle {
       width: 20px;
       height: 20px;
@@ -357,6 +394,7 @@
       margin-top: 10px;
       margin-right: 10px;
     }
+
     .blue {
       background: blue;
     }
@@ -398,9 +436,9 @@
     font-weight: 500;
     color: #646464;
   }
+
   h3 {
     font-size: 14px;
     text-align: center;
   }
 }
-
