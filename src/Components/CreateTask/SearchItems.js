@@ -26,7 +26,10 @@ const SearchItems = ({value, type, func, focus, items}) => {
                         {readyItems.map(el => <li key={el.ObjectNumber} onClick={() => {
                             func(el.ObjectNumber, el.Name, el.Address);
                             focus();
-                        }}>{type === 'id' ? `№ ${el.ObjectNumber}` : null}{type === 'Name' ? `${el.Name}` : null}{type === 'Address' ? `${el.Address}` : null}
+                        }}>
+                          {type === 'id' ? `№ ${el.ObjectNumber}` : null}   
+                          {type === 'Name' ? `${el.Name}` : null}
+                          {type === 'Address' ? <div> <text> {el.Address} </text> <text> </text> <text style={{float: 'right'}}> {el.ObjectNumber + "             " + el.Name } </text> </div> : null}
                         </li>)}</ul> : null}
 
         </>
