@@ -292,17 +292,17 @@ const TaskItemNew = ({ item }) => {
     const [newDate, setNewDate] = useState('');
 
     const onClickNewPlaneTask = () => {
-      if (!newDate) return;
-      const data = new FormData();
-      data.append('id', item[0]);
-      data.append('date', newDate.split('T')[0]);
-      data.append('time', newDate.split('T')[1]);
-      fetch('https://volga24bot.com/kartoteka/api/tech/planing/newPlane.php', {
-        method: "POST",
-        body: data
-      })
-        .then(res => res.json())
-        .then(res => res === 'success' ? alert("Задача успешно перепланирована!"): null);
+        if (!newDate) return;
+        const data = new FormData();
+        data.append('id', item[0]);
+        data.append('date', newDate.split('T')[0]);
+        data.append('time', newDate.split('T')[1]);
+        fetch('https://volga24bot.com/kartoteka/api/tech/planing/newPlane.php', {
+            method: "POST",
+            body: data
+        })
+            .then(res => res.json())
+            .then(res => res === 'success' ? alert("Задача успешно перепланирована!") : null);
     }
 
     return (
@@ -364,18 +364,28 @@ const TaskItemNew = ({ item }) => {
                             <span>{daysOverdue}</span>
                             {(admins.includes(user.ID)) ? item[18] !== 'Новая' && item[18] !== 'В работе' ? <button className={styles.retryTask} onClick={onClickRetryTask}>Возобновить</button> : null : null}
                             {(admins.includes(user.ID)) ? item[18] === 'Новая' || item[18] === 'Брак' ?
-                            <span>
-                              Дата
-                              <input style={{width: '160px'}} type="datetime-local" value={newDate} onChange={(e) => {setNewDate(e.target.value); }} />
-                              <button className={styles.retryTask} onClick={onClickNewPlaneTask}>Планировать</button>
-                            </span>
-                            : null : null}
+                                <span>
+                                    Дата
+                                    <input style={{ width: '160px' }} type="datetime-local" value={newDate} onChange={(e) => { setNewDate(e.target.value); }} />
+                                    <button className={styles.retryTask} onClick={onClickNewPlaneTask}>Планировать</button>
+                                </span>
+                                : null : null}
                         </p>
 
                     </div>
                     <div className={styles.taskItemInput}>
-                        <p className={styles.label}  >Номер</p>
-                        <p style={{ fontWeight: 500 }}>{item[47]}</p>
+                        <div>
+                            <p className={styles.label}  >Номер</p>
+                            <p style={{ fontWeight: 500 }}>{item[47]}</p>
+                        </div>
+                        {item[17] ? <div>
+                            <p className={styles.label}  >Дата Создания</p>
+                            <p style={{ fontWeight: 500 }}>{moment(item[17]).format('DD.MM.YY HH:mm')}</p>
+                        </div> : null}
+                        {item[6] ? <div>
+                            <p className={styles.label}  >Дата Выполнения</p>
+                            <p style={{ fontWeight: 500 }}>{moment(item[6]).format('DD.MM.YY HH:mm')}</p>
+                        </div> : null}
                     </div>
                 </div>
                 <div className={styles.taskItemInput}>
@@ -466,6 +476,8 @@ const TaskItemNew = ({ item }) => {
                             type = 'Возобновлена'
                         } else if (el.type === 'myTechCreate') {
                             type = 'Создана заявка MyTech'
+                        } else if (el.type === 'moving') {
+                            type = 'В пути'
                         }
 
                         if (el.type === 'view') {
@@ -567,7 +579,7 @@ const TaskItemNew = ({ item }) => {
 
             </div> : null}
 
-            {nav === 'historyLocation' ? <MapContainer items={history2} nav={"req"} user={user}/> : null}
+            {nav === 'historyLocation' ? <MapContainer items={history2} nav={"req"} user={user} /> : null}
 
             {nav === 'blockInfo' ? item[1] !== '0' ? <DopInfo num={item[1]} /> : <p style={{ textAlign: "center" }}>В задаче нет номера объекта!</p> : null}
 

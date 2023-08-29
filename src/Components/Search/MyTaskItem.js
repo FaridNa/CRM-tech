@@ -189,7 +189,7 @@ const MyTaskItem = ({item, func, func2}) => {
                         <div className={styles.taskItemInput}>
                             <p className={styles.label}> Номер </p>
                             <p style={{fontWeight: 500}}> {item[47]} </p>
-
+                            <p>{moment(task[17]).format('DD.MM HH:mm')}</p>
                         </div>
                     </div>
                     <div className={styles.taskItemInput}>
