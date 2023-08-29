@@ -148,6 +148,6 @@ class WithMarkers extends Component {
 }
 
 export default GoogleApiWrapper({
-    apiKey: "AIzaSyDJD4IPwg38XT_FSzy6dSELiXZJqT0ysyk",
+    apiKey: "AIzaSyDhUzpGn20sxCXKwb8tLohPMAXQAiWroNU",
     language: 'ru'
 })(WithMarkers)
