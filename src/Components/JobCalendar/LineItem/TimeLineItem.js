@@ -216,21 +216,23 @@ export const TimeLineItem = ({ timeStart, timeFinish, type, diffTime, task, i, t
                 {i === lastI && width2 === null && left2 === null  ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
             </div> */}
 
-            {/* {width2 !== null && left2 !== null ?
+            {width2 !== null && left2 !== null ?
                 <div onClick={() => setShowTask(task)} className={`${styles.item} `} style={{ width: width2, left: left2, backgroundColor: "red", }} >
                     {width ? null : <p className={styles.number}>{i + 1}</p>}
                     {i === lastI && width2 !== null && left2 !== null ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
-                </div> : null} */}
+                </div> : null}
                 
             {width3 !== null && left3 !== null ? <div onClick={() => setShowTask(task)} className={`${styles.item} `} style={{ width: width3, left: left3, backgroundColor: 'rgba(0,57,234, .5)', }} >
                 {width ? null : <p className={styles.number}>{i + 1}</p>}
                 {i === lastI && width3 !== null && left3 !== null ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
             </div> : null}
-            {/* {width4 !== null && left4 !== null ? <div onClick={() => setShowTask(task)} className={`${styles.item} `} style={{ width: width4, left: left4, backgroundColor: 'orange', }} >
+            {width4 !== null && left4 !== null ? <div onClick={() => setShowTask(task)} className={`${styles.item} `} style={{ width: width4, left: left4, backgroundColor: 'orange', }} >
                 {width ? null : <p className={styles.number}>{i + 1}</p>}
                 {i === lastI && width4 !== null && left4 !== null ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
             </div> : null}
-            {width5 !== null && left5 !== null ? <div onClick={() => setShowTask(task)} className={`${styles.item} `} style={{ width: width5, left: left5, backgroundColor: C, }} >
+
+            {/* TODO: Разобраться, что это такое */}
+            {/* {width5 !== null && left5 !== null ? <div onClick={() => setShowTask(task)} className={`${styles.item} `} style={{ width: width5, left: left5, backgroundColor: C, }} >
                 {i === lastI && width5 !== null && left5 !== null ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
             </div> : null} */}
         </div>
