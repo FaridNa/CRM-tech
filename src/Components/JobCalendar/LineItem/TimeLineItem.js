@@ -182,11 +182,25 @@ export const TimeLineItem = ({ timeStart, timeFinish, type, diffTime, task, i, t
     return (
         <div>
             {firstTime && (areDatesOnSameDay(firstTime, new Date(task[56])) || areDatesOnSameDay(firstTime, new Date(task[6])))
-                ? <div className={`${styles.item}`} style={{ width: width, left: left, backgroundColor: typeLine === 'plane' ? task[56] !== moment(firstTime).format('YYYY-MM-DD') || moment(`${task[56]} ${task[57]}`).valueOf() < new Date().getTime() ? 'rgba(255,0,0,0.4)' : 'rgba(0,57,234, .5)' : color }} onClick={() => setShowTask(task)}>
-                    {width ? <p className={styles.number}>{i !== -1 ? tasksLength ? tasksLength + i + 1 : i + 1 : ' '}</p> : null}
-                    {width ? <p className={styles.past}>{daysOverdue}</p> : null}
-                    {i === 0 ? <span className={styles.bottomLabel}>{newTimeStart ? newTimeStart : timeStart}</span> : null}
-                    {i === lastI && width2 === null && left2 === null ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
+                ? <div
+                    className={styles.item}
+                    style={{
+                        width: width,
+                        left: left,
+                        backgroundColor:
+                            typeLine === 'plane'
+                                ? task[56] !== moment(firstTime).format('YYYY-MM-DD') || moment(`${task[56]} ${task[57]}`).valueOf() < new Date().getTime()
+                                    ? 'rgba(255,0,0,0.4)'
+                                    : 'rgba(0,57,234, .5)'
+                                : color
+                    }}
+                    onClick={() => setShowTask(task)}>
+                    <div>
+                        {width ? <p className={styles.number}>{i !== -1 ? tasksLength ? tasksLength + i + 1 : i + 1 : ' '}</p> : null}
+                        {width ? <p className={styles.past}>{daysOverdue}</p> : null}
+                        {i === 0 ? <span className={styles.bottomLabel}>{newTimeStart ? newTimeStart : timeStart}</span> : null}
+                        {i === lastI && width2 === null && left2 === null ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
+                    </div>
                 </div>
                 : null
             }
@@ -208,7 +222,7 @@ export const TimeLineItem = ({ timeStart, timeFinish, type, diffTime, task, i, t
                             {i === lastI && width2 === null && left2 === null ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
                         </div>
                 : null} */}
-                
+
             {/* <div className={`${styles.item}` }  style={{width: width, left: left, backgroundColor: typeLine === 'plane' ? task[56] !== moment(firstTime).format('YYYY-MM-DD') || moment(`${task[56]} ${task[57]}`).valueOf() < new Date().getTime() ? 'rgba(255,0,0,0.4)' : 'rgba(0,57,234, .5)' : color}} onClick={() => setShowTask(task)}>
                 <p className={styles.number}>{i !== -1 ? tasksLength ? tasksLength+i+1 : i+1 : ' '}</p>
                 <p className={styles.past}>{daysOverdue}</p>
@@ -221,7 +235,7 @@ export const TimeLineItem = ({ timeStart, timeFinish, type, diffTime, task, i, t
                     {width ? null : <p className={styles.number}>{i + 1}</p>}
                     {i === lastI && width2 !== null && left2 !== null ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}
                 </div> : null}
-                
+
             {width3 !== null && left3 !== null ? <div onClick={() => setShowTask(task)} className={`${styles.item} `} style={{ width: width3, left: left3, backgroundColor: 'rgba(0,57,234, .5)', }} >
                 {width ? null : <p className={styles.number}>{i + 1}</p>}
                 {i === lastI && width3 !== null && left3 !== null ? <span className={styles.finishBottomLabel}>{timeFinish}</span> : null}

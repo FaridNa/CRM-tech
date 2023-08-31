@@ -1,23 +1,23 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './JobCalendar.module.scss'
-import {useStore} from "effector-react";
-import {$techsStatus, $techStatus, getStatus, getTechs} from "../../state/Techs";
+import { useStore } from "effector-react";
+import { $techsStatus, $techStatus, getStatus, getTechs } from "../../state/Techs";
 
-import {$firstTime} from "../../state/graphTime";
+import { $firstTime } from "../../state/graphTime";
 import DateComponent from "./DatePicker";
-import {$graphData, getData} from "../../state/GraphTask";
+import { $graphData, getData } from "../../state/GraphTask";
 
-import {$openComment, setOpenComment} from "../../state/openComment";
-import {$myTask, getMyTask} from "../../state/myTask";
-import {$bitrixDep, $depStatus, $user, getDep} from "../../state/user";
+import { $openComment, setOpenComment } from "../../state/openComment";
+import { $myTask, getMyTask } from "../../state/myTask";
+import { $bitrixDep, $depStatus, $user, getDep } from "../../state/user";
 import MyTasks from "./MyTasks";
 import TechList from "./Techs/Techs";
-import {TimeLine} from "./LineItem/LineItem";
+import { TimeLine } from "./LineItem/LineItem";
 
-import {$planeStatus, $selectedUser, getPlane, setSelectedUser} from "../../state/plane";
+import { $planeStatus, $selectedUser, getPlane, setSelectedUser } from "../../state/plane";
 
 import NavTasks from "./NavTasks/NavTasks";
-import {getUsers} from "../../state/getUsers";
+import { getUsers } from "../../state/getUsers";
 
 
 
@@ -32,16 +32,16 @@ const JobCalendar = () => {
     const selected = useStore($selectedUser);
 
     useEffect(() => {
-        if (user.ID !== 0 ) {
+        if (user.ID !== 0) {
             getMyTask(user.ID)
         }
-        getData(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`);
+        getData(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth() + 1) : firstTime.getMonth() + 1}-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate()}`);
 
-        getStatus(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`);
+        getStatus(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth() + 1) : firstTime.getMonth() + 1}-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate()}`);
 
         getPlane(firstTime);
 
-        getTechs(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth()+1) : firstTime.getMonth()+1 }-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate() }`);
+        getTechs(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth() + 1) : firstTime.getMonth() + 1}-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate()}`);
 
     }, [user, firstTime, dep])
 
@@ -68,33 +68,33 @@ const JobCalendar = () => {
 
 
     return (
-       <div style={{marginTop: 20}}>{openComment ? <MyTasks customer={openComment.LAST_NAME} tasks={graph.filter(el => {
-           if (openComment.WORK_POSITION === 'Водитель') {
-               return el[7].indexOf(techs.find(el2 => el2[3].indexOf(openComment.LAST_NAME) !== -1) ? techs.find(el2 => el2[3].indexOf(openComment.LAST_NAME) !== -1)[1] : null) !== -1
-           } else {
-               return el[7].indexOf(openComment.LAST_NAME) !== -1
-           }
-       })} info={techs.find(el => openComment.WORK_POSITION === 'Водитель' ? el[3].indexOf(openComment.LAST_NAME) !== -1 : el[1].indexOf(openComment.LAST_NAME) !== -1)}/> : <div >
-           <TechList/>
-           <DateComponent get={getData} func={() => {}} get2={getStatus} />
-           <div className={styles.graphList}>
-               <div className={styles.startTimeLine}><p>9:00</p></div>
-               {dep?.map(el2 => {
-                   return (
-                       <div key={el2.LAST_NAME} onClick={() => selected !== el2.LAST_NAME ? setSelectedUser(el2.LAST_NAME) : setSelectedUser(null)} style={selected === el2.LAST_NAME ? {background: 'rgba(0,0,0,.1)'} : null}>
-                           <TimeLine
-                               info={techs.filter(el => el2.WORK_POSITION === 'Водитель' ? el[3].indexOf(el2.LAST_NAME) !== -1 : el[1].indexOf(el2.LAST_NAME) !== -1)}
-                               tasks={graph.filter(el => el2.WORK_POSITION === 'Водитель' ? el[7].indexOf(getHelperName(el2.LAST_NAME,  techs)) !== -1  : el[7].indexOf(el2.LAST_NAME) !== -1)}
-                               status={getTextStatus(+el2.ID)}
-                               title={el2.LAST_NAME}
-                           />
-                       </div>
-                   )
-               })}
-           </div>
+        <div style={{ marginTop: 20 }}>{openComment ? <MyTasks customer={openComment.LAST_NAME} tasks={graph.filter(el => {
+            if (openComment.WORK_POSITION === 'Водитель') {
+                return el[7].indexOf(techs.find(el2 => el2[3].indexOf(openComment.LAST_NAME) !== -1) ? techs.find(el2 => el2[3].indexOf(openComment.LAST_NAME) !== -1)[1] : null) !== -1
+            } else {
+                return el[7].indexOf(openComment.LAST_NAME) !== -1
+            }
+        })} info={techs.find(el => openComment.WORK_POSITION === 'Водитель' ? el[3].indexOf(openComment.LAST_NAME) !== -1 : el[1].indexOf(openComment.LAST_NAME) !== -1)} /> : <div >
+            <TechList />
+            <DateComponent get={getData} func={() => { }} get2={getStatus} />
+            <div className={styles.graphList}>
+                {/* <div className={styles.startTimeLine}><p>9:00</p></div> */}
+                {dep?.map(el2 => {
+                    return (
+                        <div key={el2.LAST_NAME} onClick={() => selected !== el2.LAST_NAME ? setSelectedUser(el2.LAST_NAME) : setSelectedUser(null)} style={selected === el2.LAST_NAME ? { background: 'rgba(0,0,0,.1)' } : null}>
+                            <TimeLine
+                                info={techs.filter(el => el2.WORK_POSITION === 'Водитель' ? el[3].indexOf(el2.LAST_NAME) !== -1 : el[1].indexOf(el2.LAST_NAME) !== -1)}
+                                tasks={graph.filter(el => el2.WORK_POSITION === 'Водитель' ? el[7].indexOf(getHelperName(el2.LAST_NAME, techs)) !== -1 : el[7].indexOf(el2.LAST_NAME) !== -1)}
+                                status={getTextStatus(+el2.ID)}
+                                title={el2.LAST_NAME}
+                            />
+                        </div>
+                    )
+                })}
+            </div>
         </div>}
-           {openComment ? null : <NavTasks />}
-       </div>
+            {openComment ? null : <NavTasks />}
+        </div>
     );
 }
 

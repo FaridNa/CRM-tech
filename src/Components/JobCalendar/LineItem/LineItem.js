@@ -124,53 +124,62 @@ export const TimeLine = ({ tasks, title, info, status, plane }) => {
 
     return (
         <div className={`${styles.timeLineWrapper} ${status === 'Дежурный' ? styles.dezh : null} ${trip.length ? styles.trip : null}`}>
-            <div>
+
+            {/* Информация о технике, его КПД и количестве задач. При нажатии выбирается данный техник */}
+            <div className={styles.titleWrapper}>
                 <p className={styles.title}>{title2[0]}</p>
                 {status === 'Дежурный' ? <p style={{ color: 'green', fontSize: 13, marginLeft: 10 }}>Дежурный</p> : null}
                 {/* {trip.length ? <p style={{color: 'blue', fontSize: 13, marginLeft: 10}}>Командировка</p> : null} */}
                 <TechAnalys tasks={tasks} tech={info[0]} plane={plane} planeTasks={planeT} fio={title} />
             </div>
+
             <div style={{ overflowX: 'auto', overflowY: 'hidden', height: 70, paddingTop: 3, paddingBottom: 8 }}>
-                <div className={styles.timeLine} style={{ width: widthCalc(filtredTasks, planeT), minWidth: 9 * 60 * 0.5 }} >
+                <div className={styles.timeLine} style={{ width: widthCalc(filtredTasks, planeT), minWidth: 12 * 60 * 0.5 }} >
                     {<>
                         <span className={styles.label3}>12:00</span>
                         {<>
-                            {
-                                planeT.filter(el => firstTime && (areDatesOnSameDay(firstTime, new Date(el[56])) || areDatesOnSameDay(firstTime, new Date(el[6])))).map((el, i) => <TimeLineItem
-                                    i={i}
-                                    tasksLength={filtredTasks.length}
-                                    task={el}
-                                    key={el[0]}
-                                    type={el[18]}
-                                    timeStart={`${el[57]}`}
-                                    timeFinish={moment(new Date(`${el[56]} ${el[57]}`)).add(el[59] * 60, 'minutes').format('HH:mm:ss')}
-                                    diffTime={el[9]}
-                                    typeLine={'plane'}
-                                    lastitem={planeT}
-                                />)}
-                            {
-                                info.length ?
-                                    filtredTasks.length || date < 10
-                                        ?
-                                        <>
-                                            {filtredTasks.map((el, i) => <TimeLineItem
-                                                i={i}
-                                                lastI={filtredTasks.length - 1}
-                                                task={el}
-                                                key={el[0]}
-                                                type={el[18]}
-                                                timeStart={el[5].substr(11, 5)}
-                                                timeFinish={el[6].substr(11, 5)}
-                                                diffTime={el[9]} />)}
 
-                                        </>
-                                        :
-                                        <StatusLine status={'Прогул'} tech={title2[0]} type={status} />
-                                    : status && status !== 'Дежурный' ?
-                                        <NotCheckLine status={status} />
-                                        : <StatusLine status={'Не заступил'} />
+                            {/* Выполненные,  */}
+                            {info.length ?
+                                filtredTasks.length || date < 10
+                                    ? <>
+                                        {filtredTasks.map((el, i) => <TimeLineItem
+                                            i={i}
+                                            lastI={filtredTasks.length - 1}
+                                            task={el}
+                                            key={el[0]}
+                                            type={el[18]}
+                                            timeStart={el[5].substr(11, 5)}
+                                            timeFinish={el[6].substr(11, 5)}
+                                            diffTime={el[9]} />)}
+
+                                    </>
+                                    : <StatusLine status={'Прогул'} tech={title2[0]} type={status} />
+                                : status && status !== 'Дежурный'
+                                    ? <NotCheckLine status={status} />
+                                    : <StatusLine status={'Не заступил'} />
                             }
-                            {info.length && info[0][3] && info[0][3].indexOf(title) === -1 ? <span className={styles.helper}>{info[0][3].split(' ')[0].toUpperCase()}</span> : null}
+
+                            {planeT.filter(el => firstTime && (areDatesOnSameDay(firstTime, new Date(el[56])) || areDatesOnSameDay(firstTime, new Date(el[6]))))
+                                .map((el, i) =>
+                                    <TimeLineItem
+                                        i={i}
+                                        tasksLength={filtredTasks.length}
+                                        task={el}
+                                        key={el[0]}
+                                        type={el[18]}
+                                        timeStart={`${el[57]}`}
+                                        timeFinish={moment(new Date(`${el[56]} ${el[57]}`)).add(el[59] * 60, 'minutes').format('HH:mm:ss')}
+                                        diffTime={el[9]}
+                                        typeLine={'plane'}
+                                        lastitem={planeT}
+                                    />)}
+
+
+
+                            {info.length && info[0][3] && info[0][3].indexOf(title) === -1
+                                ? <span className={styles.helper}>{info[0][3].split(' ')[0].toUpperCase()}</span>
+                                : null}
                         </>}
                     </>}
                 </div>

@@ -38,7 +38,7 @@ const typeNames = {
 }
 
 const getAddress = async (lat, lng) => {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyDJD4IPwg38XT_FSzy6dSELiXZJqT0ysyk`;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyDhUzpGn20sxCXKwb8tLohPMAXQAiWroNU`;
     const res = await fetch(`${url}`);
     const address = await res.json();
     return address.results[0].address_components[1].short_name + " " + address.results[0].address_components[0].short_name ;
@@ -200,6 +200,6 @@ class WithMarkers extends Component {
 }
 
 export default GoogleApiWrapper({
-    apiKey: "AIzaSyDJD4IPwg38XT_FSzy6dSELiXZJqT0ysyk",
+    apiKey: "AIzaSyDhUzpGn20sxCXKwb8tLohPMAXQAiWroNU",
     language: 'ru'
 })(WithMarkers)

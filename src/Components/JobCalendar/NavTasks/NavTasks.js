@@ -84,9 +84,9 @@ const NavTasks = () => {
                     <li style={{background: 'rgba(255,0,0,0.4)'}} onClick={() => nav === 'deff' ? setNav('all') : setNav('deff')} className={nav === 'deff' ? styles.active : null}><p>
                         {plane.CURRENT.filter(el => moment(`${el[56]} ${el[57]}`).valueOf() < new Date().getTime()).filter(el => filterTasks(el, dep, selected))?.filter(el => isPast(el))?.length}
                     </p> <p>Просроч</p> </li>
-                    <li style={{background: 'rgba(243,58,58,0.8)'}} onClick={() => nav === 'nc' ? setNav('all') : setNav('nc')} className={nav === 'nc' ? styles.active : null}><p>
+                    {/* <li style={{background: 'rgba(243,58,58,0.8)'}} onClick={() => nav === 'nc' ? setNav('all') : setNav('nc')} className={nav === 'nc' ? styles.active : null}><p>
                         {allReq.filter(el => (el[17].indexOf(moment(firstTime).format('YYYY-MM-DD')) !== -1 || el[17].indexOf(moment(firstTime).subtract(1, 'day').format('YYYY-MM-DD')) !== -1) && el[18] === 'Новая')?.length}
-                    </p> <p>Не сделано</p> </li>
+                    </p> <p>Не сделано</p> </li> */}
                 </ul>
             </div>
             <ul className={styles.tasks_list}>

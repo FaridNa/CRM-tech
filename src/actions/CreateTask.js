@@ -38,6 +38,8 @@ const lowleveltech = ['Ларионов Анатолий Анатольевич'
 
 export const createTask = async (form, func, firstTime, secondTime, user, plane, graph) => {
 
+  console.log(form)
+
   setLoading(true);
 
   if (lowleveltech.includes(form.customer) && form.type === 'СО') {
@@ -90,18 +92,18 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
     }
   }
 
-  if (!form.customer) {
-    if (form.objNum) {
-      const base = 'https://volga24bot.com/kartoteka/api/tech';
-      const url = `lastTech/lastTech.php/?objNum=${form.objNum}`;
+  // if (!form.customer) {
+  //   if (form.objNum) {
+  //     const base = 'https://volga24bot.com/kartoteka/api/tech';
+  //     const url = `lastTech/lastTech.php/?objNum=${form.objNum}`;
 
-      const response = await fetch(`${base}/${url}`).then(res => res.json());
-      if (response.results !== false) {
-        if (response.object !== null)
-          form.customer = response.object.customer;
-      }
-    }
-  }
+  //     const response = await fetch(`${base}/${url}`).then(res => res.json());
+  //     if (response.results !== false) {
+  //       if (response.object !== null)
+  //         form.customer = response.object.customer;
+  //     }
+  //   }
+  // }
 
   if (form.type !== 'Монтаж' && form.type !== 'Подключение' && form.type !== 'Снятие объемов' && form.type !== 'Претензия' && form.type !== 'ТО') {
     const tasks = (await fetchDataHistory()).filter(el => (el[1] === form.objNum || el[2] === form.name) && el[4] !== '');
@@ -187,6 +189,8 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
       })
       .catch(function (res) { console.log(res) })
   } else {
+    console.log(formData)
+
     fetch('https://volga24bot.com/kartoteka/api/tech/createMarkTask.php', {
       method: "POST",
       body: formData
