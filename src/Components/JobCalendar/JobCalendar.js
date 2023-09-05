@@ -13,11 +13,14 @@ import { $bitrixDep, $depStatus, $user, getDep } from "../../state/user";
 import MyTasks from "./MyTasks";
 import TechList from "./Techs/Techs";
 import { TimeLine } from "./LineItem/LineItem";
+import { TimeLineCommon } from './LineItem/LineItemCommon';
 
 import { $planeStatus, $selectedUser, getPlane, setSelectedUser } from "../../state/plane";
 
 import NavTasks from "./NavTasks/NavTasks";
 import { getUsers } from "../../state/getUsers";
+
+import { $allReqStatus } from '../../state';
 
 
 
@@ -30,6 +33,7 @@ const JobCalendar = () => {
     const status = useStore($techStatus);
     const dep = useStore($depStatus);
     const selected = useStore($selectedUser);
+    const allReq = useStore($allReqStatus);
 
     useEffect(() => {
         if (user.ID !== 0) {
@@ -79,9 +83,15 @@ const JobCalendar = () => {
             <DateComponent get={getData} func={() => { }} get2={getStatus} />
             <div className={styles.graphList}>
                 {/* <div className={styles.startTimeLine}><p>9:00</p></div> */}
-                {dep?.map(el2 => {
+                <div onClick={() => selected !== setSelectedUser('Общая') ? setSelectedUser('Общая') : setSelectedUser(null)} style={selected === 'Общая' ? { background: 'rgba(0,0,0,.1)' } : null}>
+                    {/* TODO: Здесь должна стоять общая */}
+                    <TimeLineCommon tasks={allReq} graph={graph}/>
+                </div>
+                {/* <button onClick={()=>console.log(dep)}></button> */}
+                {dep?.sort((a, b) => !a.WORK_POSITION.includes('Руководитель'))?.map(el2 => {
                     return (
                         <div key={el2.LAST_NAME} onClick={() => selected !== el2.LAST_NAME ? setSelectedUser(el2.LAST_NAME) : setSelectedUser(null)} style={selected === el2.LAST_NAME ? { background: 'rgba(0,0,0,.1)' } : null}>
+
                             <TimeLine
                                 info={techs.filter(el => el2.WORK_POSITION === 'Водитель' ? el[3].indexOf(el2.LAST_NAME) !== -1 : el[1].indexOf(el2.LAST_NAME) !== -1)}
                                 tasks={graph.filter(el => el2.WORK_POSITION === 'Водитель' ? el[7].indexOf(getHelperName(el2.LAST_NAME, techs)) !== -1 : el[7].indexOf(el2.LAST_NAME) !== -1)}
