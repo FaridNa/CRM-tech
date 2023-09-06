@@ -181,7 +181,7 @@ export const TimeLineCommon = ({ tasks, graph }) => {
                                         timeStart={`${el[57]}`}
                                         timeFinish={moment(new Date(`${el[56]} ${el[57]}`)).add(el[59] * 60, 'minutes').format('HH:mm:ss')}
                                         diffTime={el[9]}
-                                        typeLine={'plane'}
+                                        typeLine={'new'}
                                         lastitem={planeT}
                                     />)}
                         </>}

@@ -96,7 +96,7 @@ export const TimeLineItem = ({ timeStart, timeFinish, type, diffTime, task, i, t
 
 
 
-        if (typeLine === 'plane') {
+        if (typeLine === 'plane' || typeLine === 'new') {
 
             timeJob = task[59] * 60;
         }
@@ -129,7 +129,7 @@ export const TimeLineItem = ({ timeStart, timeFinish, type, diffTime, task, i, t
                 left = 0;
             }
 
-            if (typeLine === 'plane') {
+            if (typeLine === 'plane' || typeLine === 'new') {
                 left = 0;
                 if (task[57] === '07:00' || task[56] !== moment(firstTime).format('YYYY-MM-DD')) {
                     let previous = lastitem.slice(0, i);
@@ -192,7 +192,7 @@ export const TimeLineItem = ({ timeStart, timeFinish, type, diffTime, task, i, t
                                 ? task[56] !== moment(firstTime).format('YYYY-MM-DD') || moment(`${task[56]} ${task[57]}`).valueOf() < new Date().getTime()
                                     ? 'rgba(255,0,0,0.4)'
                                     : 'rgba(0,57,234, .5)'
-                                : color
+                                : typeLine === 'new' ? 'lightslategray' : color
                     }}
                     onClick={() => setShowTask(task)}>
                     <div>
