@@ -411,7 +411,7 @@ const TaskItemNew = ({ item }) => {
                         <select onChange={(e) => setForm(prevState => ({ ...prevState, executor: e.target.value }))} placeholder={'Общая'}>
                             {options2.map(el => <option value={el.value} key={el.value}>{el.label}</option>)}
                             {user.UF_DEPARTMENT[0] === 15 ? <option value="Иралиев Фарид Апахович">Иралиев Фарид Апахович</option> : null}
-                            {user.UF_DEPARTMENT[0] === 15 ? <option value="Шишлянников Никита Сергеевич">Шишлянников Никита Сергеевич </option> : null}
+                            {user.UF_DEPARTMENT[0] === 15 ? <option value="Наурзгалиев Фарид Робертович">Наурзгалиев Ф.Р. </option> : null}
                             <option value="">Общая (Без Исполнителя)</option>
                             <option value={item[7].length ? getShortName(item[7]) : item[55] ? getShortName(item[55]) : ""} selected disabled hidden>{item[7].length ? getShortName(item[7]) : item[55].length ? getShortName(item[55]) : "Общая (Без Исполнителя)"}</option>
                         </select> :

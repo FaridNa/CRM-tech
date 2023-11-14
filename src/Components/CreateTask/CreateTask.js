@@ -330,7 +330,7 @@ const CreateTask = ({ func }) => {
                         Исполнитель
                         <Select
                             options={user.UF_DEPARTMENT[0] === 15
-                                ? options2.concat([{ value: '', label: 'Общая (Нет исполнителя)' }]).concat([{ value: 'Иралиев Фарид Апахович', label: 'Иралиев Ф.А.' }])
+                                ? options2.concat([{ value: '', label: 'Общая (Нет исполнителя)' }]).concat([{ value: 'Иралиев Фарид Апахович', label: 'Иралиев Ф.А.' }]).concat([{value: 'Наурзгалиев Фарид Робертович', label: 'Наурзгалиев Ф.Р.'}])
                                 : options2.concat([{ value: '', label: 'Общая (Нет исполнителя)' }])}
                             onChange={(e) => setForm(prevState => ({ ...prevState, customer: e.value }))}
                             placeholder={'Общая'} />
