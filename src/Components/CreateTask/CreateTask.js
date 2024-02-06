@@ -3,7 +3,7 @@ import styles from './CreateTask.module.scss'
 import Select from 'react-select'
 import { useStore } from "effector-react";
 import { createTask } from "../../actions/CreateTask";
-import { $firstTime, $secondTime } from "../../state/techTIme";
+import { $firstTime, $secondTime } from "../../state/techTime";
 import { $depStatus, $user } from "../../state/user";
 import SearchItems from "./SearchItems";
 import Back from '../../img/back.png'
@@ -12,7 +12,7 @@ import { $loading } from "../../state/loading";
 import Loader from "../Loader/Loader";
 import Info from '../../img/info.png'
 import { $allReqStatus } from "../../state";
-import { $planeStatus, $selectedUser } from "../../state/plane";
+import { $planStatus, $selectedUser } from "../../state/plan";
 import { $graphData } from "../../state/GraphTask";
 import { $customerStatus, getCustomer, setCustomer } from "../../state/getCustomerByPhone";
 import { $items } from '../../store/objectWithAndromeda'
@@ -81,7 +81,7 @@ const CreateTask = ({ func }) => {
     const dep = useStore($depStatus);
 
     const allReq = useStore($allReqStatus);
-    const plane = useStore($planeStatus);
+    const plan = useStore($planStatus);
     const graph = useStore($graphData);
 
     const noformatDate = new Date();
@@ -161,7 +161,7 @@ const CreateTask = ({ func }) => {
                 <header>
                     <img src={Back} alt="" onClick={func} />
                     <img src={Create} alt="" onClick={async () => {
-                        await createTask(form, func, firstTime, secondTime, user, plane.CURRENT, graph)
+                        await createTask(form, func, firstTime, secondTime, user, plan.CURRENT, graph)
                         // allEquipment.map(item => selectedEquipment.includes(item.id) ? editEquipment("editStatus", { id: item.id, status: 'Выдан', techName: item.techName, taskId: tasksFilter.id !== 0 ? tasksFilter.id : 0, blockNumber: noBlockNumberCheck !== 0 ? form.blockNumber : "0" }, user) : null)
                     }} />
                 </header>

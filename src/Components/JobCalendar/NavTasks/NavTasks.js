@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styles from './NavTasks.module.scss'
 import { useStore } from "effector-react";
-import { $planeStatus, $selectedUser } from "../../../state/plane";
+import { $planStatus, $selectedUser } from "../../../state/plan";
 import { $depStatus } from "../../../state/user";
 import { $graphData } from "../../../state/GraphTask";
 import moment from 'moment'
@@ -31,7 +31,7 @@ const filterTasks = (el, dep, selected) => {
 
 const NavTasks = () => {
     const [nav, setNav] = useState('all')
-    const plane = useStore($planeStatus);
+    const plan = useStore($planStatus);
     const dep = useStore($depStatus);
     const selected = useStore($selectedUser);
     const graph = useStore($graphData);
@@ -101,7 +101,7 @@ const NavTasks = () => {
                 <div className={styles.mainNavWrapper}>
                     <ul>
                         <li style={{ background: 'rgba(0,57,234, .5)' }} onClick={() => nav === 'plane' ? setNav('all') : setNav('plane')} className={nav === 'plane' ? styles.active : null}><p>
-                            {plane.CURRENT.filter(el => filterTasks(el, dep, selected))?.filter(el => !isPast(el))?.length}
+                            {plan.CURRENT.filter(el => filterTasks(el, dep, selected))?.filter(el => !isPast(el))?.length}
                         </p> <p>План</p> </li>
                         <li style={{ background: '#ff8000' }} onClick={() => nav === 'moving' ? setNav('all') : setNav('moving')} className={nav === 'moving' ? styles.active : null}><p>
                             {graph.filter(el => el[18] === 'В пути').filter(el => filterTasks(el, dep, selected))?.length}
@@ -115,10 +115,10 @@ const NavTasks = () => {
                     </ul>
                     <ul>
                         <li style={{ background: 'rgba(0,57,234, .5)' }} onClick={() => nav === 'change' ? setNav('all') : setNav('change')} className={nav === 'change' ? styles.active : null}><p>
-                            {plane.CHANGES.filter(el => filterTasks(el, dep, selected))?.length}
+                            {plan.CHANGES.filter(el => filterTasks(el, dep, selected))?.length}
                         </p> <p>Перенос</p> </li>
                         <li style={{ background: 'rgba(255,0,0,0.4)' }} onClick={() => nav === 'deff' ? setNav('all') : setNav('deff')} className={nav === 'deff' ? styles.active : null}><p>
-                            {plane.CURRENT.filter(el => moment(`${el[56]} ${el[57]}`).valueOf() < new Date().getTime()).filter(el => filterTasks(el, dep, selected))?.filter(el => isPast(el))?.length}
+                            {plan.CURRENT.filter(el => moment(`${el[56]} ${el[57]}`).valueOf() < new Date().getTime()).filter(el => filterTasks(el, dep, selected))?.filter(el => isPast(el))?.length}
                         </p> <p>Просроч</p> </li>
                         {/* <li style={{background: 'rgba(243,58,58,0.8)'}} onClick={() => nav === 'nc' ? setNav('all') : setNav('nc')} className={nav === 'nc' ? styles.active : null}><p>
                             {allReq.filter(el => (el[17].indexOf(moment(firstTime).format('YYYY-MM-DD')) !== -1 || el[17].indexOf(moment(firstTime).subtract(1, 'day').format('YYYY-MM-DD')) !== -1) && el[18] === 'Новая')?.length}
@@ -129,14 +129,14 @@ const NavTasks = () => {
 
                     {nav === 'all' && [
                         ...graph.filter(el => filterTasks(el, dep, selected)),
-                        ...plane.CURRENT.filter(el => filterTasks(el, dep, selected))?.sort((b, a) => Date.parse((a[56] + " " + a[57]).replace(' ', 'T')) - Date.parse((b[56] + " " + b[57]).replace(' ', 'T')))
+                        ...plan.CURRENT.filter(el => filterTasks(el, dep, selected))?.sort((b, a) => Date.parse((a[56] + " " + a[57]).replace(' ', 'T')) - Date.parse((b[56] + " " + b[57]).replace(' ', 'T')))
                     ].map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks} />)}
-                    {nav === 'plane' && plane.CURRENT.filter(el => filterTasks(el, dep, selected))?.filter(el => !isPast(el))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks} />)}
+                    {nav === 'plane' && plan.CURRENT.filter(el => filterTasks(el, dep, selected))?.filter(el => !isPast(el))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks} />)}
                     {nav === 'moving' && graph.filter(el => el[18] === 'В пути').filter(el => filterTasks(el, dep, selected))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks} />)}
                     {nav === 'injob' && graph.filter(el => el[18] === 'В работе').filter(el => filterTasks(el, dep, selected))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks} />)}
                     {nav === 'comp' && graph.filter(el => el[18] !== 'В работе' && el[18] !== 'В пути').filter(el => filterTasks(el, dep, selected))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks} />)}
-                    {nav === 'change' && plane.CHANGES.filter(el => filterTasks(el, dep, selected))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks} />)}
-                    {nav === 'deff' && plane.CURRENT.filter(el => moment(`${el[56]} ${el[57]}`).valueOf() < new Date().getTime()).filter(el => filterTasks(el, dep, selected))?.filter(el => isPast(el))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks} />)}
+                    {nav === 'change' && plan.CHANGES.filter(el => filterTasks(el, dep, selected))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks} />)}
+                    {nav === 'deff' && plan.CURRENT.filter(el => moment(`${el[56]} ${el[57]}`).valueOf() < new Date().getTime()).filter(el => filterTasks(el, dep, selected))?.filter(el => isPast(el))?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks} />)}
                     {nav === 'nc' && allReq.filter(el => (el[17].indexOf(moment(firstTime).format('YYYY-MM-DD')) !== -1 || el[17].indexOf(moment(firstTime).subtract(1, 'day').format('YYYY-MM-DD')) !== -1) && el[18] === 'Новая')?.map((el, i) => <TaskItem task={el} key={el[0]} i={i} history={tasks} />)}
                 </ul>
             </div>
