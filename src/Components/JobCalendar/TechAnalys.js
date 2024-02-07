@@ -26,7 +26,7 @@ const TechAnalys = ({ tech = [0, '', 0, 0], tasks, plan, planTasks, surname }) =
                 if (task[55].split(' ')[0] === surname) {
                     // task[55] - ФИО техника
                     // task[59] - время, назначенное на задачу
-                    seconds = task[59] * 60 * 60;
+                    seconds += task[59] * 60 * 60;
                 }
             }
         })
@@ -41,7 +41,7 @@ const TechAnalys = ({ tech = [0, '', 0, 0], tasks, plan, planTasks, surname }) =
 
         if (plan) {
             planTasks.forEach(task => {
-                seconds = task[59] * 60 * 60;
+                seconds += task[59] * 60 * 60;
             })
         } else {
             tasks.forEach(task => {
@@ -58,7 +58,7 @@ const TechAnalys = ({ tech = [0, '', 0, 0], tasks, plan, planTasks, surname }) =
                     if (task[18] === 'В работе') {
                         let a = moment(task[5]);
                         let b = moment(new Date());
-                        seconds = b.diff(a, 'seconds');
+                        seconds += b.diff(a, 'seconds');
                         setCoefColor('orange');
                     }
 
@@ -66,15 +66,15 @@ const TechAnalys = ({ tech = [0, '', 0, 0], tasks, plan, planTasks, surname }) =
                         if ((task[18] !== 'В работе' || task[18] !== 'Выезд не требуется' || task[18] !== 'Не выезжали')
                             && diffTime > 300 && task[34] > 0) {
                             if (diffTime > (task[34] * 60 * 60) / users.length) {
-                                seconds = (task[34] * 60 * 60) / users.length;
+                                seconds += (task[34] * 60 * 60) / users.length;
                             } else {
-                                seconds = diffTime;
+                                seconds += diffTime;
                             }
                         }
                     } else {
                         if ((task[18] !== 'В работе' || task[18] !== 'Выезд не требуется' || task[18] !== 'Не выезжали')
                             && diffTime > 300 && task[34] > 0) {
-                            seconds = (task[34] * 60 * 60) / users.length;
+                            seconds += (task[34] * 60 * 60) / users.length;
                         }
                     }
                 }
