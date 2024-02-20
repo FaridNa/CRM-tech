@@ -122,7 +122,7 @@ const TaskItemNew = ({ item }) => {
         label: `${el.LAST_NAME} ${el.NAME[0]}.${el.SECOND_NAME[0]}.`
     }))
 
-    const admins = [item[37], '1', '11', '33', '29', '23', '53', '317', '211', '109', '147', '3503', '3707'];
+    const admins = [item[37], '1', '11', '33', '29', '23', '53', '317', '211', '109', '147', '3503', '3707', '3745', '3759', '3763'];
 
     const [loading, setLoading] = useState(false)
     const [report, showReport] = useState(false);
