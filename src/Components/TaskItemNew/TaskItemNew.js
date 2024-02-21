@@ -169,13 +169,15 @@ const TaskItemNew = ({ item }) => {
       ...
     ]
    * ``` */
-  const techsData = dep.filter(el => el.WORK_POSITION !== 'Водитель' & !(el.WORK_POSITION.includes('Начальник'))).map(el => ({
-    value: `${el.LAST_NAME} ${el.NAME} ${el.SECOND_NAME}`,
-    label: `${el.LAST_NAME} ${el.NAME[0]}.${el.SECOND_NAME[0]}.`
-  }))
+  const techsData = dep
+    .filter(el => el.WORK_POSITION && el.WORK_POSITION !== 'Водитель' && !(el.WORK_POSITION.includes('Руководитель'))) // из-за этого условия не работает & !(el.WORK_POSITION.includes('Начальник'))
+    .map(el => ({
+      value: `${el.LAST_NAME} ${el.NAME} ${el.SECOND_NAME}`,
+      label: `${el.LAST_NAME} ${el.NAME[0]}.${el.SECOND_NAME[0]}.`
+    }));
 
   /**ID Пользователей Битрикс, которым разрешен доступ на редактирование заявок */
-  const admins = [item[37], '1', '11', '33', '29', '23', '53', '317', '211', '109', '147', '3503', '3707', '3745'];
+  const admins = [item[37], '1', '11', '33', '29', '23', '53', '317', '211', '109', '147', '3503', '3707', '3745', '3759', '3763'];
 
   //Информация о заявке
   const [form, setForm] = useState({
@@ -213,15 +215,15 @@ const TaskItemNew = ({ item }) => {
   }, [edit, nav])
 
   //DEBUG LOG
-  useEffect(() => {
-    console.log({
-      "TaskItemNew": {
-        "item": item, "dep": dep, "deps": deps, "techsData": techsData, "admins": admins,
-        "nav": nav, "edit": edit,
-        "history2": history, "important": important, "comments": comments, "customer": customer
-      }
-    })
-  }, [nav])
+  // useEffect(() => {
+  //   console.log({
+  //     "TaskItemNew": {
+  //       "item": item, "dep": dep, "deps": deps, "techsData": techsData, "admins": admins,
+  //       "nav": nav, "edit": edit,
+  //       "history2": history, "important": important, "comments": comments, "customer": customer
+  //     }
+  //   })
+  // }, [nav])
 
   //Если техник читает свою же собственную заявку, то записать в historyJSON то, что он её прочитал
   useEffect(() => {

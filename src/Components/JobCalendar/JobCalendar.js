@@ -15,7 +15,7 @@ import TechList from "./Techs/Techs";
 import { TimeLine } from "./LineItem/LineItem";
 import { TimeLineCommon } from './LineItem/LineItemCommon';
 
-import { $planeStatus, $selectedUser, getPlane, setSelectedUser } from "../../state/plane";
+import { $planStatus, $selectedUser, getPlan, setSelectedUser } from "../../state/plan";
 
 import NavTasks from "./NavTasks/NavTasks";
 import { getUsers } from "../../state/getUsers";
@@ -43,7 +43,7 @@ const JobCalendar = () => {
 
         getStatus(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth() + 1) : firstTime.getMonth() + 1}-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate()}`);
 
-        getPlane(firstTime);
+        getPlan(firstTime);
 
         getTechs(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth() + 1) : firstTime.getMonth() + 1}-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate()}`);
 

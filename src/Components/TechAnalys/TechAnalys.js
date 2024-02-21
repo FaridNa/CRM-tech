@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styles from './TechAnalys.module.scss'
 import moment from 'moment';
 import {useStore} from "effector-react";
-import {$firstTime, $secondTime} from "../../state/techTIme";
+import {$firstTime, $secondTime} from "../../state/techTime";
 
 const TechAnalys = ({tech, tasks}) => {
     const firstTime = useStore($firstTime);
@@ -16,6 +16,9 @@ const TechAnalys = ({tech, tasks}) => {
     const [showTasks, setShowTasks] = useState(false)
 
     useEffect(() => {
+        let coeff;
+        let seconds = 0;
+        
         let first = moment({
             d: firstTime.getDate()
         })
@@ -25,16 +28,15 @@ const TechAnalys = ({tech, tasks}) => {
 
         const timeJob = second.diff(first, "days") * 8 * 60 * 60;
 
-        let seconds = 0;
 
-        tasks.forEach(el => {
-            const users = el[7].split(',').filter(el => el !== 'Фатиги Ильяс Исмаил');
+        tasks.forEach(task => {
+            const users = task[7].split(',').filter(task => task !== 'Фатиги Ильяс Исмаил');
 
-            const timeDeadline = (el[34] * 60 * 60) / users.length;
+            const timeDeadline = (task[34] * 60 * 60) / users.length;
             //console.log(timeDeadline)
-            let h = +el[9].substr(0,2);
-            let m = +el[9].substr(3,2);
-            let s = +el[9].substr(6,2)
+            let h = +task[9].substr(0,2);
+            let m = +task[9].substr(3,2);
+            let s = +task[9].substr(6,2)
             let newseconds = (h*60*60) + (m*60) + s;
 
               if (newseconds > timeDeadline) {
@@ -42,16 +44,11 @@ const TechAnalys = ({tech, tasks}) => {
               } else {
                   seconds += newseconds
               }
-
-
-
         })
-
-
 
         let resultDate = moment("1900-01-01 00:00:00").add(seconds, 'seconds');
 
-        let coeff = (seconds * 100) / timeJob;
+        coeff = seconds * 100 / timeJob;
 
         if (coeff < 80) {
             setCoefColor('red')
@@ -65,18 +62,15 @@ const TechAnalys = ({tech, tasks}) => {
             setCoef(0)
         }
         else if (coeff < 1) {
-
             setCoef(coeff.toFixed(2))
         } else {
             setCoef(coeff.toFixed(0))
         }
 
         let mergeDate = moment("1900-01-01 00:00:00").add(seconds/tasks.length, 'seconds').format("HH:mm:ss");
-        setTotalTime(resultDate.format("HH:mm:ss"))
-        setMergeTime(mergeDate)
 
-
-
+        setTotalTime(resultDate.format("HH:mm:ss"));
+        setMergeTime(mergeDate);
     }, [tasks, firstTime, secondTime])
 
     const color = (time, deadline) => {
@@ -102,11 +96,8 @@ const TechAnalys = ({tech, tasks}) => {
                     <p>КПД: <span style={{ color: coefColor }}>1%</span></p>
                 </div>
             </div>
-
         </div>
     );
 }
-
-
 
 export default TechAnalys;

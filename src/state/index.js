@@ -1,279 +1,306 @@
-import {createStore, createEffect, combine, createEvent} from 'effector'
-import {$nav, $typenav} from "./Nav";
-import {filterDep} from "../utils/filterDepartament";
-import {$user} from "./user";
+import { createStore, createEffect, combine, createEvent } from 'effector'
+import { $nav, $typenav } from "./Nav";
+import { filterDep } from "../utils/filterDepartament";
+import { $user } from "./user";
 
-
-
-export const getNewReq = createEffect(async ({a, b}) => {
+export const getNewReq = createEffect(async ({ a, b }) => {
     const url = `newTasks.php/?startDate=${a}&endDate=${b}`
-
     const base = 'https://volga24bot.com/kartoteka/api/tech'
     const req = await fetch(`${base}/${url}`)
 
     return req.json()
 })
 
-
-const $newReq = createStore({NEW: [], COMP: [], MOVING: [], INJOB: [], NC: [], DEFFECT: [], DEFFECT2: {NEW: [], ALL: [], COMP: []}}).on(
+const $newReq = createStore({ NEW: [], COMP: [], MOVING: [], INJOB: [], NC: [], DEFFECT: [], DEFFECT2: { NEW: [], ALL: [], COMP: [] } }).on(
     getNewReq.doneData,
     (_, data) => data
 )
 
-
-
 export const $newReqStatus = combine(
-    $newReq, getNewReq.pending,$nav,$typenav,$user,
-    (data2, isLoading, typeNav,nav2,user) => {
+    $newReq,
+    getNewReq.pending,
+    $nav,
+    $typenav,
+    $user,
+    (data2, isLoading, typeNav, nav2, user) => {
         if (isLoading) {
             return []
         } else {
-            let data = {NEW: data2.NEW.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
+            let data = {
+                NEW: data2.NEW.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 COMP: data2.COMP.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 MOVING: data2.MOVING.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 INJOB: data2.INJOB.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 NC: data2.NC.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 DEFFECT: data2.DEFFECT.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
-                DEFFECT2: { NEW: data2.DEFFECT2.NEW.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])), ALL: data2.DEFFECT2.ALL.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])), COMP: data2.DEFFECT2.COMP.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),},
+                DEFFECT2: { NEW: data2.DEFFECT2.NEW.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])), ALL: data2.DEFFECT2.ALL.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])), COMP: data2.DEFFECT2.COMP.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])), },
             }
 
-
-
-
-            if (nav2 === 'total') {
-                if (typeNav === 'so') {
-                    return data.NEW.filter(el => el[8] === 'СО')
-                } else if (typeNav === 'req') {
-                    return data.NEW.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор')
-                } else if (typeNav === 'mon') {
-                    return data.NEW.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение')
-                } else if (typeNav === 'dem') {
-                    return data.NEW.filter(el => el[8] === 'Демонтаж')
-                } else if (typeNav === 'connection') {
-                    return data.NEW.filter(el => el[3] === 'Нет контрольного события')
-                } else if (typeNav === 'repeats') {
-                    return data.NEW.filter(el => el[3] === 'Повтор' )
-                } else if (typeNav === 'pre') {
-                    return data.NEW.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта')
-                } else if (typeNav === 'toM') {
-                    return data.NEW.filter(el => el[13] === 'Ежемесячное ТО' )
-                } else if (typeNav === 'toQ') {
-                    return data.NEW.filter(el => el[13] === 'Ежеквартальное ТО')
-                } else if (typeNav === 'deffect') {
-                    return data.DEFFECT2.NEW
-                } else if (typeNav === 'preP') {
-                    return data.NEW.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта')
-                } else if (typeNav === 'corp') {
-                    return data.NEW.filter(el => el[3] === 'Корпоративный')
-                } else if (typeNav === 'sp') {
-                  return data.NEW.filter(el => el[8] === 'Снятие/Постановка')
-                } else if (typeNav === 'sh') {
-                  return data.NEW.filter(el => el[8] === 'Шлейф')
-                } else if (typeNav === 'kts') {
-                  return data.NEW.filter(el => el[8] === 'КТС')
-                } else if (typeNav === 'key') {
-                  return data.NEW.filter(el => el[8] === 'Ключ')
-                } else if (typeNav === 'ddv') {
-                  return data.NEW.filter(el => el[8] === '220')
-                }
-            } else if (nav2 === 'COMP') {
-                if (typeNav === 'so') {
-                    return data.COMP.filter(el => el[8] === 'СО')
-                } else if (typeNav === 'req') {
-                    return data.COMP.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор')
-                } else if (typeNav === 'mon') {
-                    return data.COMP.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение')
-                } else if (typeNav === 'dem') {
-                    return data.COMP.filter(el => el[8] === 'Демонтаж' )
-                } else if (typeNav === 'connection') {
-                    return data.COMP.filter(el => el[3] === 'Нет контрольного события')
-                } else if (typeNav === 'repeats') {
-                    return data.COMP.filter(el => el[3] === 'Повтор' )
-                } else if (typeNav === 'pre') {
-                    return data.COMP.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта')
-                } else if (typeNav === 'toM') {
-                    return data.COMP.filter(el => el[13] === 'Ежемесячное ТО' )
-                } else if (typeNav === 'toQ') {
-                    return data.COMP.filter(el => el[13] === 'Ежеквартальное ТО')
-                } else if (typeNav === 'deffect') {
-                    return data.DEFFECT2.COMP
-                } else if (typeNav === 'preP') {
-                    return data.COMP.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта')
-                } else if (typeNav === 'corp') {
-                    return data.COMP.filter(el => el[3] === 'Корпоративный')
-                }else if (typeNav === 'sp') {
-                  return data.COMP.filter(el => el[8] === 'Снятие/Постановка')
-                } else if (typeNav === 'sh') {
-                  return data.COMP.filter(el => el[8] === 'Шлейф')
-                } else if (typeNav === 'kts') {
-                  return data.COMP.filter(el => el[8] === 'КТС')
-                } else if (typeNav === 'key') {
-                  return data.COMP.filter(el => el[8] === 'Ключ')
-                } else if (typeNav === 'ddv') {
-                  return data.COMP.filter(el => el[8] === '220')
-                }
-            } else if (nav2 === 'MOVING') {
-              if (typeNav === 'so') {
-                  return data.MOVING.filter(el => el[8] === 'СО')
-              } else if (typeNav === 'req') {
-                  return data.MOVING.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор')
-              } else if (typeNav === 'mon') {
-                  return data.MOVING.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение')
-              } else if (typeNav === 'dem') {
-                  return data.MOVING.filter(el => el[8] === 'Демонтаж' )
-              } else if (typeNav === 'connection') {
-                  return data.MOVING.filter(el => el[3] === 'Нет контрольного события')
-              } else if (typeNav === 'repeats') {
-                  return data.MOVING.filter(el => el[3] === 'Повтор' )
-              } else if (typeNav === 'pre') {
-                  return data.MOVING.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта')
-              } else if (typeNav === 'toM') {
-                  return data.MOVING.filter(el => el[13] === 'Ежемесячное ТО' )
-              } else if (typeNav === 'toQ') {
-                  return data.MOVING.filter(el => el[13] === 'Ежеквартальное ТО')
-              } else if (typeNav === 'deffect') {
-                  return data.DEFFECT2.MOVING
-              } else if (typeNav === 'preP') {
-                  return data.MOVING.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта')
-              } else if (typeNav === 'corp') {
-                  return data.MOVING.filter(el => el[3] === 'Корпоративный')
-              }else if (typeNav === 'sp') {
-                return data.MOVING.filter(el => el[8] === 'Снятие/Постановка')
-              } else if (typeNav === 'sh') {
-                return data.MOVING.filter(el => el[8] === 'Шлейф')
-              } else if (typeNav === 'kts') {
-                return data.MOVING.filter(el => el[8] === 'КТС')
-              } else if (typeNav === 'key') {
-                return data.MOVING.filter(el => el[8] === 'Ключ')
-              } else if (typeNav === 'ddv') {
-                return data.MOVING.filter(el => el[8] === '220')
-              }
-          } else if (nav2 === 'INJOB') {
-                if (typeNav === 'so') {
-                    return data.INJOB.filter(el => el[8] === 'СО')
-                } else if (typeNav === 'req') {
-                    return data.INJOB.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор')
-                } else if (typeNav === 'mon') {
-                    return data.INJOB.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение')
-                } else if (typeNav === 'dem') {
-                    return data.INJOB.filter(el => el[8] === 'Демонтаж' )
-                } else if (typeNav === 'connection') {
-                    return data.INJOB.filter(el => el[3] === 'Нет контрольного события')
-                } else if (typeNav === 'repeats') {
-                    return data.INJOB.filter(el => el[3] === 'Повтор' )
-                } else if (typeNav === 'pre') {
-                    return data.INJOB.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта')
-                } else if (typeNav === 'toM') {
-                    return data.INJOB.filter(el => el[13] === 'Ежемесячное ТО' )
-                } else if (typeNav === 'toQ') {
-                    return data.INJOB.filter(el => el[13] === 'Ежеквартальное ТО')
-                } else if (typeNav === 'preP') {
-                    return data.INJOB.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта')
-                } else if (typeNav === 'corp') {
-                    return data.INJOB.filter(el => el[3] === 'Корпоративный')
-                } else if (typeNav === 'sp') {
-                  return data.INJOB.filter(el => el[8] === 'Снятие/Постановка')
-                } else if (typeNav === 'sh') {
-                  return data.INJOB.filter(el => el[8] === 'Шлейф')
-                } else if (typeNav === 'kts') {
-                  return data.INJOB.filter(el => el[8] === 'КТС')
-                } else if (typeNav === 'key') {
-                  return data.INJOB.filter(el => el[8] === 'Ключ')
-                } else if (typeNav === 'ddv') {
-                  return data.INJOB.filter(el => el[8] === '220')
-                }
-            } else if (nav2 === 'NEW') {
-                if (typeNav === 'so') {
-                    return data.NC.filter(el => el[8] === 'СО')
-                } else if (typeNav === 'req') {
-                    return data.NC.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор')
-                } else if (typeNav === 'mon') {
-                    return data.NC.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение')
-                } else if (typeNav === 'dem') {
-                    return data.NC.filter(el => el[8] === 'Демонтаж' )
-                } else if (typeNav === 'connection') {
-                    return data.NC.filter(el => el[3] === 'Нет контрольного события')
-                } else if (typeNav === 'repeats') {
-                    return data.NC.filter(el => el[3] === 'Повтор' )
-                } else if (typeNav === 'pre') {
-                    return data.NC.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта')
-                } else if (typeNav === 'toM') {
-                    return data.NC.filter(el => el[13] === 'Ежемесячное ТО' )
-                } else if (typeNav === 'toQ') {
-                    return data.NC.filter(el => el[13] === 'Ежеквартальное ТО')
-                } else if (typeNav === 'deffect') {
-                    return data.DEFFECT2.ALL
-                } else if (typeNav === 'preP') {
-                    return data.NC.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта')
-                } else if (typeNav === 'corp') {
-                    return data.NC.filter(el => el[3] === 'Корпоративный')
-                } else if (typeNav === 'sp') {
-                  return data.NC.filter(el => el[8] === 'Снятие/Постановка')
-                } else if (typeNav === 'sh') {
-                  return data.NC.filter(el => el[8] === 'Шлейф')
-                } else if (typeNav === 'kts') {
-                  return data.NC.filter(el => el[8] === 'КТС')
-                } else if (typeNav === 'key') {
-                  return data.NC.filter(el => el[8] === 'Ключ')
-                } else if (typeNav === 'ddv') {
-                  return data.NC.filter(el => el[8] === '220')
-                }
-            } else if (nav2 === 'DEFFECT') {
-                if (typeNav === 'so') {
-                    return data.DEFFECT.filter(el => el[8] === 'СО')
-                } else if (typeNav === 'req') {
-                    return data.DEFFECT.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор')
-                } else if (typeNav === 'mon') {
-                    return data.DEFFECT.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение')
-                } else if (typeNav === 'dem') {
-                    return data.DEFFECT.filter(el => el[8] === 'Демонтаж' )
-                } else if (typeNav === 'connection') {
-                    return data.DEFFECT.filter(el => el[3] === 'Нет контрольного события')
-                } else if (typeNav === 'repeats') {
-                    return data.DEFFECT.filter(el => el[3] === 'Повтор' )
-                } else if (typeNav === 'pre') {
-                    return data.DEFFECT.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта')
-                } else if (typeNav === 'toM') {
-                    return data.DEFFECT.filter(el => el[13] === 'Ежемесячное ТО' )
-                } else if (typeNav === 'toQ') {
-                    return data.DEFFECT.filter(el => el[13] === 'Ежеквартальное ТО')
-                } else if (typeNav === 'deffect') {
-                    return data.DEFFECT2.ALL
-                } else if (typeNav === 'preP') {
-                    return data.DEFFECT.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта')
-                } else if (typeNav === 'corp') {
-                    return data.DEFFECT.filter(el => el[3] === 'Корпоративный')
-                }else if (typeNav === 'sp') {
-                  return data.DEFFECT.filter(el => el[8] === 'Снятие/Постановка')
-                } else if (typeNav === 'sh') {
-                  return data.DEFFECT.filter(el => el[8] === 'Шлейф')
-                } else if (typeNav === 'kts') {
-                  return data.DEFFECT.filter(el => el[8] === 'КТС')
-                } else if (typeNav === 'key') {
-                  return data.DEFFECT.filter(el => el[8] === 'Ключ')
-                } else if (typeNav === 'ddv') {
-                  return data.DEFFECT.filter(el => el[8] === '220')
-                }
+            switch (nav2) {
+                case 'total':
+                    switch (typeNav) {
+                        case 'so':
+                            return data.NEW.filter(el => el[8] === 'СО');
+                        case 'req':
+                            return data.NEW.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор');
+                        case 'mon':
+                            return data.NEW.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение');
+                        case 'dem':
+                            return data.NEW.filter(el => el[8] === 'Демонтаж');
+                        case 'connection':
+                            return data.NEW.filter(el => el[3] === 'Нет контрольного события');
+                        case 'repeats':
+                            return data.NEW.filter(el => el[3] === 'Повтор');
+                        case 'pre':
+                            return data.NEW.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта');
+                        case 'toM':
+                            return data.NEW.filter(el => el[13] === 'Ежемесячное ТО');
+                        case 'toQ':
+                            return data.NEW.filter(el => el[13] === 'Ежеквартальное ТО');
+                        case 'preP':
+                            return data.NEW.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта');
+                        case 'corp':
+                            return data.NEW.filter(el => el[3] === 'Корпоративный');
+                        case 'sp':
+                            return data.NEW.filter(el => el[8] === 'Снятие/Постановка');
+                        case 'sh':
+                            return data.NEW.filter(el => el[8] === 'Шлейф');
+                        case 'kts':
+                            return data.NEW.filter(el => el[8] === 'КТС');
+                        case 'key':
+                            return data.NEW.filter(el => el[8] === 'Ключ');
+                        case 'ddv':
+                            return data.NEW.filter(el => el[8] === '220');
+                        case 'deffect':
+                            return data.DEFFECT2.COMP;
+                        default:
+                            console.log('SWITCH CASE не отработал');
+                            break;
+                    }
+                case 'COMP':
+                    switch (typeNav) {
+                        case 'so':
+                            return data.COMP.filter(el => el[8] === 'СО');
+                        case 'req':
+                            return data.COMP.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор');
+                        case 'mon':
+                            return data.COMP.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение');
+                        case 'dem':
+                            return data.COMP.filter(el => el[8] === 'Демонтаж');
+                        case 'connection':
+                            return data.COMP.filter(el => el[3] === 'Нет контрольного события');
+                        case 'repeats':
+                            return data.COMP.filter(el => el[3] === 'Повтор');
+                        case 'pre':
+                            return data.COMP.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта');
+                        case 'toM':
+                            return data.COMP.filter(el => el[13] === 'Ежемесячное ТО');
+                        case 'toQ':
+                            return data.COMP.filter(el => el[13] === 'Ежеквартальное ТО');
+                        case 'preP':
+                            return data.COMP.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта');
+                        case 'corp':
+                            return data.COMP.filter(el => el[3] === 'Корпоративный');
+                        case 'sp':
+                            return data.COMP.filter(el => el[8] === 'Снятие/Постановка');
+                        case 'sh':
+                            return data.COMP.filter(el => el[8] === 'Шлейф');
+                        case 'kts':
+                            return data.COMP.filter(el => el[8] === 'КТС');
+                        case 'key':
+                            return data.COMP.filter(el => el[8] === 'Ключ');
+                        case 'ddv':
+                            return data.COMP.filter(el => el[8] === '220');
+                        case 'deffect':
+                            return data.DEFFECT2.COMP;
+                        default:
+                            console.log('SWITCH CASE не отработал');
+                            break;
+                    }
+                case 'MOVING':
+                    switch (typeNav) {
+                        case 'so':
+                            return data.MOVING.filter(el => el[8] === 'СО');
+                        case 'req':
+                            return data.MOVING.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор');
+                        case 'mon':
+                            return data.MOVING.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение');
+                        case 'dem':
+                            return data.MOVING.filter(el => el[8] === 'Демонтаж');
+                        case 'connection':
+                            return data.MOVING.filter(el => el[3] === 'Нет контрольного события');
+                        case 'repeats':
+                            return data.MOVING.filter(el => el[3] === 'Повтор');
+                        case 'pre':
+                            return data.MOVING.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта');
+                        case 'toM':
+                            return data.MOVING.filter(el => el[13] === 'Ежемесячное ТО');
+                        case 'toQ':
+                            return data.MOVING.filter(el => el[13] === 'Ежеквартальное ТО');
+                        case 'preP':
+                            return data.MOVING.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта');
+                        case 'corp':
+                            return data.MOVING.filter(el => el[3] === 'Корпоративный');
+                        case 'sp':
+                            return data.MOVING.filter(el => el[8] === 'Снятие/Постановка');
+                        case 'sh':
+                            return data.MOVING.filter(el => el[8] === 'Шлейф');
+                        case 'kts':
+                            return data.MOVING.filter(el => el[8] === 'КТС');
+                        case 'key':
+                            return data.MOVING.filter(el => el[8] === 'Ключ');
+                        case 'ddv':
+                            return data.MOVING.filter(el => el[8] === '220');
+                        case 'deffect':
+                            return data.DEFFECT2.MOVING;
+                        default:
+                            console.log('SWITCH CASE не отработал');
+                            break;
+                    }
+                case 'INJOB':
+                    switch (typeNav) {
+                        case 'so':
+                            return data.INJOB.filter(el => el[8] === 'СО');
+                        case 'req':
+                            return data.INJOB.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор');
+                        case 'mon':
+                            return data.INJOB.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение');
+                        case 'dem':
+                            return data.INJOB.filter(el => el[8] === 'Демонтаж');
+                        case 'connection':
+                            return data.INJOB.filter(el => el[3] === 'Нет контрольного события');
+                        case 'repeats':
+                            return data.INJOB.filter(el => el[3] === 'Повтор');
+                        case 'pre':
+                            return data.INJOB.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта');
+                        case 'toM':
+                            return data.INJOB.filter(el => el[13] === 'Ежемесячное ТО');
+                        case 'toQ':
+                            return data.INJOB.filter(el => el[13] === 'Ежеквартальное ТО');
+                        case 'preP':
+                            return data.INJOB.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта');
+                        case 'corp':
+                            return data.INJOB.filter(el => el[3] === 'Корпоративный');
+                        case 'sp':
+                            return data.INJOB.filter(el => el[8] === 'Снятие/Постановка');
+                        case 'sh':
+                            return data.INJOB.filter(el => el[8] === 'Шлейф');
+                        case 'kts':
+                            return data.INJOB.filter(el => el[8] === 'КТС');
+                        case 'key':
+                            return data.INJOB.filter(el => el[8] === 'Ключ');
+                        case 'ddv':
+                            return data.INJOB.filter(el => el[8] === '220');
+                        // case 'deffect':
+                        //     return data.DEFFECT2.COMP;
+                        default:
+                            console.log('SWITCH CASE не отработал');
+                            break;
+                    }
+                case 'NEW':
+                    switch (typeNav) {
+                        case 'so':
+                            return data.NC.filter(el => el[8] === 'СО');
+                        case 'req':
+                            return data.NC.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор');
+                        case 'mon':
+                            return data.NC.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение');
+                        case 'dem':
+                            return data.NC.filter(el => el[8] === 'Демонтаж');
+                        case 'connection':
+                            return data.NC.filter(el => el[3] === 'Нет контрольного события');
+                        case 'repeats':
+                            return data.NC.filter(el => el[3] === 'Повтор');
+                        case 'pre':
+                            return data.NC.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта');
+                        case 'toM':
+                            return data.NC.filter(el => el[13] === 'Ежемесячное ТО');
+                        case 'toQ':
+                            return data.NC.filter(el => el[13] === 'Ежеквартальное ТО');
+                        case 'preP':
+                            return data.NC.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта');
+                        case 'corp':
+                            return data.NC.filter(el => el[3] === 'Корпоративный');
+                        case 'sp':
+                            return data.NC.filter(el => el[8] === 'Снятие/Постановка');
+                        case 'sh':
+                            return data.NC.filter(el => el[8] === 'Шлейф');
+                        case 'kts':
+                            return data.NC.filter(el => el[8] === 'КТС');
+                        case 'key':
+                            return data.NC.filter(el => el[8] === 'Ключ');
+                        case 'ddv':
+                            return data.NC.filter(el => el[8] === '220');
+                        case 'deffect':
+                            return data.DEFFECT2.ALL;
+                        default:
+                            console.log('SWITCH CASE не отработал');
+                            break;
+                    }
+                case 'DEFFECT':
+                    switch (typeNav) {
+                        case 'so':
+                            return data.DEFFECT.filter(el => el[8] === 'СО');
+                        case 'req':
+                            return data.DEFFECT.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор');
+                        case 'mon':
+                            return data.DEFFECT.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение');
+                        case 'dem':
+                            return data.DEFFECT.filter(el => el[8] === 'Демонтаж');
+                        case 'connection':
+                            return data.DEFFECT.filter(el => el[3] === 'Нет контрольного события');
+                        case 'repeats':
+                            return data.DEFFECT.filter(el => el[3] === 'Повтор');
+                        case 'pre':
+                            return data.DEFFECT.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта');
+                        case 'toM':
+                            return data.DEFFECT.filter(el => el[13] === 'Ежемесячное ТО');
+                        case 'toQ':
+                            return data.DEFFECT.filter(el => el[13] === 'Ежеквартальное ТО');
+                        case 'preP':
+                            return data.DEFFECT.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта');
+                        case 'corp':
+                            return data.DEFFECT.filter(el => el[3] === 'Корпоративный');
+                        case 'sp':
+                            return data.DEFFECT.filter(el => el[8] === 'Снятие/Постановка');
+                        case 'sh':
+                            return data.DEFFECT.filter(el => el[8] === 'Шлейф');
+                        case 'kts':
+                            return data.DEFFECT.filter(el => el[8] === 'КТС');
+                        case 'key':
+                            return data.DEFFECT.filter(el => el[8] === 'Ключ');
+                        case 'ddv':
+                            return data.DEFFECT.filter(el => el[8] === '220');
+                        case 'deffect':
+                            return data.DEFFECT2.ALL;
+                        default:
+                            console.log('SWITCH CASE не отработал');
+                            break;
+                    }
+                default:
+                    console.log('SWITCH CASE не отработал');
+                    break;
             }
         }
     }
 )
 
 export const $counters = combine(
-    $newReq, getNewReq.pending,$user,
+    $newReq, getNewReq.pending, $user,
     (data2, isLoading, user) => {
 
         if (isLoading) {
-            return {NEW: [], COMP: [], MOVING: [], INJOB: [], NC: [], DEFFECT: []}
+            return { NEW: [], COMP: [], MOVING: [], INJOB: [], NC: [], DEFFECT: [] }
         } else {
 
-            let data = {NEW: data2.NEW.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
+            let data = {
+                NEW: data2.NEW.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 COMP: data2.COMP.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 MOVING: data2.MOVING.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 INJOB: data2.INJOB.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 NC: data2.NC.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
                 DEFFECT: data2.DEFFECT.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),
-                DEFFECT2: { NEW: data2.DEFFECT2.NEW.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])), ALL: data2.DEFFECT2.ALL.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])), COMP: data2.DEFFECT2.COMP.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])),},
+                DEFFECT2: { NEW: data2.DEFFECT2.NEW.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])), ALL: data2.DEFFECT2.ALL.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])), COMP: data2.DEFFECT2.COMP.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0])), },
             }
 
             const NEW = {
@@ -354,24 +381,24 @@ export const $counters = combine(
                 ddv: data.COMP.filter(el => el[8] === '220').length,
             }
             const MOVING = {
-              req: data.MOVING.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
-              mon: data.MOVING.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение').length,
-              dem: data.MOVING.filter(el => el[8] === 'Демонтаж').length,
-              so: data.MOVING.filter(el => el[8] === 'СО').length,
-              pre: data.MOVING.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта').length,
-              toM: data.MOVING.filter(el => el[8] === 'ТО' && el[13].indexOf('меся') !== -1).length,
-              toQ: data.MOVING.filter(el => el[8] === 'ТО' && el[13].indexOf('квартал') !== -1).length,
-              repeats: data.MOVING.filter(el => el[3] === 'Повтор').length,
-              connection: data.MOVING.filter(el => el[3] === 'Нет контрольного события').length,
-              deffect: 0,
-              preP: data.MOVING.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта').length,
-              corp: data.MOVING.filter(el => el[3] === 'Корпоративный').length,
-              sp: data.MOVING.filter(el => el[8] === 'Снятие/Постановка').length,
-              sh: data.MOVING.filter(el => el[8] === 'Шлейф').length,
-              kts: data.MOVING.filter(el => el[8] === 'КТС').length,
-              key: data.MOVING.filter(el => el[8] === 'Ключ').length,
-              ddv: data.MOVING.filter(el => el[8] === '220').length,
-          }
+                req: data.MOVING.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
+                mon: data.MOVING.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение').length,
+                dem: data.MOVING.filter(el => el[8] === 'Демонтаж').length,
+                so: data.MOVING.filter(el => el[8] === 'СО').length,
+                pre: data.MOVING.filter(el => el[8] === 'Претензия' && el[3] !== 'От пульта').length,
+                toM: data.MOVING.filter(el => el[8] === 'ТО' && el[13].indexOf('меся') !== -1).length,
+                toQ: data.MOVING.filter(el => el[8] === 'ТО' && el[13].indexOf('квартал') !== -1).length,
+                repeats: data.MOVING.filter(el => el[3] === 'Повтор').length,
+                connection: data.MOVING.filter(el => el[3] === 'Нет контрольного события').length,
+                deffect: 0,
+                preP: data.MOVING.filter(el => el[8] === 'Претензия' && el[3] === 'От пульта').length,
+                corp: data.MOVING.filter(el => el[3] === 'Корпоративный').length,
+                sp: data.MOVING.filter(el => el[8] === 'Снятие/Постановка').length,
+                sh: data.MOVING.filter(el => el[8] === 'Шлейф').length,
+                kts: data.MOVING.filter(el => el[8] === 'КТС').length,
+                key: data.MOVING.filter(el => el[8] === 'Ключ').length,
+                ddv: data.MOVING.filter(el => el[8] === '220').length,
+            }
             const INJOB = {
                 req: data.INJOB.filter(el => el[8] === 'Заявка' && el[3] !== 'Нет контрольного события' && el[3] !== 'Повтор').length,
                 mon: data.INJOB.filter(el => el[8] === 'Монтаж' || el[8] === 'Подключение').length,
@@ -391,36 +418,31 @@ export const $counters = combine(
                 key: data.INJOB.filter(el => el[8] === 'Ключ').length,
                 ddv: data.INJOB.filter(el => el[8] === '220').length,
             }
-            return {MOVING: MOVING, INJOB: INJOB, COMP: COMP, NC: NC, DEFFECT: DEFFECT, NEW:NEW}
+            return { MOVING: MOVING, INJOB: INJOB, COMP: COMP, NC: NC, DEFFECT: DEFFECT, NEW: NEW }
         }
     }
 )
 
-
-
-
 export const getAllReq = createEffect(async () => {
-    const url = `getAllReq.php/`
-
-    const base = 'https://volga24bot.com/kartoteka/api'
-    const req = await fetch(`${base}/${url}`)
+    const url = `getAllReq.php/`;
+    const base = 'https://volga24bot.com/kartoteka/api';
+    const req = await fetch(`${base}/${url}`);
 
     return req.json()
-
-})
-
+});
 
 const $allReq = createStore([]).on(
     getAllReq.doneData,
     (_, data) => data
-)
+);
 
 export const $allReqStatus = combine(
-    $allReq, getAllReq.pending, $user,
-    (data, isLoading,user) => {
-
+    $allReq,
+    getAllReq.pending,
+    $user,
+    (data, isLoading, user) => {
         if (isLoading) {
-            return []
+            return [];
         } else {
             return data.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0]));
         }
@@ -428,17 +450,16 @@ export const $allReqStatus = combine(
 )
 
 export const $notCompCount = combine(
-    $allReq, getAllReq.pending,$user,
+    $allReq,
+    getAllReq.pending,
+    $user,
     (data2, isLoading, user) => {
         if (isLoading) {
             return []
         } else {
             let data = data2.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0]));
-
             const conn = data.filter((el) => el[3] === 'Нет контрольного события');
-
             let numbers = [];
-
 
             return {
                 req: data.filter(el => el[8] === 'Заявка').length,

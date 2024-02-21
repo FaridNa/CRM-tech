@@ -4,18 +4,20 @@ import { useStore } from "effector-react";
 import './App.css';
 
 import TechControl from "./Components/TechControl/TechControl";
+// import TaskItemWrapper from "./Components/TaskItemWrapper/TaskItemWrapper";
+// import { $task } from "./state/task";
 import JobCalendar from "./Components/JobCalendar/JobCalendar";
 import Search from "./Components/Search/Search";
 import MapContainer from "./Components/Map/Maps";
+import { Stats } from './Components/Stats/Stats';
+import { Equipment } from './Components/Equipment/Equipment';
+import TaskItemWrapper from "./Components/TaskItemWrapper/TaskItemWrapper";
 import Loader from "./Components/Loader/Loader";
 import Raport from "./Components/Raport/Raport";
 import CreateTask from "./Components/CreateTask/CreateTask";
 import TaskItemNew from "./Components/TaskItemNew/TaskItemNew";
 import BurgerMenu from "./Components/BurgerMenu/BurgerMenu";
 import Plane from "./Components/Plane/Plane";
-import { Stats } from './Components/Stats/Stats';
-import { Equipment } from './Components/Equipment/Equipment';
-import TaskItemWrapper from "./Components/TaskItemWrapper/TaskItemWrapper";
 
 import { $allReqStatus, getAllReq, getMainReq } from "./state";
 import { $task } from "./state/task";
@@ -57,6 +59,7 @@ function App() {
         if (window.bx24) {
             const bx24 = window.bx24;
             bx24.init(window.bx24.callMethod('user.current', {}, function (res) { setUser(res.data()) }));
+            bx24.init(window.bx24.callMethod('user.current', {}, function (res) { setUser(res.data()) }));
         } else {
             //setUser({ID: "155", NAME: 'Тимур', LAST_NAME: 'Лиджанов', SECOND_NAME : 'Николаевич', UF_DEPARTMENT: [51]})
             //setUser({ID: "83", NAME: 'Олег', LAST_NAME: 'Кирюшкин', SECOND_NAME : 'Юрьевич', UF_DEPARTMENT: [5]})
@@ -72,7 +75,7 @@ function App() {
 
         if (!dep.length) {
             getUsers()
-        }
+        };
 
         fetchItems();
     }, []);
