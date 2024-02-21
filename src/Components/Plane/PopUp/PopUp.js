@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import styles from './PopUp.module.scss'
 import { useStore } from "effector-react";
+import moment from 'moment';
+
+import styles from './PopUp.module.scss';
+
+import { $user } from "../../../state/user";
 import { $usersStatus } from "../../../state/getUsers";
-import moment from 'moment'
 import { $today } from "../../../state/tasks";
 import { getAllReq, getNewReq } from "../../../state";
-import Close from '../../../img/close.png'
-import { $user } from "../../../state/user";
 import { setHistory } from "../../../actions/setHistory";
 import Transfers from './serviceTransfers';
 
+import Close from '../../../img/close.png'
+
 const times = ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00']
+
 function declOfNum(n, text_forms) {
   n = Math.abs(n) % 100;
   var n1 = n % 10;
@@ -21,13 +25,11 @@ function declOfNum(n, text_forms) {
 }
 
 const imMessageAdd = (chatId, message, isSystem = true) => {
-
   window.bx24?.callMethod('im.message.add', {
     'DIALOG_ID': chatId,
     'MESSAGE': message,
     'SYSTEM': isSystem ? 'Y' : "N",
   });
-
 }
 
 
@@ -116,7 +118,7 @@ const PopUp = ({ item, time, close }) => {
     techs: [],
     all: false
   })
-  const admins = ['1', '11', '33', '29', '23', '53', '317', '109', '147', '3503', '3707', '83', '211'];
+  const admins = ['1', '11', '33', '29', '23', '53', '317', '109', '147', '3503', '3707', '83', '211', '3745', '3759', '3763'];
 
   const lowleveltech = ['Ларионов Анатолий Анатольевич', 'Володин Александр Александрович', 'Сергеев Андрей Николаевич', 'Мурзаков Денис Александрович', 'Трусов Егор Владимирович'];
 

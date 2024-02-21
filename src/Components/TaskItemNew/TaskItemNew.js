@@ -1,12 +1,38 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styles from "./MyTasksItem.module.scss";
-import Close from '../../img/close.png'
-import { getMyTask, showTaskData } from "../../state/myTask";
-import Moment from "react-moment";
-import { $historyStatus, getHistory } from "../../state/taskHistory";
+import React, { useCallback, useRef, useState, useEffect, useMemo } from 'react';
 import { useStore } from "effector-react";
+import moment from 'moment';
+import Moment from "react-moment";
+import Select from "react-select";
+
+import styles from "./MyTasksItem.module.scss";
+
 import ReportWrapper from "../Search/ReportWrapper";
-import { $user } from "../../state/user";
+import ItemChat from "./ItemChat";
+import Loader from "../Loader/Loader";
+import HistoryItem from "./HistoryItem";
+import HistoryBlock from "../History/History";
+import DopInfo from "./DopInfo/DopInfo";
+import MapContainer from "../Map/MapHistory";
+
+import { updateHistory } from "../../store/task";
+import { $important, setImportant } from "../../store/importants";
+
+import { $user, $depStatus } from "../../state/user";
+import { getMyTask, showTaskData } from "../../state/myTask";
+import { $commentsStatus, getComment } from "../../state/comments";
+import { setShowTask } from "../../state/showTask";
+import { $usersStatus } from "../../state/getUsers";
+import { $customerStatus, getCustomer, setCustomer } from "../../state/getCustomerByPhone";
+import { $historyStatus, getHistory } from "../../state/taskHistory";
+
+import { setHistory } from "../../actions/setHistory";
+import { updateTask } from "../../actions/updateTask";
+
+import { filterTaskCust } from "../../utils/filterTaskCust";
+import { getLastName } from "../../utils/getLastName";
+import { getShortName } from '../../utils/getShortName';
+
+import Close from '../../img/close.png'
 import Edit from '../../img/edit.png'
 import Confirm from '../../img/check-mark.png'
 import Inform from '../../img/info.png'
@@ -16,45 +42,21 @@ import View from '../../img/view.png'
 import Trash from '../../img/trashRed.png'
 import Chat from '../../img/bubble-chat.png'
 import BlockInfo from '../../img/data-complexity.png'
-import Deffect from '../../img/back-arrow.png'
-import Check from '../../img/check.png'
-import { updateTask } from "../../actions/updateTask";
-import ItemChat from "./ItemChat";
-import { $commentsStatus, getComment } from "../../state/comments";
-import Loader from "../Loader/Loader";
-import HistoryItem from "./HistoryItem";
-import HistoryBlock from "../History/History";
-import moment from 'moment'
-import Select from "react-select";
-import { setShowTask } from "../../state/showTask";
-import { $customerStatus, getCustomer, setCustomer } from "../../state/getCustomerByPhone";
-import Back from "../../img/back.png";
-import DopInfo from "./DopInfo/DopInfo";
-import { filterTaskCust } from "../../utils/filterTaskCust";
-import { getLastName } from "../../utils/getLastName";
-import { getShortName } from '../../utils/getShortName';
-import { $usersStatus } from "../../state/getUsers";
-import { setHistory } from "../../actions/setHistory";
-import { updateHistory } from "../../store/task";
-import { $important, setImportant } from "../../store/importants";
-import { useMemo } from 'react';
 import ExclamationMark from '../../img/ExclamationMark.png'
 import Suitcase from '../../img/Suitcase.png'
-import { $depStatus } from "../../state/user";
-
-
-import MapContainer from '../Map/MapHistory';
+import Back from "../../img/back.png"
+import Deffect from '../../img/back-arrow.png'
+import Check from '../../img/check.png'
 
 const PopUp = ({ data, func }) => {
-
     useEffect(() => {
         if (data.OBJ.length === 1) {
 
-            const cust = data.CUST.filter(el => el.ObjectID === data.OBJ[0].ObjectID)[0]
+            const cust = data.CUST.filter(el => el.ObjectID === data.OBJ[0].ObjectID)[0];
             const ObjNum = +data.OBJ[0].ObjectNumber;
 
-            func(data.OBJ[0].Name, data.OBJ[0].Address, cust.ObjCustName, ObjNum.toString(16))
-            setCustomer([])
+            func(data.OBJ[0].Name, data.OBJ[0].Address, cust.ObjCustName, ObjNum.toString(16));
+            setCustomer([]);
         }
     }, [])
 
@@ -65,17 +67,28 @@ const PopUp = ({ data, func }) => {
                 <img src={Back} alt="" onClick={() => setCustomer([])} />
             </header>
             <ul>
-                <li style={{ fontWeight: 500, fontSize: 14, padding: '15``px 20px' }} onClick={() => {
-                    func()
-                    setCustomer([])
-                }}><p className={styles.counter}>1</p> Без объекта</li>
-                {data.OBJ.map((el, i) => <li key={el.ObjectID} onClick={() => {
-                    const cust = data.CUST.filter(el2 => el2.ObjectID === el.ObjectID)[0]
-                    const ObjNum = +el.ObjectNumber;
+                <li
+                    style={{ fontWeight: 500, fontSize: 14, padding: '15``px 20px' }}
+                    onClick={() => {
+                        func()
+                        setCustomer([])
+                    }}>
+                    <p className={styles.counter}>1</p> Без объекта
+                </li>
+                {
+                    data.OBJ.map((el, i) =>
+                        <li key={el.ObjectID} onClick={() => {
+                            const cust = data.CUST.filter(el2 => el2.ObjectID === el.ObjectID)[0]
+                            const ObjNum = +el.ObjectNumber;
 
-                    func(el.Name, el.Address, cust.ObjCustName, ObjNum.toString(16))
-                    setCustomer([])
-                }}><p className={styles.counter}>{i + 2}</p> <div><p>{el.Name}</p> <p>{el.Address}</p></div></li>)}
+                            func(el.Name, el.Address, cust.ObjCustName, ObjNum.toString(16));
+                            setCustomer([]);
+                        }}>
+                            <p className={styles.counter}>{i + 2}</p>
+                            <div><p>{el.Name}</p> <p>{el.Address}</p></div>
+                        </li>
+                    )
+                }
             </ul>
         </div>
     )
@@ -101,7 +114,6 @@ const options = [
     { value: 'Монтаж', label: 'Монтаж' },
     { value: 'Подключение', label: 'Подключение' },
     { value: 'Нет контрольного события', label: 'Нет контрольного события' },
-
     { value: 'Снятие/Постановка', label: 'Снятие/Постановка' },
     { value: 'Шлейф', label: 'Шлейф' },
     { value: 'КТС', label: 'КТС' },
@@ -109,10 +121,7 @@ const options = [
     { value: '220', label: '220' },
 ]
 
-
-
-const fioTech = ['Трусов', 'Пономарев', 'Фатиги']
-
+const fioTech = ['Трусов', 'Пономарев', 'Фатиги'];
 
 const TaskItemNew = ({ item }) => {
     const deps = useStore($usersStatus);
@@ -124,7 +133,7 @@ const TaskItemNew = ({ item }) => {
 
     const admins = [item[37], '1', '11', '33', '29', '23', '53', '317', '211', '109', '147', '3503', '3707', '3745', '3759', '3763'];
 
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
     const [report, showReport] = useState(false);
     const important = useStore($important);
 
