@@ -12,7 +12,7 @@ export const Modal = ({ setIsOpen }) => {
 
   const applyCard = (id) => {
     if (admins.includes(user.ID) === false) return;
-    
+
     const res = window.confirm("Вы уверены? Подтвердить карточку выбранного объекта?");
     if (res === true)
       fetch("https://volga24bot.com/kartoteka/api/tech/CheckCard/applyCard.php?id=" + id)
@@ -35,11 +35,13 @@ export const Modal = ({ setIsOpen }) => {
           <div className={styles.modalHeader}><h5 className={styles.heading}>Объекты без карточек - {tasks.length}</h5></div>
           <button className={styles.closeBtn} onClick={() => setIsOpen(false)}>X</button>
 
-          {tasks.map((el, i) => <>
-            <TaskItem key={el[0]} task={el} i={i} history={[]}>
-              <button style={{ "margin": "8px" }} onClick={(e) => { e.stopPropagation(); applyCard(el[0]) }}>Подтвердить получение</button>
-            </TaskItem>
-          </>)}
+          {
+            tasks.map((el, i) =>
+              <TaskItem key={el[0]} task={el} i={i} history={[]}>
+                <button style={{ "margin": "8px" }} onClick={(e) => { e.stopPropagation(); applyCard(el[0]) }}>Подтвердить получение</button>
+              </TaskItem>
+            )
+          }
 
         </div>
       </div>
