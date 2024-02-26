@@ -15,6 +15,7 @@ import HistoryItem from "./HistoryItem";
 import HistoryBlock from "../History/History";
 import DopInfo from "./DopInfo/DopInfo";
 import MapContainer from '../Map/MapHistory';
+import WordExport from '../ExportToDoc/ExportToDoc'
 
 //State/Store
 import { $user, $depStatus } from "../../state/user";
@@ -452,6 +453,14 @@ const TaskItemNew = ({ item }) => {
               <p className={styles.label}  >Дата Выполнения</p>
               <p style={{ fontWeight: 500 }}>{moment(item[6]).format('DD.MM.YY HH:mm')}</p>
             </div> : null}
+            {/* Для выгрузки названия и адреса в Word документ */}
+            <WordExport
+                task={item}
+                form='form_1.docx'
+                formName='Форма 1'
+              />{" "}
+              <br />
+              <WordExport task={item} form='form_2.docx' formName='Форма 2' />
           </div>
         </div>
         <div className={styles.taskItemInput}>
