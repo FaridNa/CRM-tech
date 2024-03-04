@@ -141,7 +141,7 @@ const taskTypesArray = [
  * Фамилии Техников, которые могут просматривать заявки.
  * При открытии заявки в техслужбе данным техников она будет считаться просмотренной им.
  */
-const fioTech = ['Трусов', 'Пономарев', 'Фатиги']
+const fioTech = ['Трусов', 'Пономарев']
 
 
 /**
@@ -179,7 +179,8 @@ const TaskItemNew = ({ item }) => {
 
   /**ID Пользователей Битрикс, которым разрешен доступ на редактирование заявок */
   const admins = [item[37], '1', '11', '33', '29', '23', '53', '317', '211', '109', '147', '3503', '3707', '3745', '3759', '3763'];
-
+  /** ID Пользователей Битрикс, которым доступен экспорт форм */
+  const adminsForExportForms = ['1', '33', '39', '317', '3707',  '3759', '3745', '3763', ]
   //Информация о заявке
   const [form, setForm] = useState({
     name: item[2],
@@ -454,13 +455,15 @@ const TaskItemNew = ({ item }) => {
               <p style={{ fontWeight: 500 }}>{moment(item[6]).format('DD.MM.YY HH:mm')}</p>
             </div> : null}
             {/* Для выгрузки названия и адреса в Word документ */}
+            {(adminsForExportForms.includes(user.ID)) ? <>
             <WordExport
                 task={item}
                 form='form_1.docx'
                 formName='Форма 1'
-              />{" "}
-              <br />
-              <WordExport task={item} form='form_2.docx' formName='Форма 2' />
+              />
+              <br /> <br />
+              <WordExport task={item} form='form_2.docx' formName='Форма 2' /></> : null}
+            
           </div>
         </div>
         <div className={styles.taskItemInput}>

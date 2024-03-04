@@ -34,8 +34,8 @@ export const TimeLine = ({ tasks, title, info, status, plane }) => {
     const firstTime = useStore($firstTime);
     const [planeT, setPlane] = useState([])
     const [trip, setTrip] = useState([])
-    const filtredTasks = tasks.filter(el => {
-        const htos = el[9].substr(0, 2) * 60 * 60;
+    const filtredTasks = tasks.filter(el => {           // Фильтрация, если заявка находится в работе, в пути или diffTime больше 5 мин
+        const htos = el[9].substr(0, 2) * 60 * 60;     // оно включается в масив filtredTasks
         const mtos = el[9].substr(3, 2) * 60;
         const csec = +el[9].substr(6, 2)
 

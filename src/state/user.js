@@ -1,10 +1,8 @@
 import {createEvent, createStore, combine, createEffect} from 'effector'
 
-
 export const setUser = createEvent();
 
 export const $user = createStore({ID: 0, UF_DEPARTMENT: [199999]}).on(setUser, (_, payload) => payload.ID === "3707" ? {...payload, UF_DEPARTMENT: [+'all']} : payload)
-
 
 export const getDep = createEffect(async (id) => {
     const url = `getDepForAppTech.php?id=${id}`
@@ -13,7 +11,6 @@ export const getDep = createEffect(async (id) => {
 
     return req.json()
 })
-
 
 
 const $bitrixDep = createStore([]).on(getDep.doneData, (_, payload) => payload);
