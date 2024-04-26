@@ -16,18 +16,18 @@ import { useCallback } from 'react';
 const TaskItem = ({task, i, func, history, children}) => {
     const deps = useStore($usersStatus);
     const firstTime = useStore($firstTime);
-    let json_history;
-    try {
-        let hson = task[52] ? JSON.parse(task[52]) : []
-        json_history = hson.length ? hson.flat(1) : []
-    } catch (err) {
-        // 👇️ SyntaxError: Unexpected end of JSON input
-        console.log(err)
-
-    }
-
     const [hLength, sethLength] = useState(0);
 
+    let json_history;
+
+    try {
+      let hson = task[52] ? JSON.parse(task[52]) : []
+      json_history = hson.length ? hson.flat(1) : []
+    } catch (err) {
+      // 👇️ SyntaxError: Unexpected end of JSON input
+      console.log(err)
+
+    }
 
     useEffect(() => {
       let l = task[1] !== '0'

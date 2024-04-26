@@ -23,7 +23,7 @@ import Close from '../../img/close.png';
 const TechControl = () => {
     const [change, setChange] = useState(false);
     const [refresh, setRefresh] = useState(false);
-    const [reverse, setReverse] = useState(false);
+    const [reverse, setReverse] = useState(false); // Обратный порядок
 
     const test = useStore($newReqStatus);
     const firstTime = useStore($firstTime);
@@ -82,10 +82,9 @@ const TechControl = () => {
                     <span> &nbsp;Сначала старые </span>
                     <input type='checkbox' onClick={(e) => { setReverse(!reverse) }} />
                 </div>
-                {
-                    reverse
-                        ? test.map((el, i) => <TaskItem task={el} key={i} i={i} history={tasks} />).reverse()
-                        : test.map((el, i) => <TaskItem task={el} key={i} i={i} history={tasks} />)
+                {reverse
+                    ? test.map((el, i) => <TaskItem task={el} key={i} i={i} history={tasks} />).reverse()
+                    : test.map((el, i) => <TaskItem task={el} key={i} i={i} history={tasks} />)
                 }
             </TaskListWrapper>
             {sel.length ? <p className={styles.changeTech} onClick={() => setChange(true)}>Передать</p> : null}
