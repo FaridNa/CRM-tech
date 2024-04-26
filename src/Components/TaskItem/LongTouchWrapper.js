@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import styles from './LongTouchWrapper.module.scss'
 import {$selected, deleteSelected, setSelected} from "../../state/longTouch";
 import {useStore} from "effector-react";

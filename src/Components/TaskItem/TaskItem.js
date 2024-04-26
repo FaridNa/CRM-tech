@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, useMemo} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import styles from './TaskItem.module.scss';
 import {useStore} from "effector-react";
 import Brak from '../../img/closered.png'
@@ -19,10 +19,10 @@ const TaskItem = ({task, i, func, history, children}) => {
     let json_history;
     try {
         let hson = task[52] ? JSON.parse(task[52]) : []
-
         json_history = hson.length ? hson.flat(1) : []
     } catch (err) {
         // 👇️ SyntaxError: Unexpected end of JSON input
+        console.log(err)
 
     }
 
@@ -36,11 +36,17 @@ const TaskItem = ({task, i, func, history, children}) => {
       sethLength(l);
     }, [task, history])
 
+    /**
+     * Количество просроченных дней
+     */
     const daysOverdue = useMemo(() => {
       const taskDate = Date.parse(task[17].replace(' ', 'T'));
       return Math.ceil(Math.abs(firstTime.getTime() - taskDate) / (1000 * 3600 * 24)) - 1;
     }, [task, firstTime])
 
+    /**
+     * Произошло ли событие в прошлом
+     */
     const isPast = useCallback((task) => {
       const taskDate =  Date.parse((task[56] + " " + task[57]).replace(' ', 'T'));
       //const taskDate = Date.parse(task[17].replace(' ', 'T'));
@@ -83,8 +89,17 @@ const TaskItem = ({task, i, func, history, children}) => {
                 </div>
 
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                <p><span style={{fontWeight: 500}}>Ответственный:</span> {deps.find(el2 => +el2.DEP === filterTaskCust(task[4]))?.CHIEF.LAST_NAME}</p>
-                <p>{json_history.filter(j => j.type === 'deffect').length > 0 ? 'брак: ' + moment(json_history.filter(j => j.type === 'deffect')[0].date).format('DD.MM HH:mm') : null}</p>
+                  <p>
+                    <span style={{fontWeight: 500}}>
+                      Ответственный:
+                    </span> 
+                      {deps.find(el2 => +el2.DEP === filterTaskCust(task[4]))?.CHIEF.LAST_NAME}
+                  </p>
+                  <p>
+                    {json_history.filter(j => j.type === 'deffect').length > 0
+                     ? 'брак: ' + moment(json_history.filter(j => j.type === 'deffect')[0].date)
+                     .format('DD.MM HH:mm') : null}
+                  </p>
                 </div>
 
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>

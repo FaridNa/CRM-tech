@@ -120,7 +120,7 @@ const PopUp = ({ item, time, close }) => {
   })
   const admins = ['1', '11', '33', '29', '23', '53', '317', '109', '147', '3503', '3707', '83', '211', '3745', '3759', '3763'];
 
-  const lowleveltech = ['Ларионов Анатолий Анатольевич', 'Володин Александр Александрович', 'Сергеев Андрей Николаевич', 'Мурзаков Денис Александрович', 'Трусов Егор Владимирович'];
+  const lowleveltech = ['Трусов Егор Владимирович'];
 
   const handleSubmit = async (date, time, type, techs, all, id, coefs) => {
     if (techs.length) {
@@ -178,7 +178,8 @@ const PopUp = ({ item, time, close }) => {
         const message = ` ${item[47]} ${item[2]} ${item[4]} перенаправлена ${item[55] && `c ${item[55].split(' ')[0]}`} на ${techs.map(t => t.split(' ')[0]).join(', ')}`;
 
         Transfers.create('transfers', message);
-        imMessageAdd('chat11871', message);
+        // imMessageAdd('chat11871', message);
+        imMessageAdd('3745', message);
       } else if (item[52]) {
         const move = JSON.parse(item[52]).filter(t => t.type === "plane_change");
 
@@ -186,7 +187,8 @@ const PopUp = ({ item, time, close }) => {
           const message = ` ${item[47]} ${item[2]} ${item[4]} перенесена уже ${move.length + 1} раз`;
 
           Transfers.create('move', message);
-          imMessageAdd('chat11871', message);
+          // imMessageAdd('chat11871', message);
+          imMessageAdd('3745', message);
         }
       }
 

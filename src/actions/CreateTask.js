@@ -29,16 +29,18 @@ const fetchDataHistory = async () => {
   let b = null;
   const url = `getTasks.php/?startDate=${a}&endDate=${b}`;
   const base = 'https://volga24bot.com/kartoteka/api/tech';
-
-  const mass = await fetch(`${base}/${url}`).then(res => res.json());
-  return mass;
+  
+  try {
+    const mass = await fetch(`${base}/${url}`).then(res => res.json());
+    return mass;
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 const lowleveltech = ['Ларионов Анатолий Анатольевич', 'Володин Александр Александрович', 'Сергеев Андрей Николаевич', 'Мурзаков Денис Александрович', 'Трусов Егор Владимирович'];
 
 export const createTask = async (form, func, firstTime, secondTime, user, plane, graph) => {
-
-  console.log(form)
 
   setLoading(true);
 
@@ -59,7 +61,7 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
   }
 
   if (form.customer) {
-    if (form.customer !== 'Галкин Сергей Александрович') { ////////////////////////////////////////////////////////////////////////
+    if (form.customer !== 'Галкин Сергей Александрович') { //
       const maxTime = 8 * 3;
       const res = await fetch('https://volga24bot.com/kartoteka/api/crm/taskByTech.php?fio=' + form.customer.split(' ')[0])
         .then(res => res.json());

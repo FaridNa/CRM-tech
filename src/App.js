@@ -66,7 +66,7 @@ function App() {
             //setUser({ID: "1", NAME: 'Фёдор', LAST_NAME: 'Клочков', SECOND_NAME : 'Викторович', UF_DEPARTMENT: [5]})
             // setUser({ ID: "1", NAME: 'Фарид', LAST_NAME: 'Иралиев', SECOND_NAME: 'Апахович', UF_DEPARTMENT: [15] })
             setUser({ID: "3745", NAME: 'Фарид', LAST_NAME: 'Наурзгалиев', SECOND_NAME : 'Робертович', UF_DEPARTMENT: [15]})
-            //setUser({ID: "3707", NAME: 'Сергей', LAST_NAME: 'Галкин', SECOND_NAME : 'Александрович', UF_DEPARTMENT: [5]})
+            // setUser({ID: "3707", NAME: 'Сергей', LAST_NAME: 'Галкин', SECOND_NAME : 'Александрович', UF_DEPARTMENT: [5]})
         }
 
         getAllReq();

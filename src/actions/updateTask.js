@@ -11,7 +11,7 @@ const imMessageAdd = (chatId, message, isSystem = true) => {
 
 }
 
-const lowleveltech = ['Ларионов Анатолий Анатольевич', 'Володин Александр Александрович', 'Сергеев Андрей Николаевич', 'Мурзаков Денис Александрович', 'Трусов Егор Владимирович'];
+const lowleveltech = ['Трусов Егор Владимирович'];
 
 export const updateTask = (form, item, user) => {
 
@@ -28,7 +28,8 @@ export const updateTask = (form, item, user) => {
     if (user.ID === '3707') form.time = item[34];
     if (form.time !== item[34]) {
       const message = `${user.LAST_NAME} ${user.NAME}\n${item[2]} ${item[4]} изменил время с ${item[34]} час на ${form.time} час`;
-      imMessageAdd('chat11915', message);
+      // imMessageAdd('chat11915', message);
+      imMessageAdd('3745', message);
     }
 
     for (let key in form) {

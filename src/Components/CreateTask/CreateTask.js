@@ -113,7 +113,7 @@ const CreateTask = ({ func }) => {
         changeTech: false,
         files: '',
         label: '',
-        timeJob: '1'
+        timeJob: '0.5'
     });
     const options = [
         { value: '', label: 'Заявка' },
@@ -332,7 +332,7 @@ const CreateTask = ({ func }) => {
                         Исполнитель
                         <Select
                             options={user.UF_DEPARTMENT[0] === 15
-                                ? options2.concat([{ value: '', label: 'Общая (Нет исполнителя)' }]).concat([{ value: 'Иралиев Фарид Апахович', label: 'Иралиев Ф.А.' }]).concat([{ value: 'Наурзгалиев Фарид Робертович', label: 'Наурзгалиев Ф.Р.' }])
+                                ? options2.concat([{ value: '', label: 'Общая (Нет исполнителя)' }]).concat([{ value: 'Наурзгалиев Фарид Робертович', label: 'Наурзгалиев Ф.Р.' }])
                                 : options2.concat([{ value: '', label: 'Общая (Нет исполнителя)' }])}
                             onChange={(e) => setForm(prevState => ({ ...prevState, customer: e.value }))}
                             placeholder={'Общая'} />
@@ -419,7 +419,7 @@ const CreateTask = ({ func }) => {
                     <label>
                         Время на работу (час):
                         <br />
-                        <input type="number" className={styles.inputText} value={form.timeJob} onChange={(e) => setForm(prevState => ({ ...prevState, timeJob: e.target.value }))} />
+                        <input type="number" className={styles.inputText} value={form.timeJob} onChange={(e) => setForm(prevState => ({ ...prevState, timeJob: e.target.value.replace(/,/g, ".") }))} />
                     </label>
                     <div className={styles.flex_box}>
                         <label className={styles.checkbox}>
