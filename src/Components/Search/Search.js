@@ -31,7 +31,7 @@ const Search = () => {
     const fetchDataHistory = async () => {
       let a = null;
       let b = null;
-      const url = `getTasks.php/?startDate=${a}&endDate=${b}`;
+      const url = `getTasksForHistory.php/?startDate=${a}&endDate=${b}`;
       const base = 'https://volga24bot.com/kartoteka/api/tech';
 
       const mass = await fetch(`${base}/${url}`).then(res => res.json());
@@ -48,51 +48,48 @@ const Search = () => {
 
     return (
        <div>
-                <header className={styles.headerWrapper}>
-                    <div className={styles.searchHeader}>
-                        <img src={SearchImg} alt="" className={styles.searchImg}/>
-                        <input type="text" placeholder="Введите ключевое слово, минимум 3 символа" autoFocus={true} value={input} onChange={(e) => setSearchInput(e.target.value)}/>
-                        <img src={Close} alt="" onClick={() => {
-                            setSearchInput('')
-                            setSearch(false)
-                        }}/>
+            <header className={styles.headerWrapper}>
+                <div className={styles.searchHeader}>
+                    <img src={SearchImg} alt="" className={styles.searchImg}/>
+                    <input type="text" placeholder="Введите ключевое слово, минимум 3 символа" autoFocus={true} value={input} onChange={(e) => setSearchInput(e.target.value)}/>
+                    <img src={Close} alt="" onClick={() => {
+                        setSearchInput('')
+                        setSearch(false)
+                    }}/>
+                </div>
+                <div className={styles.legend}>
+                    <label><input type="checkbox" checked={checkBox} onChange={(e) => setCheckBox(e.target.checked)} />Мои</label>
+
+                    <div className={styles.legendWrapper}>
+                        <div className={`${styles.circle2} ${styles.blue}`}></div>
+                        <p><input type="checkbox" checked={isNew} onChange={(e) => setIsNew(e.target.checked)} /> Новая <span>({req.filter(item => item[18] === 'Новая').length})</span></p>
                     </div>
-                    <div className={styles.legend}>
-                        <label><input type="checkbox" checked={checkBox} onChange={(e) => setCheckBox(e.target.checked)} />Мои</label>
-
-                        <div className={styles.legendWrapper}>
-                            <div className={`${styles.circle2} ${styles.blue}`}></div>
-                            <p><input type="checkbox" checked={isNew} onChange={(e) => setIsNew(e.target.checked)} /> Новая <span>({req.filter(item => item[18] === 'Новая').length})</span></p>
-                        </div>
-                        <div className={styles.legendWrapper}>
-                            <div className={`${styles.circle2} ${styles.orange}`}></div>
-                            <p><input type="checkbox" checked={isWorking} onChange={(e) => setIsWorking(e.target.checked)} /> В работе <span>({req.filter(item => item[18] === 'В работе').length})</span></p>
-                        </div>
-                        <div className={styles.legendWrapper}>
-                            <div className={`${styles.circle2} ${styles.green}`}></div>
-                            <p><input type="checkbox" checked={isCompleted} onChange={(e) => setIsCompleted(e.target.checked)} /> Выполнено <span>({req.filter(item => item[18] === 'Выполнена' || item[18] === 'Не выполнено' || item[18] === 'Выполнено частично' || item[18] === 'Выезд не требуется' || item[18] === 'Не выезжали').length})</span></p>
-                        </div>
-                        <div className={styles.legendWrapper}>
-                            <p><input type="checkbox" checked={isTO} onChange={(e) => setIsTO(e.target.checked)} />Показать ТО</p>
-                        </div>
-
+                    <div className={styles.legendWrapper}>
+                        <div className={`${styles.circle2} ${styles.orange}`}></div>
+                        <p><input type="checkbox" checked={isWorking} onChange={(e) => setIsWorking(e.target.checked)} /> В работе <span>({req.filter(item => item[18] === 'В работе').length})</span></p>
                     </div>
-                </header>
+                    <div className={styles.legendWrapper}>
+                        <div className={`${styles.circle2} ${styles.green}`}></div>
+                        <p><input type="checkbox" checked={isCompleted} onChange={(e) => setIsCompleted(e.target.checked)} /> Выполнено <span>({req.filter(item => item[18] === 'Выполнена' || item[18] === 'Не выполнено' || item[18] === 'Выполнено частично' || item[18] === 'Выезд не требуется' || item[18] === 'Не выезжали').length})</span></p>
+                    </div>
+                    <div className={styles.legendWrapper}>
+                        <p><input type="checkbox" checked={isTO} onChange={(e) => setIsTO(e.target.checked)} />Показать ТО</p>
+                    </div>
+                </div>
+            </header>
 
-                <SearchItemsWrapper  >
-                    {req
-                    .filter(item => !isTO ? item[8] !== 'ТО' : item[8] === 'ТО')
-                    .filter(item => item[18] !== 'Брак')
-                    .filter(item => !isCompleted ? item[18] !== 'Выполнена' && item[18] !== 'Не выполнено' && item[18] !== 'Выполнено частично' && item[18] !== 'Выезд не требуется' && item[18] !== 'Не выезжали' : item)
-                    .filter(item => !isNew ? item[18] !== 'Новая' : item)
-                    .filter(item => !isWorking ? item[18] !== 'В работе' : item)
-                    .splice(0, 40)
-                    .map((el, i) => {
-                      //console.log(el);
-                        return <TaskItem task={el} key={el[0]} i={i} history={tasks}/>
-
-                    })}
-                </SearchItemsWrapper>
+            <SearchItemsWrapper  >
+                {req
+                .filter(item => !isTO ? item[8] !== 'ТО' : item[8] === 'ТО')
+                .filter(item => item[18] !== 'Брак')
+                .filter(item => !isCompleted ? item[18] !== 'Выполнена' && item[18] !== 'Не выполнено' && item[18] !== 'Выполнено частично' && item[18] !== 'Выезд не требуется' && item[18] !== 'Не выезжали' : item)
+                .filter(item => !isNew ? item[18] !== 'Новая' : item)
+                .filter(item => !isWorking ? item[18] !== 'В работе' : item)
+                .splice(0, 40)
+                .map((el, i) => {
+                    return <TaskItem task={el} key={el[0]} i={i} history={tasks}/>
+                })}
+            </SearchItemsWrapper>
             </div>
     );
 }

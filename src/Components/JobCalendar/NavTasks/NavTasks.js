@@ -43,7 +43,7 @@ const NavTasks = () => {
     const fetchDataHistory = async () => {
         let a = null;
         let b = null;
-        const url = `getTasks.php/?startDate=${a}&endDate=${b}`;
+        const url = `getTasksForHistory.php/?startDate=${a}&endDate=${b}`;
         const base = 'https://volga24bot.com/kartoteka/api/tech';
 
         const mass = await fetch(`${base}/${url}`).then(res => res.json());
