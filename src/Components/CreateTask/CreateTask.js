@@ -262,18 +262,13 @@ const CreateTask = ({ func }) => {
 
                                             let eleven = formatPhone.substr(0, 11);
 
-
                                             if (formatPhone.length - 1 < 11) {
                                                 setForm(prevState => ({ ...prevState, clientPhone: formatPhone }))
                                                 if (eleven.length === 11) {
-
                                                     getCustomer(eleven)
                                                 }
                                             }
                                         }
-
-
-
                                     }} placeholder="Формат: +7 либо 8" />
                             </label> : null}
                             {form.type !== 'Нет контрольного события' ? <label>

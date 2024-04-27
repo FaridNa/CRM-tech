@@ -29,6 +29,9 @@ const TaskItem = ({task, i, func, history, children}) => {
 
     }
 
+    /**
+     * Хук для подчета длины массива всех заявок на объект
+     */
     useEffect(() => {
       let l = task[1] !== '0'
       ? history.filter(el => el[1] === task[1] || el[4] === task[4]).length
