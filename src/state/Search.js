@@ -3,16 +3,12 @@ import {$user} from "./user";
 import {filterDep} from "../utils/filterDepartament";
 
 export const setSearch = createEvent();
-
 export const $search = createStore(false).on(setSearch, (_, payload) => payload)
 
 export const setSearchInput = createEvent();
-
 export const $searchInput = createStore('').on(setSearchInput, (_, payload) => payload)
 
-
 export const getReq = createEffect(async () => {
-
     let a = null;
     let b = null;
     const url = `getTasks.php/?startDate=${a}&endDate=${b}`
@@ -23,12 +19,10 @@ export const getReq = createEffect(async () => {
 })
 
 export const setCheckBox = createEvent();
-
 export const $checkBox = createStore(false).on(setCheckBox, (_, payload) => payload)
 
 
 export const setSplice = createEvent();
-
 export const $splice = createStore(100).on(setSplice, (prevState, payload) => prevState + payload)
 
 const $req = createStore([]).on(
@@ -38,51 +32,41 @@ const $req = createStore([]).on(
 
 
 export const $reqStatus = combine(
-    $req, getReq.pending, $searchInput,$user,$checkBox,$splice,
+    $req, getReq.pending, $searchInput, $user, $checkBox, $splice,
     (data2, isLoading, input, user, checkbox, splice) => {
-
-            if (isLoading) {
-                return []
+        if (isLoading) {
+            return []
+        } else {
+            let data = data2.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0]));
+            let newData;
+            if (checkbox) {
+                newData = data.filter(el => el[37] === user.ID)
             } else {
-                let data = data2.filter(el => filterDep(el[4], user.UF_DEPARTMENT[0]));
-                let newData;
-                if (checkbox) {
-                    newData = data.filter(el => el[37] === user.ID)
-                } else {
-                    newData = data
-                }
+                newData = data
+            }
+            const search = input.split(' ');
+            const searchData = (g, h, a, b, c, d, e, f) => {
 
-                   const search = input.split(' ');
-
-                   const searchData = (g, h, a, b, c, d, e, f) => {
-
-
-                       let error = false;
-                       search.forEach(el => {
-
-                           if (el !== '') {
-                               if (a.indexOf(el.toLowerCase()) === -1
-                                   && b.indexOf(el.toLowerCase()) === -1
-                                   && c.indexOf(el.toLowerCase()) === -1
-                                   && d.indexOf(el.toLowerCase()) === -1
-                                   && g.indexOf(el.toLowerCase()) === -1
-                                   && e.indexOf(el.toLowerCase()) === -1
-                                   && h.indexOf(el.toLowerCase()) === -1
-                                   && f.indexOf(el.toLowerCase()) === -1) {
-                                   error = true;
-                               }
-                           }
-                       })
-                       return !error
-                   }
-
-                       return newData.filter(el => searchData(el[47].toLowerCase(), el[1], el[2].toLowerCase(), el[4].toLowerCase(), el[13].toLowerCase(), el[8].toLowerCase(), el[18].toLowerCase(), el[40].toLowerCase()))//.splice(0, splice)
-
-               }
-
-
+                let error = false;
+                search.forEach(el => {
+                    if (el !== '') {
+                        if (a.indexOf(el.toLowerCase()) === -1
+                            && b.indexOf(el.toLowerCase()) === -1
+                            && c.indexOf(el.toLowerCase()) === -1
+                            && d.indexOf(el.toLowerCase()) === -1
+                            && g.indexOf(el.toLowerCase()) === -1
+                            && e.indexOf(el.toLowerCase()) === -1
+                            && h.indexOf(el.toLowerCase()) === -1
+                            && f.indexOf(el.toLowerCase()) === -1) {
+                            error = true;
+                        }
+                    }
+                })
+                return !error
+            }
+            return newData.filter(el => searchData(el[47].toLowerCase(), el[1], el[2].toLowerCase(), el[4].toLowerCase(), el[13].toLowerCase(), el[8].toLowerCase(), el[18].toLowerCase(), el[40].toLowerCase()))//.splice(0, splice)
+        }
     }
-
 )
 
 
@@ -98,5 +82,4 @@ export const $filtredReq = combine(
         } else {
             return data.filter(el => el[4] === filter2)
         }
-
     });

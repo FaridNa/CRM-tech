@@ -12,7 +12,10 @@ import {getHistoryType} from "../../utils/history_type";
 import {$firstTime} from "../../state/graphTime";
 import { useCallback } from 'react';
 
-
+/**
+ * @param {object} param0
+ * @returns jsx отдельной заявки
+ */
 const TaskItem = ({task, i, func, history, children}) => {
     const deps = useStore($usersStatus);
     const firstTime = useStore($firstTime);
@@ -26,7 +29,6 @@ const TaskItem = ({task, i, func, history, children}) => {
     } catch (err) {
       // 👇️ SyntaxError: Unexpected end of JSON input
       console.log(err)
-
     }
 
     /**
@@ -48,7 +50,7 @@ const TaskItem = ({task, i, func, history, children}) => {
     }, [task, firstTime])
 
     /**
-     * Произошло ли событие в прошлом
+     * Высчитывает просрочена ли запланированная задача
      */
     const isPast = useCallback((task) => {
       const taskDate =  Date.parse((task[56] + " " + task[57]).replace(' ', 'T'));
@@ -62,14 +64,14 @@ const TaskItem = ({task, i, func, history, children}) => {
             setScrollY(window.scrollY)
             setShowTask(task)
         }} className={styles.wrapper}>
-            <div className={styles.statusWrapper}>
-					<strong>{i+1}</strong>
+            <div className={styles.statusWrapper}> {/*Обозначения перед заявкой: номер, кружок, кол-во всего заявок*/}
+					    <strong>{i+1}</strong>
                 {task[18] === 'Брак' ? <div><img style={{width: 20, height: 20}} src={Brak} alt=""/></div> : null}
                 {task[18] === 'Новая' ?
-                isPast(task)
-                ? <div  className={`${styles.circle} ${styles.transparentRed}`}></div>
-                : <div  className={`${styles.circle} ${styles.blue}`}></div>
-                : null}
+                  isPast(task)
+                  ? <div  className={`${styles.circle} ${styles.transparentRed}`}></div>
+                  : <div  className={`${styles.circle} ${styles.blue}`}></div>
+                  : null}
                 {task[18] === 'В пути' ? <div  className={`${styles.circle} ${styles.orange}`}></div> : null}
                 {task[18] === 'В работе' ? <div  className={`${styles.circle} ${styles.yellow}`}></div> : null}
                 {task[18] !== 'В работе' && task[18] !== 'Новая' && task[18] !== 'В пути' && task[18] !== 'Брак'  ? <div  className={`${styles.circle} ${styles.green}`}></div> : null}
@@ -98,13 +100,12 @@ const TaskItem = ({task, i, func, history, children}) => {
                     </span> 
                       {deps.find(el2 => +el2.DEP === filterTaskCust(task[4]))?.CHIEF.LAST_NAME}
                   </p>
-                  <p>
+                  <p> {/**Отображение числа отправки в брак*/}
                     {json_history.filter(j => j.type === 'deffect').length > 0
                      ? 'брак: ' + moment(json_history.filter(j => j.type === 'deffect')[0].date)
                      .format('DD.MM HH:mm') : null}
                   </p>
                 </div>
-
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 {<p><span style={{fontWeight: 500}}>Исполнитель:</span> {task[7].length ? getLastName(task[7]) : task[55].length ? getLastName(task[55]) : 'Не назначен'} </p>}
                 <p>{task[65] ? 'поехал: ' + moment(task[65]).format('DD.MM HH:mm') : null}</p>

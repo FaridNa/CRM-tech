@@ -62,7 +62,7 @@ function App() {
             bx24.init(window.bx24.callMethod('user.current', {}, function (res) { setUser(res.data()) }));
         } else {
             //setUser({ID: "155", NAME: 'Тимур', LAST_NAME: 'Лиджанов', SECOND_NAME : 'Николаевич', UF_DEPARTMENT: [51]})
-            //setUser({ID: "83", NAME: 'Олег', LAST_NAME: 'Кирюшкин', SECOND_NAME : 'Юрьевич', UF_DEPARTMENT: [5]})
+            // setUser({ID: "3717", NAME: 'Егор', LAST_NAME: 'Трусов', SECOND_NAME : 'Владимирович', UF_DEPARTMENT: [5]})
             //setUser({ID: "1", NAME: 'Фёдор', LAST_NAME: 'Клочков', SECOND_NAME : 'Викторович', UF_DEPARTMENT: [5]})
             // setUser({ ID: "1", NAME: 'Фарид', LAST_NAME: 'Иралиев', SECOND_NAME: 'Апахович', UF_DEPARTMENT: [15] })
             setUser({ID: "3745", NAME: 'Фарид', LAST_NAME: 'Наурзгалиев', SECOND_NAME : 'Робертович', UF_DEPARTMENT: [15]})

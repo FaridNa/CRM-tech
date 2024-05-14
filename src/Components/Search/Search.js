@@ -28,6 +28,10 @@ const Search = () => {
 
     const [tasks, setTasks] = useState([]);
 
+    /**
+    * Возвращает массив всех заявок c 7 полями id, objectNumber, objectAddress...
+    * Заявки все кроме 'Не выезжали', ТО все новые для истории
+    */
     const fetchDataHistory = async () => {
       let a = null;
       let b = null;

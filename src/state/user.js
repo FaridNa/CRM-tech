@@ -7,9 +7,9 @@ export const $user = createStore({ID: 0, UF_DEPARTMENT: [199999]}).on(setUser, (
 export const getDep = createEffect(async (id) => {
     const url = `getDepForAppTech.php?id=${id}`
     const base = 'https://volga24bot.com/bot';
-    const req = await fetch(`${base}/${url}`)
+    const req = fetch(`${base}/${url}`)
 
-    return req.json()
+    return await req.json()
 })
 
 
@@ -22,6 +22,7 @@ export const $depStatus = combine(
         if (isLoading) {
             return []
         } else {
+            console.log(data)
             const last1 = data.pop();
             const galkin = data.pop();
             const last2 = data.pop();
