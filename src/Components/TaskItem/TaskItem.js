@@ -100,7 +100,7 @@ const TaskItem = ({task, i, func, history, children}) => {
                     </span> 
                       {deps.find(el2 => +el2.DEP === filterTaskCust(task[4]))?.CHIEF.LAST_NAME}
                   </p>
-                  <p> {/**Отображение числа отправки в брак*/}
+                  <p> {/*Отображение числа отправки в брак*/}
                     {json_history.filter(j => j.type === 'deffect').length > 0
                      ? 'брак: ' + moment(json_history.filter(j => j.type === 'deffect')[0].date)
                      .format('DD.MM HH:mm') : null}
