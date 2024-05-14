@@ -708,7 +708,7 @@ const TaskItemNew = ({ item }) => {
                 })
             }
           }}>
-            <p style={{ color: "red", fontWeight: "bold", textDecoration: "overline red", textShadow: "0.5px 0.5px 0.5px black" }}>Удалить</p>
+            <p style={{ color: "red", fontWeight: "bold", textShadow: "0.5px 0.5px 0.5px black" }}>Удалить</p>
             <img src={Trash} alt="" />
           </li>
           {item[18] !== 'Брак' ? <li onClick={() => {
@@ -726,11 +726,11 @@ const TaskItemNew = ({ item }) => {
               })
 
           }}>
-            <p style={{ color: "chocolate", fontWeight: "bold", textDecoration: "overline chocolate", textShadow: "0.5px 0.5px 0.5px black" }}>В Брак</p>
+            <p style={{ color: "chocolate", fontWeight: "bold", textShadow: "0.5px 0.5px 0.5px black" }}>В Брак</p>
             <img src={ExclamationMark} alt="" />
           </li> : null}
           <li className={nav === 'history' ? styles.active : null} onClick={() => confirmTask()}>
-            <p style={{ color: "Green", fontWeight: "bold", textDecoration: "overline Green", textShadow: "0.5px 0.5px 0.5px black" }}>В Работу</p>
+            <p style={{ color: "Green", fontWeight: "bold", textShadow: "0.5px 0.5px 0.5px black" }}>В Работу</p>
             <img src={Suitcase} alt="" />
           </li>
 
