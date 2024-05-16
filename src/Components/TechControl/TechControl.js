@@ -19,6 +19,7 @@ import { $scrollY, setScrollY } from "../../state/scrollY";
 import { setShowTask } from "../../state/showTask";
 
 import Close from '../../img/close.png';
+import formatDateTime from '../../utils/formatDateTime';
 
 const TechControl = () => {
     const [change, setChange] = useState(false);
@@ -31,7 +32,7 @@ const TechControl = () => {
     const sel = useStore($selected);
 
     useEffect(() => {
-        getNewReq({ 'a': `${firstTime.getFullYear()}-${firstTime.getMonth() < 9 ? '0' + (firstTime.getMonth() + 1) : firstTime.getMonth() + 1}-${firstTime.getDate() <= 9 ? '0' + firstTime.getDate() : firstTime.getDate()} 00:00:00`, 'b': `${secondTime.getFullYear()}-${secondTime.getMonth() < 9 ? '0' + (secondTime.getMonth() + 1) : secondTime.getMonth() + 1}-${secondTime.getDate() <= 9 ? '0' + secondTime.getDate() : secondTime.getDate()} 00:00:01` });
+        getNewReq({a: formatDateTime(firstTime), b: formatDateTime(secondTime, '00:00:01')})
 
         getData(`${firstTime.getFullYear()}-${firstTime.getMonth() <= 8 ? '0' + (firstTime.getMonth() + 1) : firstTime.getMonth() + 1}-${firstTime.getDate() <= 9 ? '0' + (firstTime.getDate()) : firstTime.getDate()}`);
 

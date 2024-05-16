@@ -31,7 +31,7 @@ const isFreeTime = (tasks, newTask) => {
 const fetchDataHistory = async () => {
   let a = null;
   let b = null;
-  const url = `getTasksForHistory.php/?startDate=${a}&endDate=${b}`;
+  const url = `getTasks.php/?startDate=${a}&endDate=${b}`;
   const base = 'https://volga24bot.com/kartoteka/api/tech';
   
   try {
@@ -113,9 +113,9 @@ export const createTask = async (form, func, firstTime, secondTime, user, plane,
 
   if (form.type !== 'Монтаж' && form.type !== 'Подключение' && form.type !== 'Снятие объемов' && form.type !== 'Претензия' && form.type !== 'ТО') {
     const tasks = (await fetchDataHistory()).filter(el => (el[1] === form.objNum || el[2] === form.name) && el[4] !== '');
-    const tasksNew = tasks.filter(el => el[6] === 'Новая').filter(el => el[5] !== 'ТО');
+    const tasksNew = tasks.filter(el => el[18] === 'Новая').filter(el => el[8] !== 'ТО');
+    console.log(tasksNew[0])
     if (tasksNew.length > 0) {
-
       const answer = window.confirm(`На этот объект уже существует ${tasksNew[0][8]}! Дата создания заявки ${tasksNew[0][17]} Открыть эту заявку? Там вы можете написать комментарий.`);
       if (answer) {
         func();

@@ -4,6 +4,7 @@ import { filterDep } from "../utils/filterDepartament";
 import { $user } from "./user";
 
 export const getNewReq = createEffect(async ({ a, b }) => {
+    console.log(a, b)
     const url = `newTasks.php/?startDate=${a}&endDate=${b}`
     const base = 'https://volga24bot.com/kartoteka/api/tech'
     const req = await fetch(`${base}/${url}`)

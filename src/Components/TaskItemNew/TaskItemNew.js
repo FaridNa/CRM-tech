@@ -332,6 +332,7 @@ const TaskItemNew = ({ item }) => {
   }
 
   const daysOverdue = useMemo(() => {
+    console.log(item)
     const taskDate = Date.parse(item[17].replace(' ', 'T'));
     return Math.ceil(Math.abs(new Date().setHours(0, 0, 0, 0) - taskDate) / (1000 * 3600 * 24)) - 1;
   }, [item])
@@ -571,7 +572,6 @@ const TaskItemNew = ({ item }) => {
               </>
             } else if (el.type !== 'deffect') {
               return <HistoryItem title={type} withLine={true} active={[0, el.date]} activeText={el.type !== 'myTechCreate' ? el.value : ''} comm={item[64]} />
-
             }
 
           })}
@@ -618,11 +618,6 @@ const TaskItemNew = ({ item }) => {
         {/*        {el2.filter(el => el.type === 'deffect').length === 1 && <HistoryItem title={'Брак'} withLine={true} active={[0, el2.filter(el => el.type === 'deffect')[0].date]} activeText={el2.filter(el => el.type === 'deffect')[0].value} failed={true}/>}*/}
 
         {/*})}*/}
-
-
-
-
-
 
 
 
@@ -745,7 +740,6 @@ const TaskItemNew = ({ item }) => {
     </div>
   );
 }
-
 
 
 export default TaskItemNew;
